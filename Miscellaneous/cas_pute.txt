@@ -1,0 +1,32 @@
+cat /dev/random | head -1
+-> le echo $? doit etre de 0
+-> doit s'arreter dessuite
+
+cat /dev/random | head --
+-> il semblerait que -- soit un argument valide? comme si il ny avait pas d'arg
+-> doit renvoyer 0 avec echo $?
+ -->  wtf??
+ --> en revanche ... | head -   => ne fonctionne pas
+
+quand on est dans le shell et qu'on veut exit:
+exit 4
+dans le terminal qui avait lance le shell: echo $? --> 4
+
+echo hey | cat
+--> cat will see that "hey" comes in on the stdin and prints it.
+echo hey | cat some_file.txt
+--> cat chooses to print some_file.txt on screen, but not hey
+WHY???
+
+echo cats  ->(if you do a echo $? it would give 127, but dont...)
+then just press  ENTER to have a new prompt again
+echo $? ->now you still have the 127
+
+echo "hey\" "
+echo "hey\\"
+echo "hey\\""
+
+note: make sure the comand doesnt end by the very las tcharacter '\' by  itself
+echo \
+echo ;  -> watch out for these.
+echo hey\;
