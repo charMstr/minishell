@@ -41,7 +41,7 @@ void	process_commands(char *line)
 	debug_pars_split_commands(separated_runs);
 	exit_status = run_separated_commands(separated_runs);
 	//at this stage if (the exit status was -1) it means the malloc failed
-	//so we need to jus texist the whole program after freeing memory.
+	//so we need to just exist the whole program after freeing memory.
 	ft_free_2d(separated_runs);
 	//set_exit_status();
 }
@@ -60,7 +60,7 @@ int	run_separated_commands(char **tab)
 
 	if ((res_parsing = pars_separated_runs_array(tab)))
 		return (res_parsing);
-	tab = (char **)tab;
 	i = 0;
 	return (0);
 }
+

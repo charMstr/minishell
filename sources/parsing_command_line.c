@@ -93,7 +93,6 @@ int pars_jump_quoted_section(char *line)
 	return (i);
 }
 
-
 /*
 ** note:	This function will get the next "word" for us within the line.
 **			Words are separated by the c character, and the function

@@ -30,3 +30,18 @@ note: make sure the comand doesnt end by the very las tcharacter '\' by  itself
 echo \
 echo ;  -> watch out for these.
 echo hey\;
+
+echo \w
+echo "\w"  => the '\' is removed if not quoted . see Quote Removal (", ', \)
+
+imagine there is a file called test:
+echo hey | <test
+==> we should see nothing on the stdout.
+==> echo $? should be 0, because in the last command, there was nothing but a
+	useless redirection.
+idem:
+echo hey | mal=bien
+==> echo $? = 0, de plus echo $mal ne donne rien.
+
+faire une commande qui fail, puis taper sur entrer 2 - 3 fois.
+puis echo $? should give you 127 still!

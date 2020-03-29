@@ -1,0 +1,49 @@
+parsing: 2 STEPS
+	lexer (lexical analizer)	=> creates tokens
+	parser	=> process the tokens acording to a grammar and build a command
+				table.
+
+I]	getting the next command line:
+	if you want to handle the multiline:
+
+	1) char by char, create tokens with the lexer. If the tokens arent finished
+	at the end of the user's input (unmatching quotes or parenthesis,
+	escaped new-line...):
+	--> prompt a PS1. redo it UNTIL the all the tokens are closed.
+	note: fix set of metacharacter to separate tokens (unquoted and unescaped)
+		<space>, <tab>, <newline>, ;, (, ), |, &, <, >.
+
+	2) then when the token constructs are fully complete we can stop getting
+	the user 's input, and start to parse the command.
+	
+II]	categorizing the tokens (at this point the lexer hasdone the tokenisation):
+	once a token is delimited, categorize it as required by the shell grammar.
+	1) separate in between: OPERATOR, IO_NUMBER, or TOKEN
+	2) then TOKEN ca be further anylized to be either:
+		WORD, NAME , ASSIGNEMENT_WORD, reserved word( {, case, esac, while...)
+		
+III]	parsing the input into simple commands and compound commands.
+		thanks to the operators, we can identify the begining and end of jobs.
+
+------ the expansion starts when the command is required to be executed!
+IV]	perform all the expansions.
+	Words that are not variable assignments or redirections are expanded;
+	Redirection operators and their operands are removed from the argument list
+
+	The first remaining word after expansion is taken to be the name of the
+	command and the rest are arguments to that command.
+
+V]	Redirection is performed if necessary. 
+
+VI]	Commands are executed.
+
+EXECUTION VOCAB:
+	- lets call a simple command a simple_cmd
+	- a pipeline: a job.
+	- An AND-OR list is a sequence of one or more pipelines separated by the
+	operators "&&" and "||" . note: the commands are expanded only if they are
+	executed.  and_or_list.
+	- A list is a sequence of one or more AND-OR lists separated by the
+	operators ';' and '&'.	
+			sequential list: separated by: ';'
+			asynchronous list: '&'

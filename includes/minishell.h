@@ -8,9 +8,11 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include "../libft/libft.h"
+# include <lexing.h>
 
 //remove me when done.
 # include "debug.h"
+
 
 # define BUFFER_SIZE 32
 
@@ -38,6 +40,7 @@ void		ft_perror(char *str, int status);
 int			len_2d(char **tab);
 
 //parsing
+int			only_white_spaces(char *str);
 int			pars_no_multiline(char *line);
 int			ft_strichr_esc(const char *str, char c);
 

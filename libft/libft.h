@@ -84,5 +84,6 @@ void				ft_putbytes_fd(void *thing, int sizeof_thing, \
 		int sizeof_elem, int fd);
 char				**ft_arraydup(char **array);
 void				ft_free_2d(char **tab);
+int					ft_stristr(const char *str, char *stack);
 
 #endif

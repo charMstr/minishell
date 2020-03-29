@@ -62,6 +62,7 @@ LIB_PATH = -L ./libft/
 ########################### HEADER FILES ######################################
 ###############################################################################
 H_FILES = minishell\
+		lexing\
 		debug\
 		  
 
@@ -88,7 +89,9 @@ SRC_FILES = main\
 		parsing_no_multiline\
 		parsing_command_line\
 		parsing_command_line2\
+		lexer_root\
 		debug_functions\
+
 
 
 			#ft_printf\
