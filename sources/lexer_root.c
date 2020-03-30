@@ -13,6 +13,7 @@
 **			NULL if a malloc failed.
 */
 
+//The <backslash> and <newline> shall be removed before splitting the input into tokens.
 t_list	*lexer_root(char *input)
 {
 	t_list	*tokens_head;

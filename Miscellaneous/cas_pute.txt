@@ -52,3 +52,6 @@ prints twice fuck all. but its a correct command.
 entrer la commande:
 "echo \ " (avec un espace a la fin)
 vec un cat -e on voit bien que le character 'space' est afficher
+
+echo "\s"
+echo "\\s" should have the exact same output.

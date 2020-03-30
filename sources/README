@@ -6,10 +6,12 @@ parsing: 2 STEPS
 I]	getting the next command line:
 	if you want to handle the multiline:
 
+	0) /!\ The <backslash> and <newline> shall be removed before splitting the
+	input into tokens.
 	1) char by char, create tokens with the lexer. If the tokens arent finished
 	at the end of the user's input (unmatching quotes or parenthesis,
 	escaped new-line...):
-	--> prompt a PS1. redo it UNTIL the all the tokens are closed.
+	--> prompt a PS2. redo it UNTIL the all the tokens are closed.
 	note: fix set of metacharacter to separate tokens (unquoted and unescaped)
 		<space>, <tab>, <newline>, ;, (, ), |, &, <, >.
 

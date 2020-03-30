@@ -38,6 +38,8 @@ int		lexer_operator2(const char *input, int *j, t_token *token);
 void	lexer_set_operator_id(t_token *token, char c);
 
 int		lexer_quoted(const char *input, int *j, t_token *token);
+int		lexer_quoted_single(const char *input, char c, int *j, t_token *token);
+int		lexer_quoted_double(const char *input, char c, int *j, t_token *token);
 
 int		lexer_just_token(const char *input, int *j, t_token *token);
 int		lexer_token_or_indirection(const char *input, int *j, t_token *token);
