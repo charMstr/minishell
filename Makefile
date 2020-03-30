@@ -61,9 +61,9 @@ LIB_PATH = -L ./libft/
 
 ########################### HEADER FILES ######################################
 ###############################################################################
-H_FILES = minishell\
-		lexing\
-		debug\
+H_FILES =	minishell\
+			lexing\
+			debug\
 		  
 
 #H_FILES_BONUS = #somefile\
@@ -82,17 +82,15 @@ INCLUDES := $(INCLUDES) ./libft/libft.h
 
 ########################### SRC/OBJ & BONUS FILES #############################
 ###############################################################################
-SRC_FILES = main\
-		process_commands\
-		get_next_command\
-		minishell_utils\
-		parsing_no_multiline\
-		parsing_command_line\
-		parsing_command_line2\
-		lexer_root\
-		debug_functions\
-
-
+SRC_FILES =	main\
+			get_next_command\
+			minishell_utils\
+			lexer_root\
+			lexer_find_token\
+			lexer_quoted\
+			lexer_operator\
+			lexer_just_token\
+			debug_functions\
 
 			#ft_printf\
 			

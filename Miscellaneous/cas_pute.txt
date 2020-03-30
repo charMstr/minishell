@@ -45,3 +45,10 @@ echo hey | mal=bien
 
 faire une commande qui fail, puis taper sur entrer 2 - 3 fois.
 puis echo $? should give you 127 still!
+
+echo|echo
+prints twice fuck all. but its a correct command.
+
+entrer la commande:
+"echo \ " (avec un espace a la fin)
+vec un cat -e on voit bien que le character 'space' est afficher

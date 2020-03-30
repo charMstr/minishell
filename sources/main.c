@@ -12,7 +12,6 @@
 **			ctrl+D and there is nothing at all to be read on the stdin.
 */
 
-//remove the args to the Main...
 int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 {
 	char	prompt[] = "\033[32mmy_prompt$\033[m ";
@@ -37,7 +36,6 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 		printf("command: |%s|\n", command);
 		if (!lexer_root(command))
 			printf("lexer_root returned null\n");
-		//process_commands(command);
 		free(command);
 	}
 	return (0);

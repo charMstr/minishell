@@ -7,6 +7,5 @@
 void	debug_pars_split_commands(char **tab);
 void	debug_token_struct(t_token *token);
 void	debug_tokens_list(t_list *head);
-void	debug_lexing_struct(t_lexing *lex);
 
 #endif
