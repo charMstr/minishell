@@ -10,8 +10,6 @@
 **			0 malloc failed
 */
 
-extern char **environ;
-
 int	env_build_linked_list(char **env)
 {	t_list *lst_head;
 	t_list *lst_link;

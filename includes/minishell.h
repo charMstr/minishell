@@ -40,5 +40,4 @@ void		ft_fork_pipe(t_mysh *mini);
 void		ft_perror(char *str, int status);
 int			len_2d(char **tab);
 
-int			echo_builtin(char **argv);
 #endif

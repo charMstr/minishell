@@ -20,4 +20,5 @@ int		unset_in_env_list(t_list **env_head, char *str);
 
 int		export_builtin(t_list **head, char **argv);
 
+int			echo_builtin(char **argv);
 #endif
