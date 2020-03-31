@@ -63,6 +63,7 @@ LIB_PATH = -L ./libft/
 ###############################################################################
 H_FILES =	minishell\
 			lexing\
+			environment\
 			debug\
 		  
 
@@ -90,7 +91,12 @@ SRC_FILES =	main\
 			lexer_quoted\
 			lexer_operator\
 			lexer_just_token\
+			builtin_root\
+			builtin_unset\
+			builtin_echo\
+			builtin_export\
 			debug_functions\
+
 
 			#ft_printf\
 			

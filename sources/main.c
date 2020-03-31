@@ -12,7 +12,8 @@
 **			ctrl+D and there is nothing at all to be read on the stdin.
 */
 
-int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
+int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)), \
+		char **env)
 {
 	char	prompt[] = "\033[32mmy_prompt$\033[m ";
 	char	*command;
@@ -21,6 +22,9 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 	signal(SIGINT,SIG_IGN);
 	signal(SIGQUIT,SIG_IGN);
 	quit = 0;
+	env_build_linked_list(env);k
+	//echo_builtin(argv);
+	return (0);
 	while (1)
 	{
 		ft_putstr_fd(prompt, STDOUT_FILENO);
@@ -60,6 +64,7 @@ int	only_white_spaces(char *str)
 	}
 	return (1);
 }
+
 /*
 parsing:
 		INPUT: command line

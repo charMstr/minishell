@@ -55,3 +55,10 @@ vec un cat -e on voit bien que le character 'space' est afficher
 
 echo "\s"
 echo "\\s" should have the exact same output.
+
+/bin/echo "-n" SALUT
+is equivalent to: /bin/echo -n SALUT
+but not to: /bin/echo " -n" SALUT
+
+echo -n  ==> RIEN
+echo -n -n  ==> affiche une fois le -n.

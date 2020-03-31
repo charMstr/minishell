@@ -8,7 +8,9 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include "../libft/libft.h"
-# include <lexing.h>
+
+# include "lexing.h"
+# include "builtin.h"
 
 //remove me when done.
 # include "debug.h"
@@ -38,4 +40,5 @@ void		ft_fork_pipe(t_mysh *mini);
 void		ft_perror(char *str, int status);
 int			len_2d(char **tab);
 
+int			echo_builtin(char **argv);
 #endif

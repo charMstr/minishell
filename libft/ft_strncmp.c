@@ -13,14 +13,23 @@
 #include "libft.h"
 
 /*
-** /!\ arguments are not protected against NULL pointers in original
+** note:	/!\ arguments are not protected against NULL pointers in original
+** note:	characters after a '\0' wont be compared
+** note:	To make sure both strings are 100% different: it should be used
+**			with <n> as ft_strlen(smallest string) + 1
+**			So just add a plus one no matter what to ft_strlen(str1/2) to have
+**			a standard strcmp behavior.
 **
-** note: characters after a '\0' wont be compared
+** some example:
+**		str1: abcd
+**		str2: abcde
+**		now doing the call: ft_strncmp(str1, str2, ft_strlen(str1));
+**		--> result = 0
+**		now doing the call: ft_strncmp(str1, str2, ft_strlen(str1) + 1);
+**		--> result != 0
 **
-** if you want to make sure both strings are 100% different -->  should be used
-** with <n> as ft_strlen(smallest string) + 1
-**
-** RETURN: no difference -> 0. compares until index (n - 1)
+** RETURN:	0	-> equal (compares until index (n - 1))
+**			!0	-> different
 */
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)

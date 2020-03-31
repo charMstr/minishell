@@ -34,3 +34,14 @@ void	debug_token_struct(t_token *token)
 	printf("open_quote:	%d\n", token->open_quote);
 	ft_putendl_fd("-----------------------\ntoken end\n---------------------\n\n", 2);
 }
+
+void	debug_env_list(t_list *head)
+{
+	while (head)
+	{
+		printf("--------- new_link:\n");
+		printf("label:%s\n",((t_env*)(head->content))->label);
+		printf("value:%s\n",((t_env*)(head->content))->value);
+		head = head->next;
+	}
+}
