@@ -75,4 +75,5 @@ typedef struct		t_list_sh
 }					t_list_sh;
 
 
+t_simple_command *parser_simple_cmd(t_list *lex);
 #endif

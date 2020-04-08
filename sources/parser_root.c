@@ -13,8 +13,6 @@
 **			NULL malloc failed
 */
 
-//t_parser	*
-
 /*
 ** note:	this function will take the data collected into the tokens linked
 **			list and fill a simple command structure.
