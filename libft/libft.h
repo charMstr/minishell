@@ -95,7 +95,7 @@ char				*ft_itoa_lbase(const char *base, long int nbr);
 void				*ft_memalloc(size_t size);
 int					ft_nbrlen_base(long int nb, int base_len);
 int					ft_nbrlen(long int nb);
-void				ft_putchar(char c);
+int					ft_putchar(int c);
 void				ft_putnbr(int n);
 void				ft_putstr(char *s);
 int					ft_strcmp(const char *s1, const char *s2);

@@ -12,7 +12,14 @@
 
 #include "libft.h"
 
-void	ft_putchar(char c)
+/*
+** RETURN:	1 OK
+**			0 write failed
+*/
+
+int	ft_putchar(int c)
 {
-	write(1, &c, 1);
+	if (write(1, &c, 1) == -1)
+		return (0);
+	return (1);
 }
