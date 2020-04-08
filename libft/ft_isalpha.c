@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 17:03:17 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/09 18:07:09 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/09 15:13:30 by mli               #+#    #+#             */
+/*   Updated: 2019/10/09 15:21:04 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-/*
-** RETURN: 0 if the character is not alphabethic
-*/
-
-int	ft_isalpha(int c)
+int		ft_isalpha(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 		return (1);
-	else
-		return (0);
+	return (0);
 }

@@ -3,35 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 14:32:37 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/11 21:09:53 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/10 17:53:51 by mli               #+#    #+#             */
+/*   Updated: 2019/10/12 17:48:44 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-
-/*
-** ARGS: the number of elements (+/- '\0' if strings..), then sizeof(*...)
-**
-** RETURN: pointer NULL if failed --> always test when calling this function
-*/
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void	*ptr;
-	size_t	i;
+	size_t			total_len;
+	unsigned char	*result;
 
-	i = 0;
-	if (!(ptr = (void *)malloc(count * size)))
+	total_len = count * size;
+	if (!(result = (unsigned char *)malloc(sizeof(*result) * total_len)))
 		return (NULL);
-	else
-		while (i < size * count)
-		{
-			*((unsigned char *)ptr + i) = 0;
-			i++;
-		}
-	return (ptr);
+	ft_bzero(result, total_len);
+	return (result);
 }

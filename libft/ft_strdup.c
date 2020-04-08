@@ -3,36 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 16:46:48 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/11 21:07:52 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/11 11:27:59 by mli               #+#    #+#             */
+/*   Updated: 2019/10/11 15:23:01 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** RETURN: a new pointer freshly malloced, copy of s1, or NULL if failed
-*/
-
 char	*ft_strdup(const char *s1)
 {
-	size_t	i;
-	size_t	len;
-	char	*ptr;
+	char	*newcpy;
+	size_t	src_len;
 
-	i = 0;
-	if (!s1)
+	src_len = ft_strlen(s1);
+	if ((newcpy = (char *)ft_calloc(src_len + 1, sizeof(*newcpy))) == NULL)
 		return (NULL);
-	len = ft_strlen(s1);
-	if (!(ptr = (char *)malloc(sizeof(char) * len + 1)))
-		return (NULL);
-	while (i < len)
-	{
-		*(ptr + i) = *(s1 + i);
-		i++;
-	}
-	*(ptr + i) = '\0';
-	return (ptr);
+	return (ft_memcpy(newcpy, s1, src_len));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/10 17:50:59 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/10 18:32:53 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/15 12:10:23 by mli               #+#    #+#             */
+/*   Updated: 2019/10/15 12:18:44 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 /*
 ** note: next = NULL, content = the argument
-** note2: if content is NULL it doesnt mather it is still created as is.
+** note: if content is NULL it doesnt mather it is still created as is.
 **
-** RETURN: new link that was malloced, or NULL pointer if malloc failed.
+** RETURN:	new link that was malloced
+**			NULL pointer if failure
 */
 
 t_list	*ft_lstnew(void *content)
 {
-	t_list *ptr_new_link;
+	t_list *new;
 
-	if (!(ptr_new_link = malloc(sizeof(t_list))))
+	if (!(new = (t_list *)malloc(sizeof(*new))))
 		return (NULL);
-	ptr_new_link->content = content;
-	ptr_new_link->next = NULL;
-	return (ptr_new_link);
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }

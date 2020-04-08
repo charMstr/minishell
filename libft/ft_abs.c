@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 12:04:54 by mli               #+#    #+#             */
-/*   Updated: 2019/10/08 16:09:37 by mli              ###   ########.fr       */
+/*   Created: 2020/03/17 16:54:27 by mli               #+#    #+#             */
+/*   Updated: 2020/03/17 16:57:01 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+double		ft_abs_lf(double nbr)
 {
-	size_t			i;
-	unsigned char	*dest;
-	unsigned char	src;
+	return ((nbr >= 0 ? nbr : -nbr));
+}
 
-	i = 0;
-	dest = (unsigned char *)b;
-	src = (unsigned char)c;
-	while (i < len)
-		dest[i++] = src;
-	return (b);
+long int	ft_abs_ld(long int nb)
+{
+	return ((nb >= 0 ? nb : -nb));
 }

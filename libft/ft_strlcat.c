@@ -3,48 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 22:09:21 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/14 17:54:48 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/08 17:09:57 by mli               #+#    #+#             */
+/*   Updated: 2019/10/08 18:08:17 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** /!\ do not use
-** only does the job if the <dst> pointer is a string way shorter than its
-** allocated memory which is <dstsize>, so that there is enough space for <src>
-** string to be added if RETURN is bigger than <dstsize> then it means they
-** dont fit .
-**
-** note: use ft_strjoin instead
-**
-** note2: ioriginal not protected against NULL inputs arguments
-*/
-
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
 	size_t i;
-	size_t k;
-	size_t src_len;
+	size_t j;
+	size_t to_return;
 
 	i = 0;
-	k = 0;
-	src_len = 0;
-	while (dst[i] && i < dstsize)
-		i++;
-	while (src[src_len])
-		src_len++;
-	if (!dstsize)
-		return (i + src_len);
-	while (src[k] && (i + k < dstsize - 1))
+	j = 0;
+	to_return = 0;
+	while (dst[to_return] && (to_return < dstsize))
+		to_return++;
+	while (src[i])
 	{
-		dst[i + k] = src[k];
-		k++;
+		if (dstsize > 0)
+			if (to_return + i < dstsize - 1)
+				dst[to_return + (j++)] = src[i];
+		i++;
 	}
-	if (i + k <= dstsize - 1)
-		dst[i + k] = '\0';
-	return (i + src_len);
+	if (dstsize > 0 && to_return < dstsize)
+		dst[to_return + j] = '\0';
+	return (to_return + i);
 }

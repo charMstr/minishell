@@ -3,24 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 17:32:59 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/09 18:08:11 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/09 15:24:30 by mli               #+#    #+#             */
+/*   Updated: 2019/10/09 15:28:08 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** RETURN: 0 if the character is not alphabethic nor number
-*/
-
-int	ft_isalnum(int c)
+int		ft_isalnum(int c)
 {
-	if ((c >= 48 && c <= 57) \
-			|| (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if (ft_isalpha(c) || ft_isdigit(c))
 		return (1);
-	else
-		return (0);
+	return (0);
 }

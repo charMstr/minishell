@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_nbrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 12:04:54 by mli               #+#    #+#             */
-/*   Updated: 2019/10/08 16:09:37 by mli              ###   ########.fr       */
+/*   Created: 2020/03/14 14:45:12 by mli               #+#    #+#             */
+/*   Updated: 2020/03/14 16:04:46 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *b, int c, size_t len)
+int		ft_nbrlen_base(long int nb, int base_len)
 {
-	size_t			i;
-	unsigned char	*dest;
-	unsigned char	src;
+	int size;
 
-	i = 0;
-	dest = (unsigned char *)b;
-	src = (unsigned char)c;
-	while (i < len)
-		dest[i++] = src;
-	return (b);
+	size = 0;
+	if (nb <= 0)
+		size++;
+	while (nb != 0)
+	{
+		nb /= base_len;
+		size++;
+	}
+	return (size);
+}
+
+int		ft_nbrlen(long int nb)
+{
+	return (ft_nbrlen_base(nb, 10));
 }

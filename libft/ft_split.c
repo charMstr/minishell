@@ -3,92 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 21:26:50 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/13 23:05:05 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/12 15:00:32 by mli               #+#    #+#             */
+/*   Updated: 2019/11/12 14:58:32 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** note: use of malloc, and free
-**
-** RETURN: the array of strings separated by c, or NULL if malloc failed or if
-** empty string
-*/
-
-static int	find_start(char const *s, char c, int next_start)
-{
-	while (s[next_start] && s[next_start] == c)
-		next_start++;
-	return (next_start);
-}
-
-static int	find_end(char const *s, char c, int next_end)
-{
-	while (s[next_end] && s[next_end] == c)
-		next_end++;
-	while (s[next_end] && s[next_end] != c)
-		next_end++;
-	return (next_end);
-}
-
-static int	size_array(char const *s, char c)
+static int		w_len(char const *s, char c)
 {
 	int i;
-	int count;
+	int len;
 
 	i = 0;
-	count = 0;
+	len = 0;
 	while (s[i])
 	{
 		while (s[i] && s[i] == c)
 			i++;
-		if (s[i] && s[i] != c)
-			count++;
 		while (s[i] && s[i] != c)
 			i++;
+		if (s[i - 1] != c)
+			len++;
 	}
-	return (count);
+	return (len + 1);
 }
 
-static void	*free_nested(char **ptr, int k)
+static int		ft_malloc_w_len(char const *s, char c, char **result)
 {
-	while (--k >= 0)
+	int i;
+	int j;
+	int len;
+
+	i = 0;
+	j = 0;
+	while (s[i])
 	{
-		free(ptr[k]);
-		ptr[k] = NULL;
+		while (s[i] && s[i] == c)
+			i++;
+		len = 0;
+		while (s[i] && s[i] != c)
+		{
+			i++;
+			len++;
+		}
+		if (s[i - 1] != c)
+			if (!(result[j++] = (char *)malloc(sizeof(char) * (len + 1))))
+				return (j - 1);
 	}
-	free(ptr);
-	ptr = NULL;
-	return (NULL);
+	if (!(result[j] = (char *)malloc(sizeof(char))))
+		return (j);
+	return (-1);
 }
 
-char		**ft_split(char const *s, char c)
+static char		**ft_tab_filled(char const *s, char c, char **result)
 {
-	char	**ptr;
-	int		i;
-	int		k;
-	int		j;
+	int i;
+	int k;
+	int l;
 
 	i = 0;
 	k = 0;
-	if (!s || !(ptr = (char **)malloc(sizeof(char*) * (size_array(s, c) + 1))))
-		return (NULL);
-	ptr[size_array(s, c)] = NULL;
-	while (k < size_array(s, c))
+	while (s[i])
 	{
-		i = find_start(s, c, i);
-		if (!(ptr[k] = (char *)malloc(sizeof(char) * (find_end(s, c, i) - i \
-							+ 1))))
-			return (free_nested(ptr, k));
-		j = 0;
-		while (s[i] && s[i] != c)
-			ptr[k][j++] = s[i++];
-		ptr[k][j] = '\0';
-		k++;
+		while (s[i] == c && s[i])
+			i++;
+		l = 0;
+		while (s[i] != c && s[i])
+			result[k][l++] = s[i++];
+		if (s[i - 1] != c)
+			result[k++][l] = '\0';
 	}
-	return (ptr);
+	result[k] = NULL;
+	return (result);
+}
+
+char			**ft_split(char const *s, char c)
+{
+	int		err;
+	char	**result;
+
+	err = -1;
+	if (s)
+	{
+		if ((result = (char **)malloc(sizeof(char *) * w_len(s, c))))
+			if ((err = ft_malloc_w_len(s, c, result)) < 0)
+				return (ft_tab_filled(s, c, result));
+		while (err >= 0)
+			free(result[err--]);
+		free(result);
+	}
+	return (NULL);
 }

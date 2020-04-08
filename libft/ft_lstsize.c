@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/11 14:26:57 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/11 14:39:30 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/15 12:26:47 by mli               #+#    #+#             */
+/*   Updated: 2019/10/15 12:28:30 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 /*
 ** note: arg = the head of the list
 **
-** RETURN: list's size		or		ZERO if pointer was NULL
+** RETURN:	list's size
+**			0 if pointer was NULL
 */
 
-int	ft_lstsize(t_list *lst)
+int		ft_lstsize(t_list *lst)
 {
 	int i;
 
 	i = 0;
-	while (lst != NULL)
+	while (lst)
 	{
 		lst = lst->next;
 		i++;

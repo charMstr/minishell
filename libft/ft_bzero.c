@@ -3,29 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 13:15:50 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:28:25 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/07 14:54:53 by mli               #+#    #+#             */
+/*   Updated: 2020/03/17 16:44:51 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** /!\ original not protected  against passing NULL pointer.
-**
-** RETURN: sets value 0 ta all bytes on n length
-*/
-
 void	ft_bzero(void *s, size_t n)
 {
-	size_t i;
-
-	i = 0;
-	while (i < n)
-	{
-		*((unsigned char *)s + i) = 0;
-		i++;
-	}
+	if (n > 0)
+		ft_memset(s, 0, n);
 }

@@ -3,38 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/10 00:23:14 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/10 13:54:57 by charmstr         ###   ########.fr       */
+/*   Created: 2019/10/14 16:10:49 by mli               #+#    #+#             */
+/*   Updated: 2019/10/18 12:10:14 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-** note: use malloc
-**
-** RETURN: after an iteration of f() on each char --> a malloced string or NULL
-*/
-
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*ptr;
-	size_t	len;
-	size_t	i;
+	int		i;
+	int		s_len;
+	char	*result;
 
-	if (!s || !f)
-		return (NULL);
-	len = ft_strlen(s);
-	if (!(ptr = (char *)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
 	i = 0;
-	while (i < len)
+	if (!s || !f)
+		return (0);
+	s_len = (int)ft_strlen(s);
+	if (!(result = (char *)ft_calloc(s_len + 1, sizeof(char))))
+		return (NULL);
+	while (i < s_len)
 	{
-		*(ptr + i) = (*f)((unsigned int)i, s[i]);
+		result[i] = f(i, s[i]);
 		i++;
 	}
-	ptr[i] = '\0';
-	return (ptr);
+	return (result);
 }

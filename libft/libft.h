@@ -88,4 +88,16 @@ void				*ft_array_free(char **ptr, int k);
 int					ft_array_len(char **array);
 int					ft_stristr(const char *str, char *stack);
 
+double				ft_abs_lf(double nbr);
+long int			ft_abs_ld(long int nb);
+int					ft_atoi_ptr(const char *str, int *i);
+char				*ft_itoa_lbase(const char *base, long int nbr);
+void				*ft_memalloc(size_t size);
+int					ft_nbrlen_base(long int nb, int base_len);
+int					ft_nbrlen(long int nb);
+void				ft_putchar(char c);
+void				ft_putnbr(int n);
+void				ft_putstr(char *s);
+int					ft_strcmp(const char *s1, const char *s2);
+
 #endif
