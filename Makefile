@@ -63,7 +63,8 @@ LIB_PATH = -L ./libft/
 ###############################################################################
 H_FILES =	minishell\
 			lexing\
-			environment\
+			builtin\
+			parser\
 			debug\
 		  
 
@@ -95,6 +96,7 @@ SRC_FILES =	main\
 			builtin_unset\
 			builtin_echo\
 			builtin_export\
+			parser_root\
 			debug_functions\
 
 

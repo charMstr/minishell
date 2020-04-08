@@ -12,6 +12,11 @@
 
 #include "libft.h"
 
+/*
+** note:	This function reverses all the characters of a string.
+**			No new string is created.
+*/
+
 char	*ft_strrev(char *str)
 {
 	int		i;

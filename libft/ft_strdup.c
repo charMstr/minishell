@@ -13,8 +13,6 @@
 #include "libft.h"
 
 /*
-** /!\ the original is not protected against passing a null pointer as arg
-**
 ** RETURN: a new pointer freshly malloced, copy of s1, or NULL if failed
 */
 
@@ -25,6 +23,8 @@ char	*ft_strdup(const char *s1)
 	char	*ptr;
 
 	i = 0;
+	if (!s1)
+		return (NULL);
 	len = ft_strlen(s1);
 	if (!(ptr = (char *)malloc(sizeof(char) * len + 1)))
 		return (NULL);

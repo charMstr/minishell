@@ -11,6 +11,7 @@
 
 # include "lexing.h"
 # include "builtin.h"
+# include "parser.h"
 
 //remove me when done.
 # include "debug.h"

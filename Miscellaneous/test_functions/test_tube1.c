@@ -29,15 +29,15 @@ write:
 	once again we can get the error mesage doing so:
 	if (bytes_wrote == -1)
 		perror("mon message:"); ==> output: "mon message: Broken pipe"
-		this time it mentino sthe pipe!
+		this time it mentions the pipe!
 
 read:
 	- reading in a fd that is not opened anymore (exemple: both writing ends of
-	the pipe (in child and parent process) have benn closed.
+	the pipe (in child and parent process) have been closed.
 	we can use perror("read failed");
 		==> "read failed: Bad file descriptor"
 
-	- reading from a pipe where ther is something that ben written, but in the
+	- reading from a pipe where there is something that ben written, but in the
 	meantine the writing end was closed
 			==> the read behaves normally, until there is nothing left to read.
 */

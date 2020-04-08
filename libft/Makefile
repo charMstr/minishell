@@ -80,9 +80,11 @@ FILES = atoi\
 	strichr\
 	putbits_fd\
 	putbytes_fd\
-	arraydup\
-	free_2d\
+	array_dup\
+	array_free\
 	stristr\
+	array_len\
+	strappend\
 
 SRC = $(patsubst %, $(OBJ_PATH)ft_%.c, $(FILES))
 OBJ = $(SRC:.c=.o)

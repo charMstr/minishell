@@ -27,6 +27,8 @@ char	*ft_strrchr(const char *s, int c)
 
 	position = -1;
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (*(s + i))
 	{
 		if (*(s + i) == (char)c)

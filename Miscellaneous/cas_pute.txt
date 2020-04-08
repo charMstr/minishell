@@ -18,7 +18,7 @@ echo hey | cat some_file.txt
 --> cat chooses to print some_file.txt on screen, but not hey
 WHY???
 
-echo cats  ->(if you do a echo $? it would give 127, but dont...)
+cats  ->(if you do a echo $? it would give 127, but dont...)
 then just press  ENTER to have a new prompt again
 echo $? ->now you still have the 127
 

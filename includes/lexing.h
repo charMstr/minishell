@@ -10,15 +10,15 @@ typedef struct	s_token
 }				t_token;
 
 # define TOKEN 0
-# define SEMI 2
-# define PIPE 1
-# define OR_OP 3
+# define SEMI 1
+# define PIPE 2
+# define OR_IF 3
 # define AND 4
-# define AND_OP 5
-# define L_BRACE 6
-# define R_BRACE 7
-# define S_QUOT 8
-# define D_QUOT 9
+# define AND_IF 5
+# define LBRACE 6
+# define RBRACE 7
+# define S_QUOTE 8
+# define D_QUOTE 9
 # define LESS 10
 # define DLESS 11
 # define GREAT 12

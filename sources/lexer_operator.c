@@ -76,9 +76,9 @@ void	lexer_set_operator_id(t_token *token, char c)
 	if (c == ';')
 		token->id = SEMI;
 	else if (c == '(')
-		token->id = L_BRACE;
+		token->id = LBRACE;
 	else if (c == ')')
-		token->id = R_BRACE;
+		token->id = RBRACE;
 	else if (c == '|')
 		token->id = PIPE;
 	else if (c == '&')

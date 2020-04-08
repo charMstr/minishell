@@ -15,7 +15,8 @@
 /*
 ** /!\ original function isn't protected against NULL pointer inputs.
 **
-** RETURN: the location of the string needle if found, else NULL
+** RETURN:	address of the start of the string needle if found in haystack
+**			else NULL
 */
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)

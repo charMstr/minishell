@@ -13,18 +13,16 @@
 */
 
 int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)), \
-		char **env)
+		char **env __attribute__((unused)))
 {
 	char	prompt[] = "\033[32mmy_prompt$\033[m ";
 	char	*command;
 	int		quit;
+	t_list	*lex;
 
 	signal(SIGINT,SIG_IGN);
 	signal(SIGQUIT,SIG_IGN);
 	quit = 0;
-	env_build_linked_list(env);k
-	//echo_builtin(argv);
-	return (0);
 	while (1)
 	{
 		ft_putstr_fd(prompt, STDOUT_FILENO);
@@ -38,8 +36,10 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 		if (!ft_strlen(command) || only_white_spaces(command))
 			continue;
 		printf("command: |%s|\n", command);
-		if (!lexer_root(command))
+		if (!(lex = lexer_root(command)))
 			printf("lexer_root returned null\n");
+		if (!parser_simple_cmd(lex))
+			printf("parser_root returned null\n");
 		free(command);
 	}
 	return (0);
@@ -69,12 +69,12 @@ int	only_white_spaces(char *str)
 parsing:
 		INPUT: command line
 
-		1)tokenize_root
+		1)lexer_root
 			- from left to right.
 			- skip spaces.
 			- skip quoted sections
-			-
-		2)categorize tokens.
+		2)categorize tokens. as we go (at the same time).
+
 		3)parse for invalid things.
 		4)parse into commands
 		5)

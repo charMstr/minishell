@@ -25,12 +25,12 @@ int	lexer_quoted(const char *input, int *j, t_token *token)
 	token->open_quote = 1;
 	if (c == '\'')
 	{
-		token->id = S_QUOT;
+		token->id = S_QUOTE;
 		return (lexer_quoted_single(input, c, j, token));
 	}
 	else
 	{
-		token->id = D_QUOT;
+		token->id = D_QUOTE;
 		return (lexer_quoted_double(input, c, j, token));
 	}
 }
