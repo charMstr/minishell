@@ -24,7 +24,7 @@ CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 NAME = minishell
 IFLAGS = -I $(INCLUDE_PATH_PROJECT)
-LDFLAGS = -lft
+LDFLAGS = -lft -lncurses
 
 LIBFT = libft/libft.a 
 DEPS = $(INCLUDES)
@@ -62,11 +62,13 @@ LIB_PATH = -L ./libft/
 ########################### HEADER FILES ######################################
 ###############################################################################
 H_FILES =	minishell\
+			terminfo\
 			lexing\
 			builtin\
 			parser\
+			structures\
+			debug_terminfo\
 			debug\
-		  
 
 #H_FILES_BONUS = #somefile\
 				#someotherFile\
@@ -85,7 +87,6 @@ INCLUDES := $(INCLUDES) ./libft/libft.h
 ########################### SRC/OBJ & BONUS FILES #############################
 ###############################################################################
 SRC_FILES =	main\
-			get_next_command\
 			minishell_utils\
 			lexer_root\
 			lexer_find_token\
@@ -96,9 +97,14 @@ SRC_FILES =	main\
 			builtin_unset\
 			builtin_echo\
 			builtin_export\
-			parser_root\
 			debug_functions\
-
+			input_root\
+			termios_utils\
+			terminfo_utils\
+			terminfo_cursor\
+			read_root\
+			control_structure\
+			debug_terminfo\
 
 			#ft_printf\
 			

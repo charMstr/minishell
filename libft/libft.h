@@ -88,6 +88,7 @@ void				*ft_array_free(char **ptr, int k);
 int					ft_array_len(char **array);
 int					ft_stristr(const char *str, char *stack);
 
+void				ft_free(void **ptr);
 double				ft_abs_lf(double nbr);
 long int			ft_abs_ld(long int nb);
 int					ft_atoi_ptr(const char *str, int *i);

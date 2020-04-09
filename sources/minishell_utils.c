@@ -54,20 +54,3 @@ void	ft_exit(char *str, int status)
 	ft_putstr_fd(str, STDERR_FILENO);
 	exit(status);
 }
-
-/*
-** RETURN:	the length of a two dimensions array, char **.
-**
-** note:	if 0 is returned, then the array is empty (first raw is NULL)
-**			if -1 is returned , then the array itself is NULL /!\
-*/
-
-int	len_2d(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}

@@ -39,7 +39,7 @@ t_list	*lexer_root(char *input)
 		ft_lstadd_back(&tokens_head, tokens_elem);
 		//debug_token_struct(new_token);
 	}
-	debug_tokens_list(tokens_head);
+	//debug_tokens_list(tokens_head);
 	return (tokens_head);
 }
 

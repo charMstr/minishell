@@ -1,13 +1,13 @@
 #include "debug.h"
 
-void	debug_pars_split_commands(char **tab)
+void	debug_pars_split_commands(char **array)
 {
 	int i;
 
 	i = 0;
-	while (tab[i])
+	while (array[i])
 	{
-		ft_putendl_fd(tab[i], 2);
+		ft_putendl_fd(array[i], 2);
 		i++;
 	}
 }

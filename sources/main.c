@@ -1,81 +1,44 @@
 #include "minishell.h"
 
 /*
-** note:	this Main will display a prompt, get the command and then send then
-**			to a subfunction which will parse, then execute the commands in
-**			subprocesses.
-**			the sunfunction will Return the exit status. (the one we get with
-**			"echo $?").
+** note:	this function is the master loop of the minishell
+** note:	if we exit this function it means we exit the shell.
 **
-** RETURN:	this function should never do so.
-**			the only way to exit is with the exit builtin, or when hitting
-**			ctrl+D and there is nothing at all to be read on the stdin.
+** RETURN:	the exit_status, that was stored int the control->exit_status field
 */
 
-int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)), \
-		char **env __attribute__((unused)))
+int	master_loop(t_control *control)
 {
-	char	prompt[] = "\033[32mmy_prompt$\033[m ";
-	char	*command;
-	int		quit;
-	t_list	*lex;
-
-	signal(SIGINT,SIG_IGN);
-	signal(SIGQUIT,SIG_IGN);
-	quit = 0;
+	//t_tokens_list *tokens_list;
 	while (1)
 	{
-		ft_putstr_fd(prompt, STDOUT_FILENO);
-		if (!(command = get_next_command(&quit)))
-			continue;
-		if (quit == 1)
-		{
-			free(command);
-			exit(0);
-		}
-		if (!ft_strlen(command) || only_white_spaces(command))
-			continue;
-		printf("command: |%s|\n", command);
-		if (!(lex = lexer_root(command)))
-			printf("lexer_root returned null\n");
-		if (!parser_simple_cmd(lex))
-			printf("parser_root returned null\n");
-		free(command);
+		input_root(control);
+		if (control->quit)
+			break;
+		//here we should enter the parsing
+		//here we should enter the command processing
+		//here we should set the exit_status.
 	}
-	return (0);
+	return (control->exit_status);
 }
 
-/*
-** note:	this function will discard a command line if there is only spaces.
-** RETURN:	1 only white spaces
-**			0 elsewise.
-*/
-
-int	only_white_spaces(char *str)
+int main()
 {
-	int i;
+	struct termios	saved_copy;
+	int				exit_status;
+	t_control		control;
 
-	i = 0;
-	while (str[i])
+	control_init_struct(&control);
+	if (!(control.term = terminfo_init_database()))
+		return (1);
+	if (!(termios_enable_raw_mode(&saved_copy)))
 	{
-		if (str[i] != ' ')
-			return (0);
-		i++;
+		terminfo_free_struct(control.term);
+		return (1);
 	}
-	return (1);
+	exit_status = master_loop(&control);
+	control_free_struct(&control);
+	terminfo_reset_terminal();
+	termios_reset_cooked_mode(&saved_copy);
+    return exit_status;
 }
-
-/*
-parsing:
-		INPUT: command line
-
-		1)lexer_root
-			- from left to right.
-			- skip spaces.
-			- skip quoted sections
-		2)categorize tokens. as we go (at the same time).
-
-		3)parse for invalid things.
-		4)parse into commands
-		5)
-*/

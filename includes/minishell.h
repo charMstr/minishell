@@ -9,11 +9,21 @@
 # include <signal.h>
 # include "../libft/libft.h"
 
+//for the terminfo database. usings the "termcaps" control sequences.
+# include <curses.h>
+# include <term.h>
+
+//for the termios struct. enables raw mode. manipulates the "line discipline"
+# include <termios.h>
+
+# include "structures.h"
 # include "lexing.h"
 # include "builtin.h"
 # include "parser.h"
+# include "terminfo.h"
 
 //remove me when done.
+# include "debug_terminfo.h"
 # include "debug.h"
 
 
@@ -21,12 +31,6 @@
 
 extern int	errno;
 
-typedef struct	s_mysh
-{
-	int	pid;
-	int	pipe[2];
-	int	stat_loc;
-}				t_mysh;
 
 char		*get_next_command(int *quit);
 void		child_get_next_command(int fd_w);
@@ -39,6 +43,5 @@ void		ft_pipe(int (*fildes)[2]);
 void		ft_fork(int *pid);
 void		ft_fork_pipe(t_mysh *mini);
 void		ft_perror(char *str, int status);
-int			len_2d(char **tab);
 
 #endif
