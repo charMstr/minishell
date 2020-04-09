@@ -14,8 +14,9 @@
 */
 
 //The <backslash> and <newline> shall be removed before splitting the input into tokens.
-t_list	*lexer_root(char *input)
+t_list	*lexer_root(char *input, t_control *control)
 {
+	control = (t_control *)control;
 	t_list	*tokens_head;
 	t_list	*tokens_elem;
 	t_token	*new_token;

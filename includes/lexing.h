@@ -24,7 +24,7 @@ typedef struct	s_token
 # define GREAT 12
 # define DGREAT 13
 
-t_list	*lexer_root(char *input);
+t_list	*lexer_root(char *input, t_control *control);
 t_token	*lexer_build_next_token(const char *input, int *j);
 t_token	*lexer_init_token(void);
 void	del_token(void *token);

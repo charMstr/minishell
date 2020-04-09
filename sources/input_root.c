@@ -109,8 +109,8 @@ t_list *input_reading_and_lexing(t_control *control)
 	if (!control->term->line)
 		return (NULL);
 	else
-		printf("%s\n", control->term->line);
-	tokens_lst = lexer_root(control->term->line);
+		printf("ENTERING LEXER WITH: [%s]\n", control->term->line);
+	tokens_lst = lexer_root(control->term->line, control);
 /*
 	if (input_check_for_return())
 		return (...);

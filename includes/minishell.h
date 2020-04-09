@@ -31,12 +31,7 @@
 
 extern int	errno;
 
-
-char		*get_next_command(int *quit);
-void		child_get_next_command(int fd_w);
-char 		*collect_char_by_char(int fd_r);
-
-int			only_white_spaces(char *str);
+//int			only_white_spaces(char *str);
 
 //minishell_utils
 void		ft_pipe(int (*fildes)[2]);
