@@ -13,7 +13,7 @@
 CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 NAME = libft.a
-.PHONY = clean fclean re all bonus announcement
+.PHONY = clean fclean re all bonus
 FT_H = ./libft.h
 OBJ_PATH = ./objects/
 INCLUDE_PATH = ./
@@ -103,19 +103,17 @@ all: $(NAME)
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
-	@echo "\t\t$(CREAT_FG)created the $(OBJECTS_BG)$(BLACK_FG)$@ $(BLACK_BG)$(CREAT_FG) repository for $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) $(CLEAR_COLOR)"
+	@echo "\t\t$(CREAT_FG)created the $(OBJECTS_BG)$(BLACK_FG)$@ $(BLACK_BG)$(CREAT_FG) repository for $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CLEAR_COLOR)"
 
-$(NAME): announcement $(OBJ) $(FT_H)
+$(NAME): $(OBJ) $(FT_H)
 	@ar -src $@ $(OBJ)
+	@echo "\t\t$(CREAT_FG)Library $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) has been created$(CLEAR_COLOR)"
 
 $(OBJ): $(OBJ_PATH)%.o: %.c | $(OBJ_PATH)
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-announcement:
-	@echo "\t\t$(CREAT_FG)building Library $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG)...$(CLEAR_COLOR)"
-
 clean:
-	@echo "\t\t$(REMOVE_FG)deleting $(OBJECTS_BG)$(BLACK_FG)$(OBJ_PATH) $(BLACK_BG)$(REMOVE_FG) containing all the .o files for $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) $(CLEAR_COLOR)"
+	@echo "\t\t$(REMOVE_FG)deleting $(OBJECTS_BG)$(BLACK_FG)$(OBJ_PATH) $(BLACK_BG)$(REMOVE_FG) containing all the .o files for $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CLEAR_COLOR)"
 	@rm -rf $(OBJ_PATH)
 
 fclean: clean

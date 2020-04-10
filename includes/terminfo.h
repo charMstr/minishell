@@ -27,36 +27,48 @@
 //# include "structures.h"
 # include "../libft/libft.h"
 
-void			control_init_struct(t_control *control);
-void			control_free_struct(t_control *control);
-int				master_loop(t_control *control);
+int			master_loop(t_control *control);
 
-t_list			*input_root(t_control *control);
-t_list			*input_root_assist_and_prompt(t_control *control);
-t_list			*input_reading_and_lexing(t_control *control);
+void		control_init_struct(t_control *control);
+void		control_free_struct(t_control *control);
 
-int				termios_enable_raw_mode(struct termios *old);
-void			termios_reset_cooked_mode(struct termios *saved_copy);
+t_list		*input_root(t_control *control);
+t_list		*input_root_assist_and_prompt(t_control *control);
+t_list		*input_reading_and_lexing(t_control *control);
 
-t_term			*terminfo_init_database(void);
-t_term			*terminfo_init_struct(void);
-void			*terminfo_free_struct(t_term *term);
-int				terminfo_load_win_size(t_term *term);
-void			terminfo_reset_terminal(void);
-int				terminfo_load_array_esc_seq(t_term *term);
+int			termios_enable_raw_mode(struct termios *old);
+void		termios_reset_cooked_mode(struct termios *saved_copy);
 
-void			terminfo_cursor_get_pos(t_control *control);
-void			terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor);
-void			terminfo_get_prompt_len(t_control *control);
-void			terminfo_cursor_move_right(t_control *control);
-void			terminfo_cursor_move_left(t_control *control);
+t_term		*terminfo_init_database(void);
+t_term		*terminfo_init_struct(void);
+void		*terminfo_free_struct(t_term *term);
+int			terminfo_load_win_size(t_term *term);
+void		terminfo_reset_terminal(void);
 
-int				input_read_line(t_term *term);
+int			terminfo_load_array_esc_seq(t_term *term);
+char		*terminfo_get_caps(char *caps_id, t_control *control);
+char		*terminfo_edit_caps(t_control *control, char *caps_id, int param);
+int			terminfo_del_char(t_control *control);
+int			terminfo_insert_char(t_control *control, char c);
 
-void			read_root(t_control *control, int read_res, char c);
-int				read_get_esc_seq_id(t_term *term, char c);
-int				read_need_to_stop(t_control *control, char c, int res);
-void			read_process_new_char(t_control *control, char c);
-void			read_process_special_key(t_control *control, char c);
+int			terminfo_cursor_get_pos(t_control *control);
+void		terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor);
+void		terminfo_get_prompt_len(t_control *control);
+void		terminfo_cursor_move_right(t_control *control);
+void		terminfo_cursor_move_left(t_control *control);
+int			terminfo_cursor_move(t_control *control, int x, int y);
+int			terminfo_cursor_move_diagonally(t_control *control, int diag);
+
+int			input_read_line(t_term *term);
+
+void		read_root(t_control *control, int read_res, char c);
+int			read_get_esc_seq_id(t_term *term, char c);
+int			read_need_to_stop(t_control *control, char c, int res);
+void		read_dispatch_for_processing(t_control *control, char c);
+
+void		read_process_special_key(t_control *control, char c);
+void		read_process_del_char(t_control *control);
+void		read_process_add_char(t_control *control, char c);
+int			ft_strinject(char **str, char c, int index);
 
 #endif

@@ -29,7 +29,7 @@ void	read_root(t_control *control, int read_res, char c)
 			break;
 		if (read_need_to_stop(control, c, read_res))
 			return ;
-		read_process_new_char(control, c);
+		read_dispatch_for_processing(control, c);
 		// we need to recheck the flags, especiall control->quit if something
 		//went wrong (malloc, failure terminfo failure...)
 		if (read_need_to_stop(control, c, read_res))
@@ -47,10 +47,16 @@ void	read_root(t_control *control, int read_res, char c)
 **			-	count: the updated number of written characters since prompt.
 */
 
-void	read_process_new_char(t_control *control, char c)
+void	read_dispatch_for_processing(t_control *control, char c)
 {
 	if (c == 27)
 		read_process_special_key(control, c);
+	else if (c == 127)
+		read_process_del_char(control);
+	else if (!ft_isprint(c))
+	{
+		; //take care of special combinaisons of our choice
+	}
 	else if (c == 'g')
 	{
 		terminfo_cursor_get_pos(control);
@@ -58,52 +64,7 @@ void	read_process_new_char(t_control *control, char c)
 		debug_term_size();
 	}
 	else
-	{
-		if (!ft_strappend(&(control->term->line), c))
-		{
-			control->quit = 1;
-			return ;
-		}
-		write(1, &c, 1);
-		control->term->inline_position++;
-		control->term->line_len++;
-	}
-}
-
-/*
-** note:	this function will be called when a special key is hit on the
-**			keyboard: either one of the arrows, 'delete=>', 'home', 'end',
-**			'page_down', 'page_up', or 'esc'.
-** input:	-	control struct
-**			-	c: the '\033' sequence.
-*/
-
-void	read_process_special_key(t_control *control, char c)
-{
-		int i;
-
-		if (-1 == (i = read_get_esc_seq_id(control->term, c)))
-		{
-			control->quit = 1;
-			return;
-		}
-		if (i == 2)
-			terminfo_cursor_move_right(control);
-		if (i == 3)
-			terminfo_cursor_move_left(control);
-		/*
-		//printf("ID of special sequence is: [%d]\n", i);
-		if (i == 1)//move up				OK need to go up in history
-		{
-			char *caps = tigetstr("cuu1");
-			tputs(caps, 1, ft_putchar);
-		}
-		if (i == 4)//move down				OK need to go down in history
-		{
-			char *caps = tigetstr("cud");
-			tputs(tparm(caps, 1), 1, ft_putchar);
-		}
-		*/
+		read_process_add_char(control, c);
 }
 
 /*

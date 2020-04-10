@@ -110,39 +110,3 @@ void terminfo_reset_terminal(void)
 	if (str)
 		tputs(str, 1, ft_putchar);
 }
-
-/*
-** note:	this function will load in the array_esc_seq an array of strings
-**			matching the potential escaped sequence we can receive from
-**			the keyboard (the strings are yielded from the terminfo database).
-**				- UP, DOWN, RIGHT and LEFT arrows.
-**				- End, Home, Page up, Page down and Delete keys.
-** input:	- term: structure with member array_esc_seq to be filled
-**
-** RETURN:	1 OK
-**			0 if failure
-*/
-
-int	terminfo_load_array_esc_seq(t_term *term)
-{
-	const char *array[] = (const char *[]){KEY_ESC_, KEY_UP_, KEY_RIGHT_,
-		KEY_LEFT_, KEY_DOWN_, KEY_HOME_, KEY_DELETE_, KEY_END_, KEY_PAGE_UP_,
-		KEY_PAGE_DOWN_, NULL};
-	int i;
-
-	i = 0;
-	if (!(term->array_esc_seq = (char **)malloc(sizeof(char *) * (1 + \
-						NUMBER_SPECIAL_KEYS))))
-		return (0);
-	term->array_esc_seq[10] = NULL;
-	while (i < NUMBER_SPECIAL_KEYS)
-	{
-		if (!(term->array_esc_seq[i] = ft_strdup((char *)array[i])))
-		{
-			ft_array_free(term->array_esc_seq, i);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}

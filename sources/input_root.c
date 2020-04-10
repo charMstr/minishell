@@ -59,8 +59,9 @@ t_list *input_root_assist_and_prompt(t_control *control)
 			ft_putstr_fd(control->term->ps2, 2);
 		terminfo_get_prompt_len(control);
 	//	debug_term_struct(control->term);
-		control->term->inline_position = 0;
+		control->term->inline_position = -1;
 
+		// do something if the tokens_lst is NULL?
 		tokens_lst = input_reading_and_lexing(control);
 		control->first_time = 0;
 		//if lexer/tokenizer function worked: we would set ctrl_c to 1
@@ -108,8 +109,7 @@ t_list *input_reading_and_lexing(t_control *control)
 */
 	if (!control->term->line)
 		return (NULL);
-	else
-		printf("ENTERING LEXER WITH: [%s]\n", control->term->line);
+	printf("ENTERING LEXER WITH: [%s]\n", control->term->line);
 	tokens_lst = lexer_root(control->term->line, control);
 /*
 	if (input_check_for_return())
