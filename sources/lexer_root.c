@@ -16,7 +16,6 @@
 //The <backslash> and <newline> shall be removed before splitting the input into tokens.
 t_list	*lexer_root(char *input, t_control *control)
 {
-	control = (t_control *)control;
 	t_list	*tokens_head;
 	t_list	*tokens_elem;
 	t_token	*new_token;
@@ -27,12 +26,8 @@ t_list	*lexer_root(char *input, t_control *control)
 	tokens_head = NULL;
 	while (input[i])
 	{
-		if (!(new_token = lexer_build_next_token(input, &i)))
-		{
-			ft_lstclear(&tokens_head, del_token);
-			return (NULL);
-		}
-		if (!(tokens_elem = ft_lstnew(new_token)))
+		if ((!(new_token = lexer_build_next_token(input, &i, control)) &&
+		control->quit) || !(tokens_elem = ft_lstnew(new_token)))
 		{
 			ft_lstclear(&tokens_head, del_token);
 			return (NULL);
@@ -51,8 +46,9 @@ t_list	*lexer_root(char *input, t_control *control)
 
 void	del_token(void *token)
 {
-	free(((t_token *)(token))->str);
-	free((t_token*)token);
+	if (token)
+		ft_free((void **)&(((t_token *)token)->str));
+	ft_free(&token);
 }
 
 /*
@@ -67,19 +63,20 @@ void	del_token(void *token)
 **			NULL if malloc failed
 */
 
-t_token	*lexer_build_next_token(const char *input, int *j)
+t_token	*lexer_build_next_token(const char *input, int *j, t_control *control)
 {
 	t_token		*token;
 
-	if (!(token = lexer_init_token()))
-		return (NULL);
-	while (input[*j] && input[*j] == ' ')
+	token = NULL;
+	while (input[*j] == ' ')
 		(*j)++;
 	if (!input[*j])
 		return (token);
-	if (!(lexer_find_token(input, j, token)))
+	if (!(token = lexer_init_token()) ||
+		!lexer_find_token(input, j, token))
 	{
-		free(token);
+		control->quit = 1;
+		del_token(token);
 		return (NULL);
 	}
 	return (token);
