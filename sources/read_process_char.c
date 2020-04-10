@@ -10,18 +10,19 @@
 
 void	read_process_add_char(t_control *control, char c)
 {
-	if (!(ft_strinject(&(control->term->line), c, control->term->inline_position + 1)))
-	{
-		control->quit = 1;
-		return ;
-	}
-	if (!terminfo_insert_char(control, c))
+	if (!(ft_strinject(&(control->term->line), c, \
+					control->term->inline_position + 1)))
 	{
 		control->quit = 1;
 		return ;
 	}
 	control->term->inline_position++;
 	control->term->line_len++;
+	if (!terminfo_insert_char(control, c))
+	{
+		control->quit = 1;
+		return ;
+	}
 }
 
 /*
@@ -109,11 +110,20 @@ void	read_process_special_key(t_control *control, char c)
 			control->quit = 1;
 			return;
 		}
-		if (i == 2)
+		if (i == KEY_RIGHT_ID)
 			terminfo_cursor_move_right(control);
-		if (i == 3)
+		else if (i == KEY_LEFT_ID)
 			terminfo_cursor_move_left(control);
+		else if (i == KEY_HOME_ID)
+			read_process_control_combo(control, CTRL_A_COMBO);
+		else if (i == KEY_END_ID)
+			read_process_control_combo(control, CTRL_E_COMBO);
+		else if (i == KEY_UP_CTRL_ID)
+			terminfo_cursor_move_up(control);
+		else if (i == KEY_DOWN_CTRL_ID)
+			terminfo_cursor_move_down(control);
 		/*
+		   GO UP AND DOWN IN HISTORIC HAPPENS HERE
 		//printf("ID of special sequence is: [%d]\n", i);
 		if (i == 1)//move up				OK need to go up in history
 		{

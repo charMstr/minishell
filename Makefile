@@ -103,10 +103,13 @@ SRC_FILES =	main\
 			terminfo_utils\
 			terminfo_utils2\
 			terminfo_cursor\
+			terminfo_cursor_move\
+			terminfo_cursor_move2\
 			terminfo_del_character\
 			terminfo_insert_character\
 			read_root\
 			read_process_char\
+			read_process_control_combo\
 			control_structure\
 			debug_terminfo\
 

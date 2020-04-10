@@ -16,14 +16,14 @@ int	terminfo_load_array_esc_seq(t_term *term)
 {
 	const char *array[] = (const char *[]){KEY_ESC_, KEY_UP_, KEY_RIGHT_,
 		KEY_LEFT_, KEY_DOWN_, KEY_HOME_, KEY_DELETE_, KEY_END_, KEY_PAGE_UP_,
-		KEY_PAGE_DOWN_, NULL};
+		KEY_PAGE_DOWN_, KEY_UP_CTRL_, KEY_DOWN_CTRL_, NULL};
 	int i;
 
 	i = 0;
 	if (!(term->array_esc_seq = (char **)malloc(sizeof(char *) * (1 + \
 						NUMBER_SPECIAL_KEYS))))
 		return (0);
-	term->array_esc_seq[10] = NULL;
+	term->array_esc_seq[NUMBER_SPECIAL_KEYS] = NULL;
 	while (i < NUMBER_SPECIAL_KEYS)
 	{
 		if (!(term->array_esc_seq[i] = ft_strdup((char *)array[i])))
