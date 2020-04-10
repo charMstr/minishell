@@ -18,7 +18,7 @@ int		terminfo_del_char(t_control *control)
 {
 	char *caps;
 
-	if (!terminfo_cursor_get_pos(control))
+	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
 		return (0);
 	if (control->term->cursor.x != 1)
 	{

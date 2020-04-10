@@ -57,10 +57,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 			ft_putstr_fd(control->term->ps1, 2);
 		else
 			ft_putstr_fd(control->term->ps2, 2);
-		terminfo_get_prompt_len(control);
-	//	debug_term_struct(control->term);
-		control->term->inline_position = -1;
-
+		if (!input_reset_term_struct(control))
+			return (NULL);
 		// do something if the tokens_lst is NULL?
 		tokens_lst = input_reading_and_lexing(control);
 		control->first_time = 0;
@@ -70,6 +68,26 @@ t_list *input_root_assist_and_prompt(t_control *control)
 		ft_free((void **)&(control->term->line));
 	}
 	return (tokens_lst);
+}
+
+/*
+** note:	this function is in charge of reseting the control->term fields
+**			each time we restart afresh with a new prompt.
+**
+** RETURN:	1 ok
+**			0 failure
+*/
+
+int	input_reset_term_struct(t_control *control)
+{
+	if (!terminfo_get_prompt_len(control))
+		return (0);
+	control->term->inline_position = -1;
+	control->term->line_len = 0;
+	if (!terminfo_cursor_get_pos(control, &(control->term->cursor_start)))
+		return (0);
+	control->term->cursor_end = control->term->cursor_start;
+	return (1);
 }
 
 /*
@@ -92,8 +110,9 @@ t_list *input_reading_and_lexing(t_control *control)
 	//this function will edit line-->> might be appended to the current history
 	// return in 4 situations:
 	// malloc failed, ctrl_C, ctrl_D(empty string), 'ENTER KEY'
-	control->term->line_len = 0;
 	read_root(control, 0, 0);
+	if (!terminfo_cursor_move_endl(control, 0))
+		return (NULL);
 	ft_putchar_fd('\n', 1);
 /*
 	// checking the control structure against ctrl_C, or Malloc_failure etc...

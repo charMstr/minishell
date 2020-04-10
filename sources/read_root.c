@@ -49,17 +49,16 @@ void	read_root(t_control *control, int read_res, char c)
 
 void	read_dispatch_for_processing(t_control *control, char c)
 {
+	//debug_value_char(c);
 	if (c == 27)
 		read_process_special_key(control, c);
 	else if (c == 127)
 		read_process_del_char(control);
 	else if (!ft_isprint(c))
-	{
-		; //take care of special combinaisons of our choice
-	}
+		read_process_control_combo(control, c);
 	else if (c == 'g')
 	{
-		terminfo_cursor_get_pos(control);
+		terminfo_cursor_get_pos(control, &(control->term->cursor));
 		debug_cursor(&(control->term->cursor));
 		debug_term_size();
 	}

@@ -15,7 +15,9 @@ typedef struct		s_term
 	int				line_len;
 	int				inline_position;
 	t_int_pair		cursor;
-	t_int_pair		cursor_saved;  //unused for now...
+	t_int_pair		cursor_saved;
+	t_int_pair		cursor_start;
+	t_int_pair		cursor_end;
 	t_int_pair		size_window;
 	char			*ps1;
 	char			*ps2;
@@ -34,6 +36,7 @@ typedef struct		s_control
 	int				index_in_history;
 	t_term			*term;
 }					t_control;
+
 /*
 	t_list			*history_list;		//needed in the terminfo functions(to go up and down and copy the current history line)
 	int				index_in_history;	//current index in the history list (needed in the terminfo functions)
@@ -46,7 +49,7 @@ typedef struct		s_control
 	unsigned int	and_or_endl:1;
 	unsigned int	synthax_error:1;	//if synthax error detected;
 	char			unexpected_token;	//the one to be displayed if synthax error
-	*/
+*/
 
 typedef struct	s_mysh
 {
