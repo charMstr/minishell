@@ -101,8 +101,12 @@ SRC_FILES =	main\
 			input_root\
 			termios_utils\
 			terminfo_utils\
+			terminfo_utils2\
 			terminfo_cursor\
+			terminfo_del_character\
+			terminfo_insert_character\
 			read_root\
+			read_process_char\
 			control_structure\
 			debug_terminfo\
 
@@ -130,26 +134,26 @@ OBJECTS_BG = \033[48;5;11m
 ###############################################################################
 ###############################################################################
 
-all: $(NAME) | silent
+all: $(NAME)
+
+#| silent
 
 silent:
 	@:
 
-.PHONY: all clean fclean re break_implicit_r announcement
+.PHONY: all clean fclean re break_implicit_r
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 	@echo "\t\t$(CREAT_FG)created the $(OBJECTS_BG)$(BLACK_FG)$@ $(BLACK_BG)$(CREAT_FG) repository for $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) $(CLEAR_COLOR)"
 
-$(NAME): $(INCLUDES) $(LIBFT) announcement $(OBJ)
+$(NAME): $(INCLUDES) $(LIBFT) $(OBJ) 
 	@$(CC) $(CFLAGS) $(LIB_PATH) $(OBJ) -o $@ $(LDFLAGS)
-	@echo "\t\t$(CREAT_FG)used the flags: $(CFLAGS)$(CLEAR_COLOR)\n"
+	@echo "\t\t$(CREAT_FG)Binary $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) has been created$(CLEAR_COLOR)"
+	@echo "\t\t$(CREAT_FG)We used the flags: $(CFLAGS)$(CLEAR_COLOR)\n"
 
 $(OBJ): $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(DEPS) | $(OBJ_PATH)
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
-
-announcement:
-	@echo "\t\t$(CREAT_FG)building binary $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG)...$(CLEAR_COLOR)"
 
 bonus:
 
@@ -159,7 +163,7 @@ $(LIBFT): break_implicit_r
 break_implicit_r: 
 
 clean:
-	@echo "\t\t$(REMOVE_FG)deleting $(OBJECTS_BG)$(BLACK_FG)$(OBJ_PATH) $(BLACK_BG)$(REMOVE_FG) containing all the .o files for $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) $(CLEAR_COLOR)"
+	@echo "\t\t$(REMOVE_FG)deleting $(OBJECTS_BG)$(BLACK_FG)$(OBJ_PATH) $(BLACK_BG)$(REMOVE_FG) containing all the .o files for $(NAME_BG)$(BLACK_FG)$(NAME) $(CLEAR_COLOR)"
 	@rm -rf $(OBJ_PATH)
 	@make fclean -C ./libft
 
