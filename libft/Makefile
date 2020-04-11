@@ -95,6 +95,8 @@ FILES = atoi\
 	putstr\
 	strcmp\
 	free\
+	strcadd\
+	strcdel\
 
 SRC = $(patsubst %, $(OBJ_PATH)ft_%.c, $(FILES))
 OBJ = $(SRC:.c=.o)

@@ -93,7 +93,6 @@ void		read_process_special_key(t_control *control, char c);
 
 void		read_process_del_char(t_control *control);
 void		read_process_add_char(t_control *control, char c);
-int			ft_strinject(char **str, char c, int index);
 
 void		read_process_control_combo(t_control *control, char c);
 
