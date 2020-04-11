@@ -25,6 +25,8 @@ t_list *input_root(t_control *control)
 
 	//function where evetything happens
 	tokens_lst = input_root_assist_and_prompt(control);
+	if (control->quit)
+		return (NULL);
 
 	//decide if we keep the link in history: not if in the current history link
 	//the string is empty.
@@ -48,8 +50,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 
 	//reset some controls values.
 	control->ctrl_c = 0;
-	//here we can recheck the values of ps1 and ps2 (in case they hace been
-	//changed) and as well update the terminal size, all that in the
+	//here we can recheck the values of ps1 and ps2 in case they have been
+	//changed with export and as well update the terminal size, all that in the
 	//control->term struct
 	while (!control->quit && !control->ctrl_c) //here we should check values in control structure
 	{
@@ -62,7 +64,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 		// do something if the tokens_lst is NULL?
 		tokens_lst = input_reading_and_lexing(control);
 		control->first_time = 0;
-		//if lexer/tokenizer function worked: we would set ctrl_c to 1
+		//if lexer/tokenizer function worked: it would set ctrl_c to 1
+		// leave ctrl_c to 0 and you see PS2 appearing (we stay in the loop)
 		control->ctrl_c = 1;
 	//	reset the line to NULL after each loop, even betwen PS1 and PS2
 		ft_free((void **)&(control->term->line));
@@ -114,15 +117,14 @@ t_list *input_reading_and_lexing(t_control *control)
 	if (!terminfo_cursor_move_endl(control, 0))
 		return (NULL);
 	ft_putchar_fd('\n', 1);
-/*
-	// checking the control structure against ctrl_C, or Malloc_failure etc...
-	if (input_check_for_return())
+	if (!input_check_for_stop_condition(control))
 		return (NULL);
+/*
 	//the line we need to process is situated in control->term->line
 	//it will be appended to the current line history.
 	input_check_multiline_and_update_history();
-	if (input_check_for_return())
-		return (...);
+	if (!input_check_for_stop_condition(control))
+		return (NULL);
 	//the thing we need to process is the whole current line history.
 	// for now: just take a simple line. from control->term->line
 */
@@ -131,8 +133,23 @@ t_list *input_reading_and_lexing(t_control *control)
 	printf("ENTERING LEXER WITH: [%s]\n", control->term->line);
 	tokens_lst = lexer_root(control->term->line, control);
 /*
-	if (input_check_for_return())
-		return (...);
+	if (!input_check_for_stop(control))
+		return (NULL);
 */
 	return (tokens_lst);
 }
+
+/*
+** note:	this function will catch the raised flags
+**
+** RETURN:	1 ok
+**			0 either crl_c or quit was raised
+*/
+
+int	input_check_for_stop_condition(t_control *control)
+{
+	if (control->quit || control->ctrl_c)
+		return (0);
+	return (1);
+}
+

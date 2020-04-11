@@ -23,8 +23,8 @@ void	terminfo_cursor_move_up(t_control *control)
 			read_process_control_combo(control, CTRL_A_COMBO);
 		else
 		{
-			terminfo_cursor_move(control, control->term->cursor.x - 1, \
-						control->term->cursor.y - 2);
+			terminfo_cursor_move(control, control->term->cursor.x, \
+						control->term->cursor.y - 1);
 			control->term->inline_position -= control->term->size_window.x;
 		}
 	}
@@ -45,17 +45,18 @@ void	terminfo_cursor_move_down(t_control *control)
 	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
 		return ;
 	cursor_end.x = (control->term->cursor_start.x \
-			+ control->term->line_len) % control->term->size_window.x - 1;
+			+ control->term->line_len) % control->term->size_window.x;
 	cursor_end.y = control->term->cursor_start.y \
 			+ ((control->term->line_len + control->term->prompt_len) \
-					/ control->term->size_window.x) - 1;
-	if (control->term->cursor.y - 1 < cursor_end.y)
+					/ control->term->size_window.x);
+	if (control->term->cursor.y < cursor_end.y)
 	{
-		if (control->term->cursor.x > cursor_end.x)
+		if ((control->term->cursor.y == cursor_end.y - 1) \
+				&& (control->term->cursor.x > cursor_end.x))
 			read_process_control_combo(control, CTRL_E_COMBO);
 		else
 		{
-			terminfo_cursor_move(control, control->term->cursor.x - 1, \
+			terminfo_cursor_move(control, control->term->cursor.x, \
 						control->term->cursor.y + 1);
 			control->term->inline_position += control->term->size_window.x;
 		}

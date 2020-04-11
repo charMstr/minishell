@@ -16,16 +16,13 @@ int	terminfo_insert_char(t_control *control, char c)
 {
 	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
 		return (0);
-	if (control->term->cursor.x == control->term->size_window.x)
+	if (!terminfo_insert_in_place(control, c))
+		return (0);
+	if (control->term->cursor.x + 1 == control->term->size_window.x)
 	{
-		if (!terminfo_insert_in_place(control, c))
-			return (0);
 		if (!terminfo_cursor_move_diagonally(control, 0))
 			return (0);
 	}
-	else
-		if (!terminfo_insert_in_place(control, c))
-			return (0);
 	if (!terminfo_insert_char_cascade(control))
 		return (0);
 	return (1);
@@ -62,18 +59,25 @@ int terminfo_insert_in_place(t_control *control, char c)
 **			0 failure
 */
 
+//needs to be fixed..
 int	terminfo_insert_char_cascade(t_control *control)
 {
 	int current;
 	int	tt_len;
 	int	offset;
 	char c;
+	int debug_y;
 
 	if (!(terminfo_cursor_save_reset(control, 1)))
 		return (0);
+	debug_y = control->term->cursor_saved.y;
+	if (debug_y == 0 || debug_y == 1)
+		printf("XOXOXOXOXOXOXOXOXO                 XOOXOXOXOXOXOXO\n         OXOXOXOXOXOXOXOXO          XOXOXOXO\n");
 	current = control->term->prompt_len + control->term->inline_position;
 	offset = control->term->size_window.x - \
 			 (current % control->term->size_window.x);
+	if (offset == 0)
+		printf("WAZZAAA\n");
 	tt_len = control->term->prompt_len + control->term->line_len;
 	while (current + offset < tt_len)
 	{

@@ -43,7 +43,7 @@ t_list		*input_root(t_control *control);
 t_list		*input_root_assist_and_prompt(t_control *control);
 int			input_reset_term_struct(t_control *control);
 t_list		*input_reading_and_lexing(t_control *control);
-int			input_reset_term_struct(t_control *control);
+int			input_check_for_stop_condition(t_control *control);
 
 int			termios_enable_raw_mode(struct termios *old);
 void		termios_reset_cooked_mode(struct termios *saved_copy);

@@ -12,7 +12,7 @@
 **
 ** input:	- control struct
 **			- curs:	a cursor:	it can be control->term->cursor
-**								or control->term->saved_cursor
+**								or control->term->saved_cursor ...
 ** RETURN:	1 ok
 **			0 failure
 */
@@ -24,6 +24,9 @@ int		terminfo_cursor_get_pos(t_control *control, t_int_pair *curs)
 	if (!(caps = terminfo_get_caps("u7", control)))
 		return (0);
 	terminfo_cursor_get_pos_assist(caps, curs);
+	//we add this here so that we dont have to do it all the time
+	curs->x--;
+	curs->y--;
 	return (1);
 }
 
@@ -77,10 +80,9 @@ void	terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
 
 int		terminfo_get_prompt_len(t_control *control)
 {
-	terminfo_cursor_get_pos(control, &(control->term->cursor));
-	if (control->quit)
+	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
 		return 0;
-	control->term->prompt_len = control->term->cursor.x - 1;
+	control->term->prompt_len = control->term->cursor.x;
 	return (1);
 }
 
@@ -105,8 +107,8 @@ int		terminfo_cursor_save_reset(t_control *control, int save)
 	}
 	else
 	{
-		if(!terminfo_cursor_move(control, control->term->cursor_saved.x - 1, \
-					control->term->cursor_saved.y - 1))
+		if(!terminfo_cursor_move(control, control->term->cursor_saved.x, \
+					control->term->cursor_saved.y))
 			return (0);
 	}
 	return (1);

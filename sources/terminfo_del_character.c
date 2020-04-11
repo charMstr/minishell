@@ -20,7 +20,7 @@ int		terminfo_del_char(t_control *control)
 
 	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
 		return (0);
-	if (control->term->cursor.x != 1)
+	if (control->term->cursor.x)
 	{
 		if (!(caps = terminfo_get_caps("cub1", control)))
 			return (0);
