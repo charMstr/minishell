@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/01/30 15:57:52 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/04/12 00:10:31 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,8 @@ int					ft_putchar(int c);
 void				ft_putnbr(int n);
 void				ft_putstr(char *s);
 int					ft_strcmp(const char *s1, const char *s2);
+
+char				*ft_strjoin_free(char const *s1, char const *s2,
+																int to_free);
 
 #endif

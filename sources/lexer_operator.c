@@ -73,18 +73,12 @@ int	lexer_operator2(const char *input, int *j, t_token *token)
 
 void	lexer_set_operator_id(t_token *token, char c)
 {
-	if (c == ';')
-		token->id = SEMI;
-	else if (c == '(')
-		token->id = LBRACE;
-	else if (c == ')')
-		token->id = RBRACE;
-	else if (c == '|')
-		token->id = PIPE;
-	else if (c == '&')
-		token->id = AND;
-	else if (c == '<')
-		token->id = LESS;
-	else if (c == '>')
-		token->id = GREAT;
+	int			i;
+	const char	op_ids[][2] = (const char [][2]){{'(', LBRACE}, {')', RBRACE},
+	{'|', PIPE}, {'&', AND}, {';', SEMI}, {'<', LESS}, {'>', GREAT}, {0, 0}};
+
+	i = -1;
+	while (op_ids[++i][0])
+		if (op_ids[i][0] == c)
+			token->id = op_ids[i][1];
 }

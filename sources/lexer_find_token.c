@@ -77,10 +77,7 @@ int	ft_append_char(char **str, char c)
 	}
 	else
 	{
-		*str = ft_strjoin(old, char_str);
-		free(old);
-		free(char_str);
-		if (!(*str))
+		if (!(*str = ft_strjoin_free(old, char_str, 3)))
 			return (0);
 		return (1);
 	}

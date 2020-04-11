@@ -6,7 +6,7 @@
 #    By: charmstr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 21:40:12 by charmstr          #+#    #+#              #
-#    Updated: 2020/01/30 16:04:00 by charmstr         ###   ########.fr        #
+#    Updated: 2020/04/12 00:08:59 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ FILES = atoi\
 	strchr\
 	strdup\
 	strjoin\
+	strjoin_free\
 	strlcat\
 	strlcpy\
 	strlen\
