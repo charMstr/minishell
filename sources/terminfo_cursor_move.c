@@ -12,17 +12,18 @@ void	terminfo_cursor_move_right(t_control *control)
 {
 	char *caps;
 
-	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
-		return ;
 	if (control->term->inline_position + 1 < control->term->line_len)
 	{
 		if (control->term->cursor.x + 1 == control->term->size_window.x)
 		{
+			control->term->cursor.x = 0;
+			control->term->cursor.y++;
 			if (!(caps = terminfo_get_caps("ind", control)))
 				return ;
 		}
 		else
 		{
+			control->term->cursor.x++;
 			if (!(caps = terminfo_get_caps("cuf1", control)))
 				return ;
 		}
@@ -39,20 +40,21 @@ void	terminfo_cursor_move_left(t_control *control)
 {
 	char *caps;
 
-	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
-		return ;
 	if (control->term->inline_position >= 0)
 	{
 		if (control->term->cursor.x == 0)
 		{
 			if (!terminfo_cursor_move_diagonally(control, 1))
 				return ;
+			control->term->cursor.x = control->term->size_window.x - 1;
+			control->term->cursor.y--;
 		}
 		else
 		{
 			if (!(caps = terminfo_get_caps("cub1", control)))
 				return ;
 			tputs(caps, 1, ft_putchar);
+			control->term->cursor.x--;
 		}
 		control->term->inline_position--;
 	}
@@ -74,8 +76,6 @@ int	terminfo_cursor_move_diagonally(t_control *control, int diag)
 {
 	char *caps;
 
-	//if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
-	//	return (0);
 	if (diag == 1)
 	{
 		if (!terminfo_cursor_move(control, control->term->size_window.x - 1, \
@@ -141,6 +141,7 @@ int			terminfo_cursor_move_endl(t_control *control, int start)
 		if(!terminfo_cursor_move(control, control->term->cursor_start.x, \
 					control->term->cursor_start.y))
 			return (0);
+		control->term->cursor = control->term->cursor_start;
 	}
 	else
 	{
@@ -151,6 +152,7 @@ int			terminfo_cursor_move_endl(t_control *control, int start)
 						/ control->term->size_window.x);
 		if (!terminfo_cursor_move(control, cursor_end.x, cursor_end.y))
 			return (0);
+		control->term->cursor = cursor_end;
 	}
 	return (1);
 }

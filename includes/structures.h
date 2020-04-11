@@ -17,7 +17,6 @@ typedef struct		s_term
 	t_int_pair		cursor;
 	t_int_pair		cursor_saved;
 	t_int_pair		cursor_start;
-	t_int_pair		cursor_end;
 	t_int_pair		size_window;
 	char			*ps1;
 	char			*ps2;

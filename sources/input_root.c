@@ -83,13 +83,12 @@ t_list *input_root_assist_and_prompt(t_control *control)
 
 int	input_reset_term_struct(t_control *control)
 {
-	if (!terminfo_get_prompt_len(control))
-		return (0);
-	control->term->inline_position = -1;
-	control->term->line_len = 0;
 	if (!terminfo_cursor_get_pos(control, &(control->term->cursor_start)))
 		return (0);
-	control->term->cursor_end = control->term->cursor_start;
+	control->term->cursor = control->term->cursor_start;
+	control->term->prompt_len = control->term->cursor.x;
+	control->term->inline_position = -1;
+	control->term->line_len = 0;
 	return (1);
 }
 
