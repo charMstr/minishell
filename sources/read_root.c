@@ -56,12 +56,14 @@ void	read_dispatch_for_processing(t_control *control, char c)
 		read_process_del_char(control);
 	else if (!ft_isprint(c))
 		read_process_control_combo(control, c);
+	/*
 	else if (c == 'g')
 	{
 		terminfo_cursor_get_pos(control, &(control->term->cursor));
 		debug_cursor(&(control->term->cursor));
 		debug_term_size();
 	}
+	*/
 	else
 		read_process_add_char(control, c);
 }

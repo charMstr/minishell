@@ -58,8 +58,12 @@ int			terminfo_load_array_esc_seq(t_term *term);
 char		*terminfo_get_caps(char *caps_id, t_control *control);
 char		*terminfo_edit_caps(t_control *control, char *caps_id, int param);
 
-// need to complet this file
 int			terminfo_del_char(t_control *control);
+int			terminfo_del_and_move(t_control *control);
+int			terminfo_del_in_place(t_control *control);
+int			terminfo_del_char_cascade(t_control *control);
+int			terminfo_del_char_cascade_assist(t_control *control, char c);
+int			terminfo_del_get_index_for_cascade(t_control *control);
 
 int			terminfo_insert_char(t_control *control, char c);
 int			terminfo_insert_in_place(t_control *control, char c);

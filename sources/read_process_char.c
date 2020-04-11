@@ -87,10 +87,10 @@ void	read_process_del_char(t_control *control)
 		control->quit = 1;
 		return ;
 	}
-	free(current);
-	control->term->line = new;
 	control->term->inline_position--;
 	control->term->line_len--;
+	free(current);
+	control->term->line = new;
 }
 
 /*
