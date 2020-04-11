@@ -1,5 +1,25 @@
 #include "debug.h"
 
+typedef struct		s_tokendb
+{
+	char	*str;
+	int		type;
+}					t_tokendb;
+
+char	*debug_id_to_str(int id)
+{
+	int i = 0;
+	const t_tokendb token_type[] = (const t_tokendb []){{"SEMI", SEMI},
+	{"LBRACE", LBRACE}, {"RBRACE", RBRACE}, {"PIPE", PIPE}, {"OR_IF", OR_IF},
+	{"AND", AND}, {"AND_IF", AND_IF}, {"S_QUOTE", S_QUOTE}, {"D_QUOTE", D_QUOTE},
+	{"GREAT", GREAT}, {"DGREAT", DGREAT}, {"LESS", LESS}, {"DLESS", DLESS},
+	{"TOKEN", TOKEN}, {"ERROR, NOT RECOGNIZED", -1}};
+
+	while (token_type[i].type != -1 && token_type[i].type != id)
+		i++;
+	return (token_type[i].str);
+}
+
 void	debug_pars_split_commands(char **array)
 {
 	int i;
@@ -14,46 +34,14 @@ void	debug_pars_split_commands(char **array)
 
 void	debug_tokens_list(t_list *head)
 {
-	int i;
-
-	ft_putendl_fd("\n=====================\ntokens list start\n===================", 2);
+	ft_putendl_fd("\n=================\nTOKENS LIST START\n=================", 2);
 	while (head)
 	{
-		i =  ((t_token *)(head->content))->id;
 		printf("[%s]", ((t_token *)(head->content))->str);
-		if (i == TOKEN)
-			printf("(TOKEN)\n");
-		else if (i == SEMI)
-			printf("(SEMI)\n");
-		else if (i == PIPE)
-			printf("(PIPE)\n");
-		else if (i == OR_IF)
-			printf("(OR_IF)\n");
-		else if (i == AND)
-			printf("(AND)\n");
-		else if (i == AND_IF)
-			printf("(AND_IF)\n");
-		else if (i == LBRACE)
-			printf("(LBRACE)\n");
-		else if (i == RBRACE)
-			printf("(RBRACE)\n");
-		else if (i == S_QUOTE)
-			printf("(S_QUOTE)\n");
-		else if (i == D_QUOTE)
-			printf("(D_QUOTE)\n");
-		else if (i == LESS)
-			printf("(LESS)\n");
-		else if (i == DLESS)
-			printf("DLESS\n");
-		else if (i == GREAT)
-			printf("(GREAT)\n");
-		else if (i == DGREAT)
-			printf("(DGREAT)\n");
-		else
-			printf("(ERROR warning ASHTUNG)\n");
+		printf("(%s)\n", debug_id_to_str(((t_token *)head->content)->id));
 		head = head->next;
 	}
-	ft_putendl_fd("=====================\ntokens list end\n=====================\n\n", 2);
+	ft_putendl_fd("=================\nTOKENS LIST END\n=================\n\n", 2);
 }
 
 void	debug_token_struct(t_token *token)
@@ -62,10 +50,10 @@ void	debug_token_struct(t_token *token)
 	printf("string:		[%s]\n", token->str);
 	if (token->str)
 		printf("lenght:		%zu\n", ft_strlen(token->str));
-	printf("ID:   		%d\n", token->id);
+	printf("ID:   		%d [%s]\n", token->id, debug_id_to_str(token->id));
 	printf("esc_next:	%d\n", token->esc_next);
 	printf("open_quote:	%d\n", token->open_quote);
-	ft_putendl_fd("-----------------------\ntoken end\n---------------------\n\n", 2);
+	ft_putendl_fd("---------------------\ntoken end\n---------------------\n", 2);
 }
 
 void	debug_env_list(t_list *head)

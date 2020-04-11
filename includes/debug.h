@@ -1,5 +1,5 @@
-#ifndef DEBUG_H
-# define DEBUG_H
+#ifndef DEBUG_MINISHELL_H
+# define DEBUG_MINISHELL_H
 
 # include "../libft/libft.h"
 # include "minishell.h"
