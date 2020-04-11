@@ -70,46 +70,17 @@ void	terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
 }
 
 /*
-** note:	this function will set the lenght of the prompt we last printed
-**
-** intput:	- the control struct: which contains the term struct
+** note:	this function will restore the cursor's position.
 **
 ** RETURN:	1 ok
 **			0 failure
 */
 
-int		terminfo_get_prompt_len(t_control *control)
+int		terminfo_cursor_saved_reset(t_control *control)
 {
-	if (!terminfo_cursor_get_pos(control, &(control->term->cursor)))
-		return 0;
-	control->term->prompt_len = control->term->cursor.x;
-	return (1);
-}
-
-/*
-** note:	this function will save the cursor's position. it is agnostic of
-**			where the cursor really is.
-** intput:	- save:	1 for saving the current position
-**					0 for reseting the cursor in that position
-**			- control struct.
-**
-** RETURN:	1 ok
-**			0 failure
-*/
-
-int		terminfo_cursor_save_reset(t_control *control, int save)
-{
-	if (save)
-	{
-		if (!(terminfo_cursor_get_pos(control, \
-						&(control->term->cursor_saved))))
-			return (0);
-	}
-	else
-	{
-		if(!terminfo_cursor_move(control, control->term->cursor_saved.x, \
-					control->term->cursor_saved.y))
-			return (0);
-	}
+	control->term->cursor = control->term->cursor_saved;
+	if(!terminfo_cursor_move(control, control->term->cursor_saved.x, \
+				control->term->cursor_saved.y))
+		return (0);
 	return (1);
 }

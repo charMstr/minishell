@@ -67,8 +67,7 @@ int			terminfo_insert_char_cascade(t_control *control);
 
 int			terminfo_cursor_get_pos(t_control *control, t_int_pair *curs);
 void		terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor);
-int			terminfo_get_prompt_len(t_control *control);
-int			terminfo_cursor_save_reset(t_control *control, int save);
+int			terminfo_cursor_saved_reset(t_control *control);
 
 void		terminfo_cursor_move_right(t_control *control);
 void		terminfo_cursor_move_left(t_control *control);
@@ -78,6 +77,7 @@ int			terminfo_cursor_move_endl(t_control *control, int start);
 
 void		terminfo_cursor_move_up(t_control *control);
 void		terminfo_cursor_move_down(t_control *control);
+int			terminfo_cursor_track_position(t_control *control, int add);
 
 int			input_read_line(t_term *term);
 

@@ -56,8 +56,6 @@ t_term	*terminfo_init_struct(void)
 	term->size_window.y = 0;
 	term->cursor_start.x = 0;
 	term->cursor_start.y = 0;
-	term->cursor_end.x = 0;
-	term->cursor_end.y = 0;
 	return (term);
 }
 
