@@ -22,13 +22,14 @@ t_list	*lexer_root(char *input, t_control *control)
 	int		i;
 
 	i = 0;
-	tokens_elem = NULL;
 	tokens_head = NULL;
 	while (input[i])
 	{
 		if ((!(new_token = lexer_build_next_token(input, &i, control)) &&
 		control->quit) || !(tokens_elem = ft_lstnew(new_token)))
 		{
+			control->quit = 1;
+			del_token(new_token);
 			ft_lstclear(&tokens_head, del_token);
 			return (NULL);
 		}
@@ -93,11 +94,8 @@ t_token	*lexer_build_next_token(const char *input, int *j, t_control *control)
 t_token	*lexer_init_token(void)
 {
 	t_token *token;
-	if (!(token = (t_token*)malloc(sizeof(t_token))))
+
+	if (!(token = (t_token *)ft_memalloc(sizeof(t_token))))
 		return (NULL);
-	token->str = NULL;
-	token->esc_next = 0;
-	token->open_quote = 0;
-	token->id = 0;
 	return (token);
 }
