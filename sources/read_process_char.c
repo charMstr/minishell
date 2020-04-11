@@ -10,7 +10,7 @@
 
 void	read_process_add_char(t_control *control, char c)
 {
-	if (!(ft_strinject(&(control->term->line), c, \
+	if (!(ft_strcadd(&(control->term->line), c, \
 					control->term->inline_position + 1)))
 	{
 		control->quit = 1;
@@ -26,71 +26,23 @@ void	read_process_add_char(t_control *control, char c)
 }
 
 /*
-** note:	This function inserts in a string that deos not need to exist, a
-**			given character in a given position.
-**			The string is updated and memory of the old string is freed anyway.
-**
-** input:	- str:	can be NULL
-**			- c:	char to inject
-**			- i:	index of injection
-**
-** RETURN:	1 ok
-**			0 failure
-*/
-
-int ft_strinject(char **str, char c, int index)
-{
-	int	tt_len;
-	char *new;
-	int	j;
-
-	tt_len = ft_strlen(*str) + 1;
-	j = 0;
-	if (!(new = (char*)malloc(sizeof(char) * (tt_len + 1))))
-	{
-		ft_free((void **)str);
-		return (0);
-	}
-	new[tt_len] = '\0';
-	while (j < index && j < (tt_len - 1))
-	{
-		new[j] = str[0][j];
-		j++;
-	}
-	new[j] = c;
-	while (++j < tt_len)
-		new[j] = str[0][j - 1];
-	ft_free((void**)str);
-	*str = new;
-	return (1);
-}
-
-/*
-** note:	this function will delete effectively a character from the curent
-**			string, if the cursor is not against the prompt.
-*/
+ ** note:	this function will delete effectively a character from the curent
+ **			string, if the cursor is not against the prompt.
+ */
 
 void	read_process_del_char(t_control *control)
 {
-	char *new;
-	char *current;
-
 	if (control->term->inline_position == -1)
 		return ;
 	if (!terminfo_del_char(control))
 		return ;
-	current = control->term->line;
-	current[control->term->inline_position] = '\0';
-	if (!(new = ft_strjoin(current, current + \
-					control->term->inline_position + 1)))
+	if (!ft_strcdel(&(control->term->line), control->term->inline_position))
 	{
 		control->quit = 1;
 		return ;
 	}
 	control->term->inline_position--;
 	control->term->line_len--;
-	free(current);
-	control->term->line = new;
 }
 
 /*

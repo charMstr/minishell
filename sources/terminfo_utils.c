@@ -21,7 +21,7 @@ t_term *terminfo_init_database(void)
 		return (terminfo_free_struct(term));
 	if (!terminfo_load_array_esc_seq(term))
 		return (terminfo_free_struct(term));
-	if (!(term->ps1 = ft_strdup("\033[31mmli_charmstr$ \033[0m")))
+	if (!(term->ps1 = ft_strdup("🥑 👌 \033[31mmli_charmstr$ \033[0m")))
 		return (terminfo_free_struct(term));
 	if (!(term->ps2 = ft_strdup(">")))
 		return (terminfo_free_struct(term));

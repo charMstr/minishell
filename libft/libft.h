@@ -100,6 +100,8 @@ int					ft_putchar(int c);
 void				ft_putnbr(int n);
 void				ft_putstr(char *s);
 int					ft_strcmp(const char *s1, const char *s2);
+int					ft_strcadd(char **str, char c, size_t index);
+int					ft_strcdel(char **str, size_t i);
 
 char				*ft_strjoin_free(char const *s1, char const *s2,
 																int to_free);
