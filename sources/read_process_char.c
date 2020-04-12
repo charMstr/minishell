@@ -74,6 +74,10 @@ void	read_process_special_key(t_control *control, char c)
 			terminfo_cursor_move_up(control);
 		else if (i == KEY_DOWN_CTRL_ID)
 			terminfo_cursor_move_down(control);
+		else if (i == KEY_RIGHT_CTRL_ID)
+			terminfo_cursor_move_next_word(control);
+		else if (i == KEY_LEFT_CTRL_ID)
+			terminfo_cursor_move_previous_word(control);
 		/*
 		   GO UP AND DOWN IN HISTORIC HAPPENS HERE
 		//printf("ID of special sequence is: [%d]\n", i);

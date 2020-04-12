@@ -192,6 +192,7 @@ int	read_get_esc_seq_id(t_term *term, char c)
 			}
 		}
 	}
+//	debug_escape_sequence(str);
 	free(str);
 	return (0);
 }
