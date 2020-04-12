@@ -105,6 +105,7 @@ SRC_FILES =	main\
 			terminfo_cursor\
 			terminfo_cursor_move\
 			terminfo_cursor_move2\
+			terminfo_cursor_move3\
 			terminfo_del_character\
 			terminfo_insert_character\
 			read_root\

@@ -25,7 +25,11 @@
 # define KEY_UP_CTRL_ID 0x0A
 # define KEY_DOWN_CTRL_ "\033[1;5B"
 # define KEY_DOWN_CTRL_ID 0x0B
-# define NUMBER_SPECIAL_KEYS 12
+# define KEY_RIGHT_CTRL_ "\033[1;5C"
+# define KEY_RIGHT_CTRL_ID 0x0C
+# define KEY_LEFT_CTRL_ "\033[1;5D"
+# define KEY_LEFT_CTRL_ID 0x0D
+# define NUMBER_SPECIAL_KEYS 14
 
 # define CTRL_A_COMBO 0x01
 # define CTRL_E_COMBO 0x05
@@ -82,6 +86,11 @@ int			terminfo_cursor_move_endl(t_control *control, int start);
 void		terminfo_cursor_move_up(t_control *control);
 void		terminfo_cursor_move_down(t_control *control);
 int			terminfo_cursor_track_position(t_control *control, int add);
+int			terminfo_cursor_move_previous_word(t_control *control);
+int			terminfo_cursor_move_next_word(t_control *control);
+int			terminfo_cursor_find_next_word_start(t_control *control);
+int			terminfo_cursor_move_previous_word(t_control *control);
+int			terminfo_cursor_find_previous_word_start(t_control *control);
 
 int			input_read_line(t_term *term);
 
