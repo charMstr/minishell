@@ -30,8 +30,6 @@ void	read_root(t_control *control, int read_res, char c)
 		if (read_need_to_stop(control, c, read_res))
 			return ;
 		read_dispatch_for_processing(control, c);
-		// we need to recheck the flags, especiall control->quit if something
-		//went wrong (malloc, failure terminfo failure...)
 		if (read_need_to_stop(control, c, read_res))
 			return ;
 	}

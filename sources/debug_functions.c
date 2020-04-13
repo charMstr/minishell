@@ -1,4 +1,4 @@
-#include "debug.h"
+#include "minishell.h"
 
 typedef struct		s_tokendb
 {
@@ -64,5 +64,28 @@ void	debug_env_list(t_list *head)
 		printf("label:%s\n",((t_env*)(head->content))->label);
 		printf("value:%s\n",((t_env*)(head->content))->value);
 		head = head->next;
+	}
+}
+
+void	debug_history_list(t_history *hist)
+{
+	int i;
+	t_dlist *tmp;
+
+	i = 0;
+	if (!hist || !hist->head)
+		printf("kunts fucked!!!!\n");
+	tmp = hist->head;
+	printf("\n==============================================================\n");
+	printf("=============================== DEBUG HISTORY ================\n");
+	printf("history->size = [%d]\n", hist->size);
+	if (tmp)
+		printf("head: [%p]\n", tmp);
+	while(tmp)
+	{
+		printf("[%d] -- ADDRESS:[%p] -- STRING:[%s]\n"\
+				, i, tmp, tmp->content);
+		tmp = tmp->next;
+		i++;
 	}
 }
