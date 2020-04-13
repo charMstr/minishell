@@ -74,18 +74,22 @@ void	read_process_special_key(t_control *control, char c)
 			terminfo_cursor_move_up(control);
 		else if (i == KEY_DOWN_CTRL_ID)
 			terminfo_cursor_move_down(control);
-		/*
-		   GO UP AND DOWN IN HISTORIC HAPPENS HERE
-		//printf("ID of special sequence is: [%d]\n", i);
-		if (i == 1)//move up				OK need to go up in history
-		{
-			char *caps = tigetstr("cuu1");
-			tputs(caps, 1, ft_putchar);
-		}
-		if (i == 4)//move down				OK need to go down in history
-		{
-			char *caps = tigetstr("cud");
-			tputs(tparm(caps, 1), 1, ft_putchar);
-		}
-		*/
+		else if (i == KEY_RIGHT_CTRL_ID)
+			terminfo_cursor_move_next_word(control);
+		else if (i == KEY_LEFT_CTRL_ID)
+			terminfo_cursor_move_previous_word(control);
+		else
+			read_process_special_key2(control, i);
+}
+
+/*
+** note:	see number one for man.
+*/
+
+void	read_process_special_key2(t_control *control, int i)
+{
+	if (i == KEY_UP_ID)
+		history_search(control, 1);
+	else if (i == KEY_DOWN_ID)
+		history_search(control, 0);
 }

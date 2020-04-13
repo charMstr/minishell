@@ -16,7 +16,8 @@ int	terminfo_load_array_esc_seq(t_term *term)
 {
 	const char *array[] = (const char *[]){KEY_ESC_, KEY_UP_, KEY_RIGHT_,
 		KEY_LEFT_, KEY_DOWN_, KEY_HOME_, KEY_DELETE_, KEY_END_, KEY_PAGE_UP_,
-		KEY_PAGE_DOWN_, KEY_UP_CTRL_, KEY_DOWN_CTRL_, NULL};
+		KEY_PAGE_DOWN_, KEY_UP_CTRL_, KEY_DOWN_CTRL_, KEY_RIGHT_CTRL_,
+		KEY_LEFT_CTRL_ , NULL};
 	int i;
 
 	i = 0;

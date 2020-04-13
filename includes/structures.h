@@ -8,6 +8,14 @@ typedef struct		s_int_pair
 	int				y;
 }					t_int_pair;
 
+//double linked list
+typedef struct		s_dlist
+{
+	void			*content;
+	struct s_dlist	*previous;
+	struct s_dlist	*next;
+}					t_dlist;
+
 //structure that contains date regardig the terminal, helpful for the termcaps.
 typedef struct		s_term
 {
@@ -22,7 +30,15 @@ typedef struct		s_term
 	char			*ps2;
 	int				prompt_len;
 	char			**array_esc_seq;
+	t_dlist			*current_history_link;
 }					t_term;
+
+typedef struct		s_history
+{
+	int				size;
+	t_dlist			*head;
+	int				max_size;
+}					t_history;
 
 //structure for controling the whole minishell.
 typedef struct		s_control
@@ -32,7 +48,7 @@ typedef struct		s_control
 	unsigned int	quit:1;
 	unsigned int	ctrl_c:1;
 	int				exit_status;
-	int				index_in_history;
+	t_history		*history;
 	t_term			*term;
 }					t_control;
 

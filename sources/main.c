@@ -29,11 +29,16 @@ int main()
 	t_control		control;
 
 	control_init_struct(&control);
-	if (!(control.term = terminfo_init_database()))
+	if (!(control.history = history_init_struct()))
 		return (1);
+	if (!(control.term = terminfo_init_database()))
+	{
+		control_free_struct(&control);
+		return (1);
+	}
 	if (!(termios_enable_raw_mode(&saved_copy)))
 	{
-		terminfo_free_struct(control.term);
+		control_free_struct(&control);
 		return (1);
 	}
 	exit_status = master_loop(&control);

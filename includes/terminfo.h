@@ -25,7 +25,11 @@
 # define KEY_UP_CTRL_ID 0x0A
 # define KEY_DOWN_CTRL_ "\033[1;5B"
 # define KEY_DOWN_CTRL_ID 0x0B
-# define NUMBER_SPECIAL_KEYS 12
+# define KEY_RIGHT_CTRL_ "\033[1;5C"
+# define KEY_RIGHT_CTRL_ID 0x0C
+# define KEY_LEFT_CTRL_ "\033[1;5D"
+# define KEY_LEFT_CTRL_ID 0x0D
+# define NUMBER_SPECIAL_KEYS 14
 
 # define CTRL_A_COMBO 0x01
 # define CTRL_E_COMBO 0x05
@@ -72,6 +76,8 @@ int			terminfo_insert_char_cascade(t_control *control);
 int			terminfo_cursor_get_pos(t_control *control, t_int_pair *curs);
 void		terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor);
 int			terminfo_cursor_saved_reset(t_control *control);
+t_int_pair	terminfo_cursor_get_endl(t_control *control);
+int			terminfo_refresh_screen_from_start(t_control *control);
 
 void		terminfo_cursor_move_right(t_control *control);
 void		terminfo_cursor_move_left(t_control *control);
@@ -82,6 +88,11 @@ int			terminfo_cursor_move_endl(t_control *control, int start);
 void		terminfo_cursor_move_up(t_control *control);
 void		terminfo_cursor_move_down(t_control *control);
 int			terminfo_cursor_track_position(t_control *control, int add);
+int			terminfo_cursor_move_previous_word(t_control *control);
+int			terminfo_cursor_move_next_word(t_control *control);
+int			terminfo_cursor_find_next_word_start(t_control *control);
+int			terminfo_cursor_move_previous_word(t_control *control);
+int			terminfo_cursor_find_previous_word_start(t_control *control);
 
 int			input_read_line(t_term *term);
 
@@ -89,10 +100,11 @@ void		read_root(t_control *control, int read_res, char c);
 int			read_get_esc_seq_id(t_term *term, char c);
 int			read_need_to_stop(t_control *control, char c, int res);
 void		read_dispatch_for_processing(t_control *control, char c);
-void		read_process_special_key(t_control *control, char c);
 
 void		read_process_del_char(t_control *control);
 void		read_process_add_char(t_control *control, char c);
+void		read_process_special_key(t_control *control, char c);
+void		read_process_special_key2(t_control *control, int i);
 
 void		read_process_control_combo(t_control *control, char c);
 

@@ -17,20 +17,12 @@ t_list *input_root(t_control *control)
 	t_list *tokens_lst;
 
 	control->first_time = 1;
-	control->index_in_history = 0;
-
-	//create a new link at the front of history linked list
-	//if we reach history limit (ex: 255) we can pop end of list.
-	//input_history_creat_link();
-
+	if (!history_add_new_link(control))
+		return (NULL);
 	//function where evetything happens
 	tokens_lst = input_root_assist_and_prompt(control);
 	if (control->quit)
 		return (NULL);
-
-	//decide if we keep the link in history: not if in the current history link
-	//the string is empty.
-	//input_history_decide_for_link();
 	return (tokens_lst);
 }
 
@@ -48,12 +40,11 @@ t_list *input_root_assist_and_prompt(t_control *control)
 {
 	t_list *tokens_lst;
 
-	//reset some controls values.
 	control->ctrl_c = 0;
 	//here we can recheck the values of ps1 and ps2 in case they have been
 	//changed with export and as well update the terminal size, all that in the
 	//control->term struct
-	while (!control->quit && !control->ctrl_c) //here we should check values in control structure
+	while (!control->quit && !control->ctrl_c)
 	{
 		if (control->first_time)
 			ft_putstr_fd(control->term->ps1, 2);
@@ -61,7 +52,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 			ft_putstr_fd(control->term->ps2, 2);
 		if (!input_reset_term_struct(control))
 			return (NULL);
-		// do something if the tokens_lst is NULL?
+		// if the tokens_lst is null, it means we need to reprompt. OK
+		// if an error occured(malloc failing) control->quit should be reaised.
 		tokens_lst = input_reading_and_lexing(control);
 		control->first_time = 0;
 		//if lexer/tokenizer function worked: it would set ctrl_c to 1
@@ -89,11 +81,12 @@ int	input_reset_term_struct(t_control *control)
 	control->term->prompt_len = control->term->cursor.x;
 	control->term->inline_position = -1;
 	control->term->line_len = 0;
+	control->term->current_history_link = control->history->head;
 	return (1);
 }
 
 /*
-** note:	this function will take care of the following maini tasks:
+** note:	this function will take care of the following main tasks:
 **			-	read and append characters.
 **			-	update control structure
 **			-	check if a line ends with a '\'
@@ -106,36 +99,27 @@ int	input_reset_term_struct(t_control *control)
 
 t_list *input_reading_and_lexing(t_control *control)
 {
-	t_list *tokens_lst;
+	t_list *token_lst;
 
-	tokens_lst = NULL;
-	//this function will edit line-->> might be appended to the current history
-	// return in 4 situations:
-	// malloc failed, ctrl_C, ctrl_D(empty string), 'ENTER KEY'
+	token_lst = NULL;
 	read_root(control, 0, 0);
 	if (!terminfo_cursor_move_endl(control, 0))
 		return (NULL);
 	ft_putchar_fd('\n', 1);
 	if (!input_check_for_stop_condition(control))
 		return (NULL);
-/*
-	//the line we need to process is situated in control->term->line
-	//it will be appended to the current line history.
-	input_check_multiline_and_update_history();
-	if (!input_check_for_stop_condition(control))
+	// ne pas free line la dedans!!!
+	// this function will need more granularity/subfunctions depending
+	//on the previous returns of the flag.
+	if (!history_append_line(control, control->history))
 		return (NULL);
-	//the thing we need to process is the whole current line history.
-	// for now: just take a simple line. from control->term->line
-*/
-	if (!control->term->line)
+	//if (we decide to discard the hist no need to go to the lexer
+	if (history_decide_discard_new_link(control))
 		return (NULL);
-	printf("ENTERING LEXER WITH: [%s]\n", control->term->line);
-	tokens_lst = lexer_root(control->term->line, control);
-/*
-	if (!input_check_for_stop(control))
-		return (NULL);
-*/
-	return (tokens_lst);
+//	debug_history_list(control->history);
+	printf("ENTERING LEXER WITH: [%s]\n", control->history->head->content);
+	token_lst = lexer_root((char *)(control->history->head->content), control);
+	return (token_lst);
 }
 
 /*
@@ -151,4 +135,3 @@ int	input_check_for_stop_condition(t_control *control)
 		return (0);
 	return (1);
 }
-

@@ -145,11 +145,7 @@ int			terminfo_cursor_move_endl(t_control *control, int start)
 	}
 	else
 	{
-		cursor_end.x = (control->term->cursor_start.x \
-				+ control->term->line_len) % control->term->size_window.x;
-		cursor_end.y = control->term->cursor_start.y \
-				+ ((control->term->line_len + control->term->prompt_len) \
-						/ control->term->size_window.x);
+		cursor_end = terminfo_cursor_get_endl(control);
 		if (!terminfo_cursor_move(control, cursor_end.x, cursor_end.y))
 			return (0);
 		control->term->cursor = cursor_end;
