@@ -20,6 +20,15 @@ char	*debug_id_to_str(int id)
 	return (token_type[i].str);
 }
 
+void	debug_lexer_flags(t_control *control)
+{
+	printf("[%d]%s\n", control->quit, "Quit");
+	printf("[%d]%s\n", control->lexer_end.other, "Other");
+	printf("[%d]%s\n", control->lexer_end.quote, "Quote");
+	printf("[%d]%s\n", control->lexer_end.backslash, "Backslash");
+	printf("[%d]%s\n", control->lexer_end.unexpected, "Unexpected");
+}
+
 void	debug_pars_split_commands(char **array)
 {
 	int i;

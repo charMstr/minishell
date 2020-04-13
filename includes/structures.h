@@ -42,21 +42,21 @@ typedef struct		s_history
 	int				max_size;
 }					t_history;
 
-typedef struct  s_lexer_end
+typedef struct		s_lexer_end
 {
-    char         unexpected;    // Pour '(', ')'  +autre?     => Génère une erreur, avec le char en question dedans
-    unsigned int other:1;       // Pour '|', '||', '&&'       => PS2 simple
-    unsigned int quote:1;       // Pour '\'' , '\"'           => PS2
-    unsigned int backslash:1;   // Pour '/'                   => PS2 + Il faudra supprimer le '\'
-}               t_lexer_end;
+	unsigned int other:1;       // Pour '|', '||', '&&'       => PS2 simple
+	unsigned int quote:1;       // Pour '\'' , '\"'           => PS2
+	unsigned int backslash:1;   // Pour '/'                   => PS2 + Il faudra supprimer le '\'
+	unsigned int unexpected;    // Pour '(', ')'  +autre?     => Génère une erreur, avec le char en question dedans
+}					t_lexer_end;
 
-typedef struct	s_token
+typedef struct		s_token
 {
-	char		*str;
-	int			id;
-	unsigned int open_quote:1;
-	unsigned int esc_next:1;
-}				t_token;
+	char			*str;
+	unsigned int	open_quote:1;
+	unsigned int	esc_next:1;
+	int				id;
+}					t_token;
 
 //structure for controling the whole minishell.
 typedef struct		s_control
