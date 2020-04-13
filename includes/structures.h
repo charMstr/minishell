@@ -26,6 +26,7 @@ typedef struct		s_term
 	t_int_pair		cursor_saved;
 	t_int_pair		cursor_start;
 	t_int_pair		size_window;
+	int				prompt_ps1;
 	char			*ps1;
 	char			*ps2;
 	int				prompt_len;
@@ -36,35 +37,37 @@ typedef struct		s_term
 typedef struct		s_history
 {
 	int				size;
-	t_dlist			*head;
+	t_dlist			*head; //the first link contains the current history string
+	//we append to it control->term->line again and again if we have to prompt PS2
 	int				max_size;
 }					t_history;
+
+typedef struct  s_lexer_end
+{
+    char         unexpected;    // Pour '(', ')'  +autre?     => Génère une erreur, avec le char en question dedans
+    unsigned int other:1;       // Pour '|', '||', '&&'       => PS2 simple
+    unsigned int quote:1;       // Pour '\'' , '\"'           => PS2
+    unsigned int backslash:1;   // Pour '/'                   => PS2 + Il faudra supprimer le '\'
+}               t_lexer_end;
+
+typedef struct	s_token
+{
+	char		*str;
+	int			id;
+	unsigned int open_quote:1;
+	unsigned int esc_next:1;
+}				t_token;
 
 //structure for controling the whole minishell.
 typedef struct		s_control
 {
-	unsigned int	multiline:1;
-	unsigned int	first_time:1;
 	unsigned int	quit:1;
 	unsigned int	ctrl_c:1;
 	int				exit_status;
 	t_history		*history;
 	t_term			*term;
+	t_lexer_end		lexer_end;
 }					t_control;
-
-/*
-	t_list			*history_list;		//needed in the terminfo functions(to go up and down and copy the current history line)
-	int				index_in_history;	//current index in the history list (needed in the terminfo functions)
-	char			*current_history_line;
-
-	int				l_brace;
-	int				r_brace;
-	unsigned int	s_quote:1;
-	unsigned int	d_quote:1;
-	unsigned int	and_or_endl:1;
-	unsigned int	synthax_error:1;	//if synthax error detected;
-	char			unexpected_token;	//the one to be displayed if synthax error
-*/
 
 typedef struct	s_mysh
 {

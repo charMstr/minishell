@@ -1,14 +1,6 @@
 #ifndef LEXING_H
 # define LEXING_H
 
-typedef struct	s_token
-{
-	char		*str;
-	int			id;
-	unsigned int open_quote:1;
-	unsigned int esc_next:1;
-}				t_token;
-
 # define TOKEN 0
 # define SEMI 1
 # define PIPE 2
