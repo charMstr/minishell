@@ -24,17 +24,18 @@
 
 int	lexer_find_token(const char *input, int *j, t_token *token)
 {
-	if (!token->esc_next && input[*j] == '\\' && lexer_jump_esc(j, token))
-		return (lexer_find_token(input, j, token));
-	else if (!token->esc_next && !ft_stristr(input + *j, "\"\'"))
-		return (lexer_quoted(input, j, token));
-	else if (!token->esc_next && !ft_stristr(input + *j, "&<>()|;"))
-		return (lexer_operator(input, j, token));
-	else if (!token->esc_next && ft_isdigit(input[*j]))
-		return (lexer_token_or_indirection(input, j, token));
-	else
-		return (lexer_just_token(input, j, token));
-	return (0);
+	if (!token->esc_next)
+	{
+		if (input[*j] == '\\' && lexer_jump_esc(j, token))
+			return (lexer_find_token(input, j, token));
+		else if (ft_strchr("\"\'", input[*j]))
+			return (lexer_quoted(input, j, token));
+		else if (ft_strchr("&<>()|;", input[*j]))
+			return (lexer_operator(input, j, token));
+		else if (ft_isdigit(input[*j]))
+			return (lexer_token_or_indirection(input, j, token));
+	}
+	return (lexer_just_token(input, j, token));
 }
 
 /*
@@ -62,23 +63,17 @@ int	lexer_jump_esc(int *j, t_token *token)
 
 int	ft_append_char(char **str, char c)
 {
-	char *char_str;
 	char *old;
+	char *char_str;
 
 	old = *str;
-	if (!(char_str = (char *)malloc(sizeof(char) * 2)))
-		return (0);
-	char_str[0] = c;
-	char_str[1] = '\0';
+	char_str = (char [2]){c, '\0'};
 	if (!*str)
 	{
-		*str = char_str;
-		return (1);
-	}
-	else
-	{
-		if (!(*str = ft_strjoin_free(old, char_str, 3)))
+		if (!(*str = ft_strdup(char_str)))
 			return (0);
-		return (1);
 	}
+	else if (!(*str = ft_strjoin_free(old, char_str, 1)))
+		return (0);
+	return (1);
 }

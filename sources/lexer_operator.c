@@ -17,28 +17,14 @@
 int	lexer_operator(const char *input, int *j, t_token *token)
 {
 	lexer_set_operator_id(token, input[*j]);
-	if (input[*j] == ';')
+	if (ft_strchr("();", input[*j]))
 	{
-		*j += 1;
-		if (!(token->str = ft_strdup(";")))
+		(*j)++;
+		if (!(token->str = ft_strdup((char [2]){input[*j - 1], '\0'})))
 			return (0);
 		return (1);
 	}
-	else if (input[*j] == '(')
-	{
-		*j += 1;
-		if (!(token->str = ft_strdup("(")))
-			return (0);
-		return (1);
-	}
-	else if (input[*j] == ')')
-	{
-		*j += 1;
-		if (!(token->str = ft_strdup(")")))
-			return (0);
-		return (1);
-	}
-	else if (!ft_stristr(input + *j, "<>&|"))
+	else if (ft_strchr("<>&|", input[*j]))
 		return (lexer_operator2(input, j, token));
 	return (0);
 }
@@ -46,6 +32,7 @@ int	lexer_operator(const char *input, int *j, t_token *token)
 /*
 ** note:	this function takes care of the case when the operator is either
 **			AND or OR ('&' or '|') , or a redirection symbol ('<'. '>')
+**			and '&&', '||', '<<', '>>'.
 **
 ** RETURN:	1
 **			0 if malloc failed
@@ -59,9 +46,7 @@ int	lexer_operator2(const char *input, int *j, t_token *token)
 	if (!ft_append_char(&(token->str), c))
 		return (0);
 	(*j)++;
-	if (!(input[*j]))
-		return (1);
-	else if (input[*j] == c)
+	if (input[*j] == c)
 	{
 		token->id++;
 		(*j)++;
