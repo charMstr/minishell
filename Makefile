@@ -32,7 +32,7 @@ DEPS = $(INCLUDES)
 ###############################################################################
 ###############################################################################
 
-########################### PARAMETERS ########################################
+################## FOR COMPILATION WITH DEBUG #################################
 ###############################################################################
 ifeq ($(f), n)
 CFLAGS 		=
@@ -67,8 +67,9 @@ H_FILES =	minishell\
 			builtin\
 			parser\
 			structures\
+			historic\
 			debug_terminfo\
-			debug\
+			debug_functions\
 
 #H_FILES_BONUS = #somefile\
 				#someotherFile\
@@ -97,7 +98,6 @@ SRC_FILES =	main\
 			builtin_unset\
 			builtin_echo\
 			builtin_export\
-			debug_functions\
 			input_root\
 			termios_utils\
 			terminfo_utils\
@@ -111,8 +111,12 @@ SRC_FILES =	main\
 			read_root\
 			read_process_char\
 			read_process_control_combo\
+			historic_root\
+			historic_utils\
+			historic_search\
 			control_structure\
 			debug_terminfo\
+			debug_functions\
 
 			#ft_printf\
 			

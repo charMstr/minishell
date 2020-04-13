@@ -16,7 +16,7 @@ void	control_init_struct(t_control *control)
 	control->exit_status = 0;
 	control->quit = 0;
 	control->first_time = 1;
-	control->index_in_history = 0;
+	control->history = NULL;
 	control->ctrl_c = 0;
 }
 
@@ -28,4 +28,5 @@ void	control_init_struct(t_control *control)
 void	control_free_struct(t_control *control)
 {
 	terminfo_free_struct(control->term);
+	ft_dlstclear(&(control->history->head), history_del_content);
 }

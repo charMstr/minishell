@@ -76,6 +76,8 @@ int			terminfo_insert_char_cascade(t_control *control);
 int			terminfo_cursor_get_pos(t_control *control, t_int_pair *curs);
 void		terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor);
 int			terminfo_cursor_saved_reset(t_control *control);
+t_int_pair	terminfo_cursor_get_endl(t_control *control);
+int			terminfo_refresh_screen_from_start(t_control *control);
 
 void		terminfo_cursor_move_right(t_control *control);
 void		terminfo_cursor_move_left(t_control *control);
@@ -98,10 +100,11 @@ void		read_root(t_control *control, int read_res, char c);
 int			read_get_esc_seq_id(t_term *term, char c);
 int			read_need_to_stop(t_control *control, char c, int res);
 void		read_dispatch_for_processing(t_control *control, char c);
-void		read_process_special_key(t_control *control, char c);
 
 void		read_process_del_char(t_control *control);
 void		read_process_add_char(t_control *control, char c);
+void		read_process_special_key(t_control *control, char c);
+void		read_process_special_key2(t_control *control, int i);
 
 void		read_process_control_combo(t_control *control, char c);
 
