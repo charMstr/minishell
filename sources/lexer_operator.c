@@ -43,14 +43,14 @@ int	lexer_operator2(const char *input, int *j, t_token *token)
 	char c;
 
 	c = input[*j];
-	if (!ft_append_char(&(token->str), c))
+	if (!ft_strappend(&(token->str), c))
 		return (0);
 	(*j)++;
 	if (input[*j] == c)
 	{
 		token->id++;
 		(*j)++;
-		if (!ft_append_char(&(token->str), c))
+		if (!ft_strappend(&(token->str), c))
 			return (0);
 	}
 	return (1);

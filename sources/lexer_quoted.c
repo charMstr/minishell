@@ -19,7 +19,7 @@ int	lexer_quoted(const char *input, int *j, t_token *token)
 	char c;
 
 	c = input[*j];
-	if (!ft_append_char(&(token->str), c))
+	if (!ft_strappend(&(token->str), c))
 		return (0);
 	(*j)++;
 	token->open_quote = 1;
@@ -49,7 +49,7 @@ int lexer_quoted_double(const char *input, char c, int *j, t_token *token)
 {
 	while (input[*j])
 	{
-		if (!ft_append_char(&(token->str), input[*j]))
+		if (!ft_strappend(&(token->str), input[*j]))
 			return (0);
 		if (!token->esc_next && input[*j] == '\\' && lexer_jump_esc(j, token))
 			continue;
@@ -78,7 +78,7 @@ int	lexer_quoted_single(const char *input, char c, int *j, t_token *token)
 {
 	while (input[*j])
 	{
-		if (!ft_append_char(&(token->str), input[*j]))
+		if (!ft_strappend(&(token->str), input[*j]))
 			return (0);
 		if (input[*j] == c)
 		{

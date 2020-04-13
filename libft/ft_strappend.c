@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 21:26:50 by charmstr          #+#    #+#             */
-/*   Updated: 2019/11/13 23:05:05 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/04/13 17:04:00 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,14 @@
 int	ft_strappend(char **str, char c)
 {
 	char *char_str;
-	char *old;
 
-	old = *str;
-	if (!(char_str = (char *)malloc(sizeof(char) * 2)))
-		return (0);
-	char_str[0] = c;
-	char_str[1] = '\0';
+	char_str = (char [2]){c, '\0'};
 	if (!*str)
 	{
-		*str = char_str;
-		return (1);
-	}
-	else
-	{
-		*str = ft_strjoin(old, char_str);
-		free(old);
-		free(char_str);
-		if (!(*str))
+		if (!(*str = ft_strdup(char_str)))
 			return (0);
-		return (1);
 	}
+	else if (!(*str = ft_strjoin_free(*str, char_str, 1)))
+		return (0);
+	return (1);
 }

@@ -51,29 +51,3 @@ int	lexer_jump_esc(int *j, t_token *token)
 	token->esc_next = 1;
 	return (1);
 }
-
-/*
-** note:	this function will append a char to a string that does not need to
-**			be existing. the string is updated and memory of the old string is
-**			freed anyway.
-**
-** RETURN:	1 if OK
-**			0 elsewise.
-*/
-
-int	ft_append_char(char **str, char c)
-{
-	char *old;
-	char *char_str;
-
-	old = *str;
-	char_str = (char [2]){c, '\0'};
-	if (!*str)
-	{
-		if (!(*str = ft_strdup(char_str)))
-			return (0);
-	}
-	else if (!(*str = ft_strjoin_free(old, char_str, 1)))
-		return (0);
-	return (1);
-}

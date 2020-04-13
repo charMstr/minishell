@@ -26,7 +26,7 @@ int lexer_just_token(const char *input, int *j, t_token *token)
 			else if (ft_strchr("&<>()|;", input[*j]))
 				return (1);
 		}
-		if (!ft_append_char(&(token->str), input[*j]))
+		if (!ft_strappend(&(token->str), input[*j]))
 			return (0);
 		token->esc_next = 0;
 		(*j)++;
@@ -47,7 +47,7 @@ int	lexer_token_or_indirection(const char *input, int *j, t_token *token)
 {
 	while (ft_isdigit(input[*j]))
 	{
-		if (!ft_append_char(&(token->str), input[*j]))
+		if (!ft_strappend(&(token->str), input[*j]))
 			return (0);
 		(*j)++;
 	}

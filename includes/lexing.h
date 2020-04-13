@@ -30,7 +30,6 @@ t_token	*lexer_init_token(void);
 void	del_token(void *token);
 
 int		lexer_find_token(const char *input, int *j, t_token *token);
-int		ft_append_char(char **str, char c);
 int		lexer_jump_esc(int *j, t_token *token);
 
 int		lexer_operator(const char *input, int *j, t_token *token);
