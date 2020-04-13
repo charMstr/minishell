@@ -12,11 +12,12 @@
 
 void	control_init_struct(t_control *control)
 {
-	control->term = NULL;
-	control->exit_status = 0;
 	control->quit = 0;
-	control->history = NULL;
 	control->ctrl_c = 0;
+	control->exit_status = 0;
+	control->history = NULL;
+	control->term = NULL;
+	ft_bzero((void*)(&control->lexer_end), sizeof(t_lexer_end));
 }
 
 /*

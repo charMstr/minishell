@@ -112,6 +112,7 @@ SRC_FILES =	main\
 			read_process_char\
 			read_process_control_combo\
 			historic_root\
+			historic_update\
 			historic_utils\
 			historic_search\
 			control_structure\

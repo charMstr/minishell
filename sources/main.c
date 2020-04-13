@@ -9,12 +9,14 @@
 
 int	master_loop(t_control *control)
 {
-	//t_tokens_list *tokens_list;
+	t_list *tokens_list;
 	while (1)
 	{
-		input_root(control);
+		tokens_list = input_root(control);
 		if (control->quit)
 			break;
+		if (control->ctrl_c || control->lexer_end.unexpected)
+			continue;
 		//here we should enter the parsing
 		//here we should enter the command processing
 		//here we should set the exit_status.
