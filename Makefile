@@ -69,7 +69,7 @@ H_FILES =	minishell\
 			structures\
 			historic\
 			debug_terminfo\
-			debug_functions\
+			debug_minishell\
 
 #H_FILES_BONUS = #somefile\
 				#someotherFile\
