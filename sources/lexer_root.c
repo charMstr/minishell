@@ -37,6 +37,9 @@ t_list	*lexer_root(char *input, t_control *control)
 		//debug_token_struct(new_token);
 	}
 	//debug_tokens_list(tokens_head);
+	if (!lexer_end(tokens_head, control))
+		ft_lstclear(&tokens_head, del_token);
+	//debug_lexer_flags(control);
 	return (tokens_head);
 }
 

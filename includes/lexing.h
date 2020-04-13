@@ -44,4 +44,6 @@ int		lexer_just_token(const char *input, int *j, t_token *token);
 int		lexer_token_or_indirection(const char *input, int *j, t_token *token);
 int		lexer_indirection(const char *input, int *j, t_token *token);
 
+int		lexer_end(t_list *token_head, t_control *control);
+
 #endif
