@@ -19,7 +19,7 @@ void	history_search(t_control *control, int direction)
 		return ;
 	if (!history_terminfo_reset_cursor(control, &cursor_end))
 		return ;
-	if (control->first_time)
+	if (control->term->prompt_ps1)
 		ft_putstr_fd(control->term->ps1, 2);
 	else
 		ft_putstr_fd(control->term->ps2, 2);

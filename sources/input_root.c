@@ -16,7 +16,6 @@ t_list *input_root(t_control *control)
 {
 	t_list *tokens_lst;
 
-	control->first_time = 1;
 	if (!history_add_new_link(control))
 		return (NULL);
 	//function where evetything happens
@@ -41,12 +40,13 @@ t_list *input_root_assist_and_prompt(t_control *control)
 	t_list *tokens_lst;
 
 	control->ctrl_c = 0;
+	control->term->prompt_ps1 = 1;
 	//here we can recheck the values of ps1 and ps2 in case they have been
 	//changed with export and as well update the terminal size, all that in the
 	//control->term struct
 	while (!control->quit && !control->ctrl_c)
 	{
-		if (control->first_time)
+		if (control->term->prompt_ps1)
 			ft_putstr_fd(control->term->ps1, 2);
 		else
 			ft_putstr_fd(control->term->ps2, 2);
@@ -55,7 +55,7 @@ t_list *input_root_assist_and_prompt(t_control *control)
 		// if the tokens_lst is null, it means we need to reprompt. OK
 		// if an error occured(malloc failing) control->quit should be reaised.
 		tokens_lst = input_reading_and_lexing(control);
-		control->first_time = 0;
+		control->term->prompt_ps1 = 0;
 		//if lexer/tokenizer function worked: it would set ctrl_c to 1
 		// leave ctrl_c to 0 and you see PS2 appearing (we stay in the loop)
 		control->ctrl_c = 1;
@@ -116,9 +116,9 @@ t_list *input_reading_and_lexing(t_control *control)
 	//if (we decide to discard the hist no need to go to the lexer
 	if (history_decide_discard_new_link(control))
 		return (NULL);
-//	debug_history_list(control->history);
-	printf("ENTERING LEXER WITH: [%s]\n", control->history->head->content);
-	token_lst = lexer_root((char *)(control->history->head->content), control);
+//	debug_history_list(control->history)
+	printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
+	//token_lst = lexer_root((char *)(control->history->head->content), control);
 	return (token_lst);
 }
 
