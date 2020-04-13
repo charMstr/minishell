@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/04/13 22:20:43 by mli              ###   ########.fr       */
+/*   Updated: 2020/04/13 23:05:27 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 int		lexer_end(t_list *token_head, t_control *control)
 {
-	char	c;
 	t_token	*last;
 
+	if (token_head == NULL || (t_token *)(token_head->content) == NULL)
+		return (0);
 	last = (t_token *)(ft_lstlast(token_head)->content);
-	c = last->str[ft_strlen(str) - 1];
 	if (last->open_quote)
 		control->lexer_end.quote = 1;
-	else if (c == '\\')
+	else if (last->esc_next)
 		control->lexer_end.backslash = 1;
-	else if (last->id == AND || last->id == PIPE || last->id == OR_IF)
+	else if (last->id == AND_IF || last->id == PIPE || last->id == OR_IF)
 		control->lexer_end.other = 1;
 	else if (last->id == LBRACE || last->id == RBRACE || last->id == LESS ||
 			last->id == DLESS || last->id == GREAT || last->id == DGREAT)
