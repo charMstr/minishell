@@ -41,7 +41,9 @@ t_list *input_root_assist_and_prompt(t_control *control)
 {
 	t_list *tokens_lst;
 
-	while (!control->quit && !control->ctrl_c && !control->lexer_end.unexpected)
+	tokens_lst = NULL;
+	while (!tokens_lst && !control->quit && !control->ctrl_c \
+			&& !control->lexer_end.unexpected)
 	{
 		if (control->term->prompt_ps1)
 			ft_putstr_fd(control->term->ps1, 2);
@@ -49,10 +51,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 			ft_putstr_fd(control->term->ps2, 2);
 		if (!input_reset_term_struct(control))
 			return (NULL);
-		if ((tokens_lst = input_reading_and_lexing(control)))
-			break;
+		tokens_lst = input_reading_and_lexing(control);
 		control->term->prompt_ps1 = 0;
-	//	reset the line to NULL after each loop, even betwen PS1 and PS2
 		ft_free((void **)&(control->term->line));
 	}
 	if (control->lexer_end.unexpected)
@@ -103,6 +103,7 @@ t_list *input_reading_and_lexing(t_control *control)
 	ft_putchar_fd('\n', 1);
 	if (!input_check_for_stop_condition(control))
 		return (NULL);
+	printf("str: [%s]\n", control->term->line);
 	if (!hitstory_root(control, control->history))
 		return (NULL);
 	printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);

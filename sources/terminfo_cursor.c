@@ -92,13 +92,25 @@ int		terminfo_cursor_saved_reset(t_control *control)
 
 t_int_pair	terminfo_cursor_get_endl(t_control *control)
 {
-	t_int_pair cursor_end;
+	t_int_pair	cursor_end;
+	char		*str;
+	int i;
 
-	cursor_end.x = (control->term->cursor_start.x \
-			+ control->term->line_len) % control->term->size_window.x;
-	cursor_end.y = control->term->cursor_start.y \
-			+ ((control->term->line_len + control->term->prompt_len) \
-					/ control->term->size_window.x);
+	cursor_end = control->term->cursor_start;
+	str = control->term->line;
+	i = 0;
+	if (!control->term->line)
+		return (control->term->cursor_start);
+	while (str[i])
+	{
+		if (str[i] == '\n' || cursor_end.x == control->term->size_window.x - 1)
+		{
+			cursor_end.x= -1;
+			cursor_end.y++;
+		}
+		i++;
+		cursor_end.x++;
+	}
 	return (cursor_end);
 }
 

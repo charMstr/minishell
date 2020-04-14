@@ -7,58 +7,66 @@
 */
 
 /*
-** note:	this function will take care of adding the line we just got from
-**			the user's input to the current history's head link content.
-** note:	Do not free control->term->line here. it is done at the end of each
-**			prompt loop.
+** note:	this function is due for appending the last input to the current
+**			line of the history link. if there is a PS2: this is where the
+**			concatenation happens.
 **
 ** RETURN:	1 ok
-**			0 failure (the control->quit flag will be raised as well)
+**			0 something failed. (flag control->quit raised accordingly)
 */
 
-//for now just just append to history dumbly. but refer to fow-chart diagram.
-
-int	history_append_line(t_control *control, t_history *history)
+int	history_update_line(t_control *control, t_history *history)
 {
-	char *new;
+	char *current_hist;
+	char *str;
 
-	if (!control->term->line)
-		return (1);
-	if (!(new = ft_strjoin((char*)(history->head->content), \
-					control->term->line)))
+	current_hist = (char *)(history->head->content);
+	if (control->lexer_end.backslash)
+		current_hist[ft_strlen(current_hist) - 1] = '\0';
+	if (control->lexer_end.quote)
+	{
+		if (!history_update_line_quote(control, history))
+			return (0);
+	}
+	else
+	{
+		if (!(str = ft_strjoin_free(current_hist, control->term->line, 1)))
+		{
+			control->quit = 1;
+			return (0);
+		}
+		history->head->content = str;
+	}
+	return (1);
+}
+
+/*
+** note:	this function is in charge of appending the new input with the
+**			current history line, in the case we reprompted because of an open
+**			quote. therefore adding a '\n' in between the conctenation.
+** RETURN:	1 ok
+**			0 fialure, control->quit is raised
+*/
+
+int history_update_line_quote(t_control *control, t_history *history)
+{
+	char *str;
+
+	str = (char *)(history->head->content);
+	if (!(str = ft_strjoin_free(str, "\n", 1)))
 	{
 		control->quit = 1;
 		return (0);
 	}
-	free((char*)(history->head->content));
-	history->head->content = new;
+	if (!(str = ft_strjoin_free(str, control->term->line, 1)))
+	{
+		control->quit = 1;
+		free(str);
+		return (0);
+	}
+	history->head->content = str;
 	return (1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 ** note:	this function will decide if we discard the last link we created

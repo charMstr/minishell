@@ -36,11 +36,12 @@ t_list	*lexer_root(char *input, t_control *control)
 		ft_lstadd_back(&tokens_head, tokens_elem);
 		//debug_token_struct(new_token);
 	}
+	//HERE MLI INDICATIONS
 	//debug_tokens_list(tokens_head);
-	//ft_bzero(&control->lexer_end, sizeof(lexer_end));
+	ft_bzero(&control->lexer_end, sizeof(lexer_end));
 	if (!lexer_end(tokens_head, control))
 		ft_lstclear(&tokens_head, del_token);
-	//debug_lexer_flags(control);
+	debug_lexer_flags(control);
 	return (tokens_head);
 }
 

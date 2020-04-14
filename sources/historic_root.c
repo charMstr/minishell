@@ -20,19 +20,21 @@
 
 int		hitstory_root(t_control *control, t_history *history)
 {
-	// ne pas free line la dedans!!!
-	// this function will need more granularity/subfunctions depending
-	//on the previous returns of the flag.
-	if (!history_append_line(control, history))
+	if (!control->term->line)
+	{
+		if (!(control->term->line = ft_strdup("")))
+		{
+			control->quit = 1;
+			return (0);
+		}
+	}
+	if (!history_update_line(control, history))
 		return (0);
-	//if (we decide to discard the hist no need to go to the lexer
-	//we should therefore raise ctrl_c so that we get a new prompt.
 	if (history_decide_discard_new_link(control))
 		return (0);
 //	debug_history_list(control->history)
 	return (1);
 }
-
 
 /*
 ** note:	function to init the history stucture in control.
