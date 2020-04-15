@@ -5,31 +5,29 @@
 */
 
 /*
-** note:	this function will move the cursor to the right if possible
+** note:	this function will move the cursor to the right if possible.
+**			cases for going to the next line: we havent reached the end of the
+**			string, and we either reach the end of the line or a '\n'.
 */
 
 void	terminfo_cursor_move_right(t_control *control)
 {
-	char *caps;
+	char	*caps;
+	int		cur_line_end_index;
 
-	if (control->term->inline_position + 1 < control->term->line_len)
+	cur_line_end_index = terminfo_predict_current_line_end_index(control);
+	if (control->term->inline_position + 1 >= control->term->line_len)
+		return ;
+	if (control->term->inline_position + 1 == cur_line_end_index)
+		terminfo_cursor_move_diagonally_down(control);
+	else
 	{
-		if (control->term->cursor.x + 1 == control->term->size_window.x)
-		{
-			control->term->cursor.x = 0;
-			control->term->cursor.y++;
-			if (!(caps = terminfo_get_caps("ind", control)))
-				return ;
-		}
-		else
-		{
-			control->term->cursor.x++;
-			if (!(caps = terminfo_get_caps("cuf1", control)))
-				return ;
-		}
+		control->term->cursor.x++;
+		if (!(caps = terminfo_get_caps("cuf1", control)))
+			return ;
 		tputs(caps, 1, ft_putchar);
-		control->term->inline_position++;
 	}
+	control->term->inline_position++;
 }
 
 /*
@@ -38,65 +36,72 @@ void	terminfo_cursor_move_right(t_control *control)
 
 void	terminfo_cursor_move_left(t_control *control)
 {
-	char *caps;
+	char		*caps;
 
-	if (control->term->inline_position >= 0)
+	if (control->term->inline_position < 0)
+		return ;
+	if (control->term->cursor.x == 0)
+		terminfo_cursor_move_diagonally_up(control);
+	else
 	{
-		if (control->term->cursor.x == 0)
-		{
-			if (!terminfo_cursor_move_diagonally(control, 1))
-				return ;
-			control->term->cursor.x = control->term->size_window.x - 1;
-			control->term->cursor.y--;
-		}
-		else
-		{
-			if (!(caps = terminfo_get_caps("cub1", control)))
-				return ;
-			tputs(caps, 1, ft_putchar);
-			control->term->cursor.x--;
-		}
-		control->term->inline_position--;
+		if (!(caps = terminfo_get_caps("cub1", control)))
+			return ;
+		tputs(caps, 1, ft_putchar);
+		control->term->cursor.x--;
 	}
+	control->term->inline_position--;
 }
 
-
 /*
-** note:	this function just calls terminfo_cursor_move() to make a
-**			move diagonally.
-** input:	- diag:	1 for going up and right
-**					0 for down and left
-**			- control struct
+** note:	this function will call terminfo_cursor_move() and place the
+**			cursor at the end of the upper line. It will also update the
+**			control->term->cursor.
+** note:	if the cursor is already on the first line: do nothing
 **
 ** RETURN:	1 ok
-**			0 failed
+**			0 failure.
 */
 
-int	terminfo_cursor_move_diagonally(t_control *control, int diag)
+int	terminfo_cursor_move_diagonally_up(t_control *control)
+{
+	t_int_pair	previous_end;
+
+	if (control->term->cursor_start.y == control->term->cursor.y)
+		return (1);
+	previous_end = terminfo_predict_previous_line_cursor_end(control);
+	if (!terminfo_cursor_move(control, previous_end.x, previous_end.y))
+		return (0);
+	control->term->cursor = previous_end;
+	return (1);
+}
+
+/*
+** note:	this function will call terminfo_cursor_move() and place the cursor
+**			at the start of the next line. control->term->cursor is updatted
+**			accordingly.
+**
+** RETURN:	1 ok
+**			0 failure
+*/
+
+int	terminfo_cursor_move_diagonally_down(t_control *control)
 {
 	char *caps;
 
-	if (diag == 1)
+	if (control->term->cursor.y + 1 == control->term->size_window.y)
 	{
-		if (!terminfo_cursor_move(control, control->term->size_window.x - 1, \
-					control->term->cursor.y - 1))
+		if (!(caps = terminfo_edit_caps(control, "indn", 1)))
 			return (0);
-		return (1);
+		control->term->cursor_start.y--;
+		control->term->cursor_saved.y--;
+		control->term->cursor.y--;
+		tputs(caps, 1, ft_putchar);
 	}
-	else
-	{
-		if (control->term->cursor.y + 1 == control->term->size_window.y)
-		{
-			if (!(caps = terminfo_edit_caps(control, "indn", 1)))
-				return (0);
-			control->term->cursor_start.y--;
-			control->term->cursor_saved.y--;
-			tputs(caps, 1, ft_putchar);
-		}
-		if (!terminfo_cursor_move(control, 0, control->term->cursor.y + 1))
-			return (0);
-		return (1);
-	}
+	if (!terminfo_cursor_move(control, 0, control->term->cursor.y + 1))
+		return (0);
+	control->term->cursor.x = 0;
+	control->term->cursor.y += 1;
+	return (1);
 }
 
 /*
@@ -119,36 +124,5 @@ int	terminfo_cursor_move(t_control *control, int x, int y)
 		return (0);
 	}
 	tputs(caps, 1, ft_putchar);
-	return (1);
-}
-
-/*
-** note:	this function will position the cursor at the beginning or the end
-**			of the current line.
-** input:	- start: 1 for start, 0 for end
-**			- control struct
-**
-** RETURN:	1 ok
-**			0 failure
-*/
-
-int			terminfo_cursor_move_endl(t_control *control, int start)
-{
-	t_int_pair cursor_end;
-
-	if (start)
-	{
-		if(!terminfo_cursor_move(control, control->term->cursor_start.x, \
-					control->term->cursor_start.y))
-			return (0);
-		control->term->cursor = control->term->cursor_start;
-	}
-	else
-	{
-		cursor_end = terminfo_cursor_get_endl(control);
-		if (!terminfo_cursor_move(control, cursor_end.x, cursor_end.y))
-			return (0);
-		control->term->cursor = cursor_end;
-	}
 	return (1);
 }

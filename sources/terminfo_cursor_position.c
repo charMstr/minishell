@@ -79,8 +79,8 @@ void	terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
 int		terminfo_cursor_saved_reset(t_control *control)
 {
 	control->term->cursor = control->term->cursor_saved;
-	if(!terminfo_cursor_move(control, control->term->cursor_saved.x, \
-				control->term->cursor_saved.y))
+	if(!terminfo_cursor_move(control, control->term->cursor.x, \
+				control->term->cursor.y))
 		return (0);
 	return (1);
 }
@@ -112,28 +112,4 @@ t_int_pair	terminfo_cursor_get_endl(t_control *control)
 		cursor_end.x++;
 	}
 	return (cursor_end);
-}
-
-/*
-** note:	this function will refresh the screen from start of the line until
-**			the bottom of the screen.
-** note:	according to documentation, to use "ed" we need to be place on the
-**			index ZERO of the line.
-**
-** return:	0 failed (the control->quit flag is raised)
-**			1 ok
-*/
-
-int terminfo_refresh_screen_from_start(t_control *control)
-{
-	char *caps;
-
-	if (!terminfo_cursor_move(control, 0, control->term->cursor_start.y))
-		return (0);
-	if (!(caps = terminfo_get_caps("ed", control)))
-		return (0);
-	tputs(caps, 1, ft_putchar);
-	if (!terminfo_cursor_move_endl(control, 1))
-		return (0);
-	return (1);
 }

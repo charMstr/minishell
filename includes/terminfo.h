@@ -34,10 +34,6 @@
 # define CTRL_A_COMBO 0x01
 # define CTRL_E_COMBO 0x05
 
-
-//# include "structures.h"
-# include "../libft/libft.h"
-
 int			master_loop(t_control *control);
 
 void		control_init_struct(t_control *control);
@@ -48,6 +44,8 @@ t_list		*input_root_assist_and_prompt(t_control *control);
 int			input_reset_term_struct(t_control *control);
 t_list		*input_reading_and_lexing(t_control *control);
 int			input_check_for_stop_condition(t_control *control);
+
+int			input_read_line(t_term *term);
 
 int			termios_enable_raw_mode(struct termios *old);
 void		termios_reset_cooked_mode(struct termios *saved_copy);
@@ -63,14 +61,10 @@ char		*terminfo_get_caps(char *caps_id, t_control *control);
 char		*terminfo_edit_caps(t_control *control, char *caps_id, int param);
 
 int			terminfo_del_char(t_control *control);
-int			terminfo_del_and_move(t_control *control);
-int			terminfo_del_in_place(t_control *control);
-int			terminfo_del_char_cascade(t_control *control);
-int			terminfo_del_char_cascade_assist(t_control *control, char c);
-int			terminfo_del_get_index_for_cascade(t_control *control);
 
 int			terminfo_insert_char(t_control *control, char c);
 int			terminfo_insert_in_place(t_control *control, char c);
+int			terminfo_insert_newline(t_control *control);
 int			terminfo_insert_char_cascade(t_control *control);
 
 int			terminfo_cursor_get_pos(t_control *control, t_int_pair *curs);
@@ -81,20 +75,19 @@ int			terminfo_refresh_screen_from_start(t_control *control);
 
 void		terminfo_cursor_move_right(t_control *control);
 void		terminfo_cursor_move_left(t_control *control);
+int			terminfo_cursor_move_diagonally_up(t_control *control);
+int			terminfo_cursor_move_diagonally_down(t_control *control);
 int			terminfo_cursor_move(t_control *control, int x, int y);
-int			terminfo_cursor_move_diagonally(t_control *control, int diag);
+
+int			terminfo_cursor_track_position(t_control *control, int add);
+void		terminfo_cursor_move_up(t_control *control, t_int_pair *cursor);
+void		terminfo_cursor_move_down(t_control *control, t_int_pair *cursor);
 int			terminfo_cursor_move_endl(t_control *control, int start);
 
-void		terminfo_cursor_move_up(t_control *control);
-void		terminfo_cursor_move_down(t_control *control);
-int			terminfo_cursor_track_position(t_control *control, int add);
-int			terminfo_cursor_move_previous_word(t_control *control);
 int			terminfo_cursor_move_next_word(t_control *control);
 int			terminfo_cursor_find_next_word_start(t_control *control);
 int			terminfo_cursor_move_previous_word(t_control *control);
 int			terminfo_cursor_find_previous_word_start(t_control *control);
-
-int			input_read_line(t_term *term);
 
 void		read_root(t_control *control, int read_res, char c);
 int			read_get_esc_seq_id(t_term *term, char c);
@@ -105,7 +98,12 @@ void		read_process_del_char(t_control *control);
 void		read_process_add_char(t_control *control, char c);
 void		read_process_special_key(t_control *control, char c);
 void		read_process_special_key2(t_control *control, int i);
-
 void		read_process_control_combo(t_control *control, char c);
+
+int			terminfo_predict_current_line_len(t_control *control);
+int			terminfo_predict_current_line_end_index(t_control *control);
+int			terminfo_predict_current_line_start_index(t_control *control);
+t_int_pair	terminfo_predict_previous_line_cursor_end(t_control *control);
+int			terminfo_predict_next_line_len(t_control *control);
 
 #endif

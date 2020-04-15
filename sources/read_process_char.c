@@ -34,13 +34,13 @@ void	read_process_del_char(t_control *control)
 {
 	if (control->term->inline_position == -1)
 		return ;
-	if (!terminfo_del_char(control))
-		return ;
 	if (!ft_strcdel(&(control->term->line), control->term->inline_position))
 	{
 		control->quit = 1;
 		return ;
 	}
+	if (!terminfo_del_char(control))
+		return ;
 	control->term->inline_position--;
 	control->term->line_len--;
 }
@@ -71,9 +71,9 @@ void	read_process_special_key(t_control *control, char c)
 		else if (i == KEY_END_ID)
 			read_process_control_combo(control, CTRL_E_COMBO);
 		else if (i == KEY_UP_CTRL_ID)
-			terminfo_cursor_move_up(control);
+			terminfo_cursor_move_up(control, &control->term->cursor);
 		else if (i == KEY_DOWN_CTRL_ID)
-			terminfo_cursor_move_down(control);
+			terminfo_cursor_move_down(control, &control->term->cursor);
 		else if (i == KEY_RIGHT_CTRL_ID)
 			terminfo_cursor_move_next_word(control);
 		else if (i == KEY_LEFT_CTRL_ID)
@@ -92,4 +92,27 @@ void	read_process_special_key2(t_control *control, int i)
 		history_search(control, 1);
 	else if (i == KEY_DOWN_ID)
 		history_search(control, 0);
+}
+
+/*
+** note:	this is the root function for adding special features when the user
+**			uses a ctrl + letter combinaison.
+** note:	the flags like control->quit wil have to be raised in case of error
+*/
+
+void	read_process_control_combo(t_control *control, char c)
+{
+	if (c == CTRL_A_COMBO)
+	{
+		if (!terminfo_cursor_move_endl(control, 1))
+			return ;
+		control->term->inline_position = -1;
+		control->term->cursor = control->term->cursor_start;
+	}
+	else if (c == CTRL_E_COMBO)
+	{
+		if (!terminfo_cursor_move_endl(control, 0))
+			return ;
+		control->term->inline_position = control->term->line_len -1;
+	}
 }

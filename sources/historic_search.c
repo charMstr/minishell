@@ -17,6 +17,8 @@ void	history_search(t_control *control, int direction)
 	cursor_end = terminfo_cursor_get_endl(control);
 	if (!terminfo_refresh_screen_from_start(control))
 		return ;
+	if (!terminfo_cursor_move_endl(control, 1))
+		return ;
 	if (!history_terminfo_reset_cursor(control, &cursor_end))
 		return ;
 	if (control->term->prompt_ps1)

@@ -103,15 +103,15 @@ SRC_FILES =	main\
 			termios_utils\
 			terminfo_utils\
 			terminfo_utils2\
-			terminfo_cursor\
+			terminfo_cursor_position\
 			terminfo_cursor_move\
 			terminfo_cursor_move2\
 			terminfo_cursor_move3\
 			terminfo_del_character\
 			terminfo_insert_character\
+			terminfo_predict_size\
 			read_root\
 			read_process_char\
-			read_process_control_combo\
 			historic_root\
 			historic_update\
 			historic_utils\

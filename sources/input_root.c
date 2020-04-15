@@ -103,10 +103,9 @@ t_list *input_reading_and_lexing(t_control *control)
 	ft_putchar_fd('\n', 1);
 	if (!input_check_for_stop_condition(control))
 		return (NULL);
-	printf("str: [%s]\n", control->term->line);
 	if (!hitstory_root(control, control->history))
 		return (NULL);
-	printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
+	//printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
 	token_lst = lexer_root((char *)(control->history->head->content), control);
 	return (token_lst);
 }

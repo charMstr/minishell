@@ -13,59 +13,63 @@
 **			control->quit will be raised then caught getting out
 */
 
-void	terminfo_cursor_move_up(t_control *control)
+void	terminfo_cursor_move_up(t_control *control, t_int_pair *cursor)
 {
-	control->term->cursor_saved = control->term->cursor;
-	if (control->term->cursor.y > control->term->cursor_start.y)
+	t_int_pair	previous_end;
+	int			current_len;
+
+	current_len = terminfo_predict_current_line_len(control);
+	if (cursor->y <= control->term->cursor_start.y)
+		return ;
+	previous_end = terminfo_predict_previous_line_cursor_end(control);
+	if (cursor->y == control->term->cursor_start.y + 1 \
+			&& cursor->x < control->term->prompt_len)
+		read_process_control_combo(control, CTRL_A_COMBO);
+	else if (cursor->x > previous_end.x)
 	{
-		if (control->term->inline_position < control->term->size_window.x)
-		{
-			control->term->cursor.x = control->term->cursor_start.x;
-			read_process_control_combo(control, CTRL_A_COMBO);
-		}
-		else
-		{
-			terminfo_cursor_move(control, control->term->cursor.x, \
-						control->term->cursor.y - 1);
-			control->term->inline_position -= control->term->size_window.x;
-		}
-		control->term->cursor.y = control->term->cursor_saved.y - 1;
+		terminfo_cursor_move(control, previous_end.x, previous_end.y);
+		control->term->inline_position -= cursor->x + 1;
+		*cursor = previous_end;
+	}
+	else
+	{
+		terminfo_cursor_move(control, cursor->x, cursor->y - 1);
+		control->term->inline_position -= cursor->x \
+										+ (previous_end.x - cursor->x) + 1;
+		cursor->y--;
 	}
 }
 
 /*
 ** note:	This function will take care of moving the cursor down if possible.
-**			We cant go lower than the last cursor position.
+**			We cant go lower than the last line cursor position.
 ** note:	It will update accordingly the control->term->inline_position.
 **
 ** note:	As always if a problem occured the control->quit flag is raised.
 */
 
-void	terminfo_cursor_move_down(t_control *control)
+void	terminfo_cursor_move_down(t_control *control, t_int_pair *cursor)
 {
-	t_int_pair cursor_end;
+	t_int_pair	cursor_end;
+	int			len_next;
+	int			current_len;
 
-	control->term->cursor_saved = control->term->cursor;
-	cursor_end.x = (control->term->cursor_start.x \
-			+ control->term->line_len) % control->term->size_window.x;
-	cursor_end.y = control->term->cursor_start.y \
-			+ ((control->term->line_len + control->term->prompt_len) \
-					/ control->term->size_window.x);
-	if (control->term->cursor.y < cursor_end.y)
+	len_next = terminfo_predict_next_line_len(control);
+	cursor_end = terminfo_cursor_get_endl(control);
+	current_len = terminfo_predict_current_line_len(control);
+	if (cursor->y >= cursor_end.y)
+		return ;
+	if (cursor->x >= len_next - 1)
 	{
-		if ((control->term->cursor.y == cursor_end.y - 1) \
-				&& (control->term->cursor.x > cursor_end.x))
-		{
-			read_process_control_combo(control, CTRL_E_COMBO);
-			control->term->cursor.x = cursor_end.x;
-		}
-		else
-		{
-			terminfo_cursor_move(control, control->term->cursor.x, \
-						control->term->cursor.y + 1);
-			control->term->inline_position += control->term->size_window.x;
-		}
-		control->term->cursor.y = control->term->cursor_saved.y + 1;
+		terminfo_cursor_move(control, len_next - 1, ++(cursor->y));
+		control->term->inline_position += current_len - cursor->x + len_next \
+										  - 1;
+		cursor->x = len_next - 1;
+	}
+	else
+	{
+		terminfo_cursor_move(control, cursor->x, ++(cursor->y));
+		control->term->inline_position += current_len;
 	}
 }
 
@@ -89,27 +93,54 @@ int	terminfo_cursor_track_position(t_control *control, int add)
 {
 	if (add)
 	{
-		control->term->cursor.x++;
-		if (control->term->cursor.x == control->term->size_window.x)
+		if (control->term->cursor.x + 1 == control->term->size_window.x)
 		{
-			control->term->cursor.x = 0;
-			if (!terminfo_cursor_move_diagonally(control, 0))
+			if (!terminfo_cursor_move_diagonally_down(control))
 				return (0);
-			if (control->term->cursor.y + 1 != control->term->size_window.y)
-				control->term->cursor.y++;
 		}
+		else
+			control->term->cursor.x++;
 	}
 	else
 	{
 		if (control->term->cursor.x == 0)
 		{
-			if (!terminfo_cursor_move_diagonally(control, 1))
+			if (!terminfo_cursor_move_diagonally_up(control))
 				return (0);
-			control->term->cursor.x = control->term->size_window.x - 1;
-			control->term->cursor.y--;
 		}
 		else
 			control->term->cursor.x--;
+	}
+	return (1);
+}
+
+/*
+** note:	this function will position the cursor at the beginning or the end
+**			of the current line.
+** input:	- start: 1 for start, 0 for end
+**			- control struct
+**
+** RETURN:	1 ok
+**			0 failure
+*/
+
+int			terminfo_cursor_move_endl(t_control *control, int start)
+{
+	t_int_pair cursor_end;
+
+	if (start)
+	{
+		if(!terminfo_cursor_move(control, control->term->cursor_start.x, \
+					control->term->cursor_start.y))
+			return (0);
+		control->term->cursor = control->term->cursor_start;
+	}
+	else
+	{
+		cursor_end = terminfo_cursor_get_endl(control);
+		if (!terminfo_cursor_move(control, cursor_end.x, cursor_end.y))
+			return (0);
+		control->term->cursor = cursor_end;
 	}
 	return (1);
 }
