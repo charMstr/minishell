@@ -82,6 +82,8 @@ int			terminfo_cursor_move(t_control *control, int x, int y);
 int			terminfo_cursor_track_position(t_control *control, int add);
 void		terminfo_cursor_move_up(t_control *control, t_int_pair *cursor);
 void		terminfo_cursor_move_down(t_control *control, t_int_pair *cursor);
+void		terminfo_cursor_move_down_assist(t_control *control, \
+		t_int_pair *cursor, int current_len);
 int			terminfo_cursor_move_endl(t_control *control, int start);
 
 int			terminfo_cursor_move_next_word(t_control *control);
