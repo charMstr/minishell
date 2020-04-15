@@ -63,28 +63,17 @@ void	terminfo_cursor_move_down(t_control *control, t_int_pair *cursor)
 	{
 		cursor->y++;
 		if (cursor->y == cursor_end.y && cursor->x >= len_next)
-			read_process_control_combo(control, CTRL_E_COMBO);
-		else
-		{
-			terminfo_cursor_move(control, len_next - 1, cursor->y);
-			control->term->inline_position += current_len - cursor->x \
-												+ len_next - 1;
-			cursor->x = len_next - 1;
-		}
+			len_next++;
+		terminfo_cursor_move(control, len_next - 1, cursor->y);
+		control->term->inline_position += current_len - cursor->x \
+											+ len_next - 1;
+		cursor->x = len_next - 1;
 	}
 	else
-		terminfo_cursor_move_down_assist(control, cursor, current_len);
-}
-
-/*
-** note: just for the norme. belongs to terminfo_cursor_move_down()'s logic.
-*/
-
-void	terminfo_cursor_move_down_assist(t_control *control, \
-		t_int_pair *cursor, int current_len)
-{
-	terminfo_cursor_move(control, cursor->x, ++(cursor->y));
-	control->term->inline_position += current_len;
+	{
+		terminfo_cursor_move(control, cursor->x, ++(cursor->y));
+		control->term->inline_position += current_len;
+	}
 }
 
 /*
