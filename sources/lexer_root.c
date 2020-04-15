@@ -25,8 +25,9 @@ t_list	*lexer_root(char *input, t_control *control)
 	tokens_head = NULL;
 	while (input[i])
 	{
+		tokens_elem = NULL;
 		if ((!(new_token = lexer_build_next_token(input, &i, control)) &&
-		control->quit) || !(tokens_elem = ft_lstnew(new_token)))
+		control->quit) || (new_token && !(tokens_elem = ft_lstnew(new_token))))
 		{
 			control->quit = 1;
 			del_token(new_token);
