@@ -1,0 +1,97 @@
+/*
+   ctrl_K start copie, end copie
+   ctrl_L cut
+   ctrl_P print
+   right/left arrow highlight more/less text.
+   any other key_stroke: refresh screen and end the highlight, AND process the
+   key_stroke normally.
+
+
+1). ajouter une structure dans control->term		OK
+
+typedef struct		s_clipboard
+{
+	int				highlight;			//activated with ctrl_k for visual select
+	int				start;
+	int				end; //note:	the index start and end are inclusive.
+	char			*paste_me;
+}					t_clipboard;
+
+2). ajouter une fonction qui l'initialise.									OK
+
+3). verifier que c'est bien free a la fin du programme. OK
+
+4a). dand le while avant chaque prompt , reset le highlight a zero.			OK
+4b). ajouter un define pour les control__k , v et x. OK
+
+5). dans read_dispatch_for_processing() ajouter 3 if au tout debut.
+
+a)	- if highlight is on.													OK
+		if (character is not ctrl_k, ctrl_x, ou fleche gauche ou droite)
+			on sort et on continue en desactivant le mode highlight au passage.
+			il faut faire une fonction qui fait en sorte que le highlight
+			disparaissse une bonne fois pour toute.
+		else
+			sinon on reste en mode highlight et on utilise une fonction root
+			qui va tout gerer. Dans ce cas on RETURN.
+a.bis). bien desactiver le highlight quand on a ctrl_k ou CTRL_V			NOT YET
+
+b)	- if (c == ctrl_k)														OK
+		activer le mode highlight;
+		set start et end dans la structure.
+		free le paste_me et redemarer avec le char en cours.
+
+c)	- else if (ctrl_v) //peut etre range dans if(!ft_isprint(c)) en fait...
+		traiter le crtl_v, et ne rien faire si le clipboard est vide/NULL.
+
+	else if (c = ).... la suite normale du code deja existant.				OK
+
+6) terminfo_highlight_root(t_control *control, char c),						OK
+	En entrant dans cette fonction, on sait:
+		- que on est deja en mode highlight, car ctrl_k avait ete active
+		precedement.
+		- on a pas appuyer sur une touche autre que ctrl_k (finir la copie:
+		donc copier), ctrl_x (copier mais aussi couper au passage.) fleche de
+		gauche ou de droite pour bouger et a chaque fois faire surbriller le
+		character qui se situe dessous le curseur.
+
+7) essayer de gerer les fleches dasn un premier temps.						OK
+	- appeler cursor_move_right et left, et en plus reafficher le charactere en
+	lieu et place.
+	- update le start et end de la structure.
+
+7b) edit: le char * est mis a jour quand on exit le highlight mode, grace a une
+	fonction																OK
+
+8) quand les felches fonctionnent. maintenir a jour un char * (clipboard)	OK
+ qui contiendra toujours la bonne string. seulement free cettre string quand on
+ la remplace par une autre. si end = start, on doit toujours avoir 1 character
+ a copier (celui qui est surligne!
+
+ 9) au final ctrl_k de nouveau, va juster desactiver le mode highlight.		OK
+ 	a ce momement la la string est update.
+
+ 10) bien penser a remettre le mode highlight a zero avant chaque prompt.	OK
+
+12) ctrl_x la fonction qui comme ctrl_k va desactiver le mode highlight.	OK
+cependant il faudra aller retirer tout la partie selectionnnee de la line
+	- sauvegarder la position du curseur (start pas end!)
+	- aller supprimer dans la string toute les partie selectionnee (on a les
+	index start et end).
+	- refresh le screen et reprompt , puis reafficher la line, puis
+	- repositionner le curseur. a start.
+
+ 11) quand fleches ok, et char * ok. passer a la fonction qui va coller: CTRL_V
+ Coller veut dire inserer du texte: update la vrai string, et bouger le curseur.
+ Au passage rafraichir l'ecran, peut etre en profiter pour alleger le code qui
+ ecrit a l'ecran en faisant tout fonctionner pareil? ...
+ en tout cas:
+ 	- suaver la position du curseur.
+ 	- update la vrai string.
+	- calculer la taille total du texte une fois la nouvelle string update.
+	- si la taille totale plus grande et atteint le bas de l'ecran -> shifter
+	 l'ecran vers le haut.
+	- reprint toute la nouvelle string en partant du debut.
+	- repositionner le curseur a position du debut (beaucoup simple, sinon on
+	peut dans un deuxieme temps s'embeter a deviner la position finale du curseur
+	a la suite du texte coller.

@@ -19,8 +19,6 @@ int			history_add_new_link(t_control *control);
 
 void		history_search(t_control *control, int direction);
 int			history_swap_line_in_term_struct(t_control *control, int up);
-int			history_terminfo_reset_cursor(t_control *control, t_int_pair \
-			*cursor_end);
 
 int 		history_update_line_quote(t_control *control, t_history *history);
 int			history_update_line(t_control *control, t_history *history);

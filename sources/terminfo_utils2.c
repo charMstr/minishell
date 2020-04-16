@@ -96,8 +96,11 @@ char *terminfo_get_caps(char *caps_id, t_control *control)
 /*
 ** note:	this function will refresh the screen from start of the line until
 **			the bottom of the screen.
+**
 ** note:	according to documentation, to use "ed" we need to be place on the
 **			index ZERO of the line.
+** note:	the cursor's position is saved and restaured. the prompt and the
+**			line are redrawned.
 **
 ** return:	0 failed (the control->quit flag is raised)
 **			1 ok
@@ -107,10 +110,46 @@ int terminfo_refresh_screen_from_start(t_control *control)
 {
 	char *caps;
 
+	control->term->cursor_saved = control->term->cursor;
+	if (!terminfo_update_bottom_screen_and_cursor(control))
+		return (0);
 	if (!terminfo_cursor_move(control, 0, control->term->cursor_start.y))
 		return (0);
 	if (!(caps = terminfo_get_caps("ed", control)))
 		return (0);
 	tputs(caps, 1, ft_putchar);
+	if (control->term->prompt_ps1)
+		ft_putstr_fd(control->term->ps1, 2);
+	else
+		ft_putstr_fd(control->term->ps2, 2);
+	ft_putstr_fd(control->term->line, 1);
+	if (!(terminfo_cursor_saved_reset(control)))
+		return (0);
+	return (1);
+}
+
+/*
+** note:	this function is called when refreshing the screen. we compare the
+**			cursor_end.y with the window height. Depending on the result, we
+**			shift the screen up, and we update accordingly the related var.
+**
+** RETURN:	1 ok
+**			0 failure
+*/
+
+int	terminfo_update_bottom_screen_and_cursor(t_control *control)
+{
+	t_int_pair cursor_end;
+	char *caps;
+
+	cursor_end = terminfo_cursor_get_endl(control);
+	if (!(caps = terminfo_get_caps("ind", control)))
+		return (0);
+	while (cursor_end.y >= control->term->size_window.y)
+	{
+		cursor_end.y--;
+		control->term->cursor_start.y--;
+		tputs(caps, 1, ft_putchar);
+	}
 	return (1);
 }

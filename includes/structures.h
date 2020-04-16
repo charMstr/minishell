@@ -16,6 +16,16 @@ typedef struct		s_dlist
 	struct s_dlist	*next;
 }					t_dlist;
 
+//structure for the clipboard (copy, cut, paste)
+typedef struct		s_clipboard
+{
+	int				highlight;			//activated with ctrl_k for visual select
+	int				start;
+	int				end; //note:	the index start and end are inclusive.
+	int				swaped_end;
+	char			*paste_me;
+}					t_clipboard;
+
 //structure that contains date regardig the terminal, helpful for the termcaps.
 typedef struct		s_term
 {
@@ -32,6 +42,7 @@ typedef struct		s_term
 	int				prompt_len;
 	char			**array_esc_seq;
 	t_dlist			*current_history_link;
+	t_clipboard		clipboard;
 }					t_term;
 
 typedef struct		s_history

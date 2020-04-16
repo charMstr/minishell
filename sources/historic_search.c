@@ -5,7 +5,11 @@
 */
 
 /*
-** note:
+** note:	this function swaps the current line with a line in history if
+**			possible. The screen is redrawn from start, and if estimated number
+**			of lines is bigger that the place we have from current start
+**			position until bottom of screen the screen and the saved cursor
+**			related are shifted accordingly.
 */
 
 void	history_search(t_control *control, int direction)
@@ -14,18 +18,9 @@ void	history_search(t_control *control, int direction)
 
 	if (!history_swap_line_in_term_struct(control, direction))
 		return ;
-	cursor_end = terminfo_cursor_get_endl(control);
 	if (!terminfo_refresh_screen_from_start(control))
 		return ;
-	if (!terminfo_cursor_move_endl(control, 1))
-		return ;
-	if (!history_terminfo_reset_cursor(control, &cursor_end))
-		return ;
-	if (control->term->prompt_ps1)
-		ft_putstr_fd(control->term->ps1, 2);
-	else
-		ft_putstr_fd(control->term->ps2, 2);
-	ft_putstr_fd(control->term->line, 1);
+	cursor_end = terminfo_cursor_get_endl(control);
 	control->term->cursor = cursor_end;
 	terminfo_cursor_move(control, cursor_end.x, cursor_end.y);
 }
@@ -64,31 +59,5 @@ int	history_swap_line_in_term_struct(t_control *control, int up)
 	control->term->current_history_link = new_link;
 	control->term->line_len = ft_strlen((char*)(new_link->content));
 	control->term->inline_position = control->term->line_len - 1;
-	return (1);
-}
-
-/*
-** note:	this function will totally reset the cursor at the new correct
-**			place according to the new line's length.
-**			if cursor_end is too low, everything gets shifted upwards.
-**
-** RETURN:	1 OK
-**			0 failure.
-*/
-
-int	history_terminfo_reset_cursor(t_control *control, t_int_pair *cursor_end)
-{
-	char *caps;
-
-	if (!(caps = terminfo_get_caps("ind", control)))
-		return (0);
-	while (cursor_end->y >= control->term->size_window.y)
-	{
-		cursor_end->y--;
-		control->term->cursor_start.y--;
-		tputs(caps, 1, ft_putchar);
-	}
-	if (!terminfo_cursor_move(control, 0, control->term->cursor_start.y))
-		return (0);
 	return (1);
 }

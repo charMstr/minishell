@@ -36,6 +36,27 @@ void	read_root(t_control *control, int read_res, char c)
 }
 
 /*
+** note:	this function is started if we read the character 27. we need to
+**			differenciate the case when it is actually the 'esc' key or a
+**			termcap sequence representing a special key. The c value is
+**			remaped starting from 128. Then we can recognize a left/right arrow
+**			at this stage and use it for the copy/paste functions.
+**
+** return: a remap value starting from 128.
+*/
+
+int	read_remap_esc_sequence_from_128(t_control *control, int c)
+{
+	c = read_get_esc_seq_id(control->term, c) + 128;
+	if (c == -1)
+	{
+		control->quit = 1;
+		return (0);
+	}
+	return (c);
+}
+
+/*
 ** note:	this function will analyse the char we read and act accordingly
 **			ethier moving the cursor etc, or appending/inserting the new char
 **			to the current line (in control->term->line)
@@ -45,23 +66,42 @@ void	read_root(t_control *control, int read_res, char c)
 **			-	count: the updated number of written characters since prompt.
 */
 
-void	read_dispatch_for_processing(t_control *control, char c)
+void	read_dispatch_for_processing(t_control *control, int c)
 {
 	//debug_value_char(c);
-	if (c == 27)
+	if (c == 27 && !(c = read_remap_esc_sequence_from_128(control, c)))
+			return ;
+	if (control->term->clipboard.highlight)
+	{
+		if (c != KEY_LEFT_ID && c != KEY_RIGHT_ID && c != CTRL_K_COMBO \
+				&& c != CTRL_L_COMBO)
+			terminfo_clipboard_copy_end(control, &control->term->clipboard);
+		else
+		{
+			terminfo_clipboard_dispatch_action(control, c);
+			return ;
+		}
+	}
+	if (c == CTRL_K_COMBO)
+		terminfo_clipboard_copy_start(control, &control->term->clipboard);
+	else if (c >= 128)
 		read_process_special_key(control, c);
 	else if (c == 127)
 		read_process_del_char(control);
 	else if (!ft_isprint(c))
 		read_process_control_combo(control, c);
-	/*
 	else if (c == 'g')
 	{
+		debug_start();
+		debug_clipboard_struct(control->term->clipboard);
+		debug_end();
+		/*
+		printf("\ninline_position: [%d]\n", control->term->inline_position);
 		terminfo_cursor_get_pos(control, &(control->term->cursor));
 		debug_cursor(&(control->term->cursor));
-		debug_term_size();
+		//debug_term_size();
+		*/
 	}
-	*/
 	else
 		read_process_add_char(control, c);
 }
@@ -165,7 +205,7 @@ int	read_need_to_stop(t_control *control, char c, int res)
 **			-1 if failure
 */
 
-int	read_get_esc_seq_id(t_term *term, char c)
+int	read_get_esc_seq_id(t_term *term, int c)
 {
 	int res_read;
 	char *str;

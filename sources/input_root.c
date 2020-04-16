@@ -45,6 +45,7 @@ t_list *input_root_assist_and_prompt(t_control *control)
 	while (!tokens_lst && !control->quit && !control->ctrl_c \
 			&& !control->lexer_end.unexpected)
 	{
+		control->term->clipboard.highlight = 0;
 		if (control->term->prompt_ps1)
 			ft_putstr_fd(control->term->ps1, 2);
 		else
@@ -98,6 +99,8 @@ t_list *input_reading_and_lexing(t_control *control)
 
 	token_lst = NULL;
 	read_root(control, 0, 0);
+	if (!terminfo_clipboard_disable_highlight(control))
+		return (NULL);
 	if (!terminfo_cursor_move_endl(control, 0))
 		return (NULL);
 	ft_putchar_fd('\n', 1);

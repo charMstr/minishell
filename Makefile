@@ -110,6 +110,8 @@ SRC_FILES =	main\
 			terminfo_del_character\
 			terminfo_insert_character\
 			terminfo_predict_size\
+			terminfo_clipboard_root\
+			terminfo_clipboard_action\
 			read_root\
 			read_process_char\
 			historic_root\
