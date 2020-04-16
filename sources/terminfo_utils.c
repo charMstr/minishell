@@ -41,6 +41,7 @@ t_term	*terminfo_init_struct(void)
 
 	if (!(term = (t_term *)malloc(sizeof(t_term))))
 		return (NULL);
+	term->clipboard.paste_me = NULL;
 	term->line = NULL;
 	term->line_len = 0;
 	term->inline_position = 0;
@@ -74,6 +75,7 @@ void 	*terminfo_free_struct(t_term *term)
 	free(term->ps2);
 	ft_array_free(term->array_esc_seq, \
 			ft_array_len(term->array_esc_seq));
+	ft_free((void **)&term->clipboard.paste_me);
 	free(term);
 	return (NULL);
 }

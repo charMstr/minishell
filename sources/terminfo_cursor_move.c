@@ -8,48 +8,62 @@
 ** note:	this function will move the cursor to the right if possible.
 **			cases for going to the next line: we havent reached the end of the
 **			string, and we either reach the end of the line or a '\n'.
+**
+** RETURN:	1 ok
+**			0, failure
 */
 
-void	terminfo_cursor_move_right(t_control *control)
+int	terminfo_cursor_move_right(t_control *control)
 {
 	char	*caps;
 	int		cur_line_end_index;
 
 	cur_line_end_index = terminfo_predict_current_line_end_index(control);
 	if (control->term->inline_position + 1 >= control->term->line_len)
-		return ;
+		return (1);
 	if (control->term->inline_position + 1 == cur_line_end_index)
-		terminfo_cursor_move_diagonally_down(control);
+	{
+		if (!terminfo_cursor_move_diagonally_down(control))
+			return (0);
+	}
 	else
 	{
 		control->term->cursor.x++;
 		if (!(caps = terminfo_get_caps("cuf1", control)))
-			return ;
+			return (0);
 		tputs(caps, 1, ft_putchar);
 	}
 	control->term->inline_position++;
+	return (1);
 }
 
 /*
 ** note:	this function will move the cursor to the left if possible
+**
+** RETURN:	1 ok
+**			0 ko
 */
 
-void	terminfo_cursor_move_left(t_control *control)
+int	terminfo_cursor_move_left(t_control *control)
 {
 	char		*caps;
 
 	if (control->term->inline_position < 0)
-		return ;
+		return (1);
 	if (control->term->cursor.x == 0)
-		terminfo_cursor_move_diagonally_up(control);
+	{
+		if (!terminfo_cursor_move_diagonally_up(control))
+			return (0);
+	}
 	else
 	{
 		if (!(caps = terminfo_get_caps("cub1", control)))
-			return ;
+			return (0);
 		tputs(caps, 1, ft_putchar);
 		control->term->cursor.x--;
 	}
 	control->term->inline_position--;
+	return (1);
 }
 
 /*

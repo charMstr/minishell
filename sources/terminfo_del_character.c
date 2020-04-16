@@ -16,18 +16,9 @@
 
 int		terminfo_del_char(t_control *control)
 {
-
 	if (!terminfo_cursor_track_position(control, 0))
 		return (0);
-	control->term->cursor_saved = control->term->cursor;
 	if (!terminfo_refresh_screen_from_start(control))
-		return (0);
-	if (control->term->prompt_ps1)
-		ft_putstr_fd(control->term->ps1, 2);
-	else
-		ft_putstr_fd(control->term->ps2, 2);
-	ft_putstr_fd(control->term->line, 1);
-	if (!(terminfo_cursor_saved_reset(control)))
 		return (0);
 	return (1);
 }

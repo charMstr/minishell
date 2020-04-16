@@ -17,15 +17,17 @@
 # include <termios.h>
 
 # include "structures.h"
+
+//remove me when done.
+# include "debug_terminfo.h"
+# include "debug_minishell.h"
+
 # include "lexing.h"
 # include "builtin.h"
 # include "parser.h"
 # include "terminfo.h"
 # include "historic.h"
 
-//remove me when done.
-# include "debug_terminfo.h"
-# include "debug_minishell.h"
 
 
 # define BUFFER_SIZE 32

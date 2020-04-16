@@ -96,3 +96,17 @@ void	debug_term_struct(t_term *term)
 	printf("------------------------------------------------------------\n\n");
 	debug_end();
 }
+
+//debugs the clipboard
+void	debug_clipboard_struct(t_clipboard clip)
+{
+	debug_start();
+	printf("\n\n-----------------------------------------------------------\n");
+	printf("--------------------- CLIPBOARD DEBUG ----------------------\n");
+	printf("highlight: [%d]\n", clip.highlight);
+	printf("start: [%d]\n", clip.start);
+	printf("end: [%d]\n", clip.end);
+	printf("paste_me: [%s]\n", clip.paste_me);
+	printf("-----------------------------------------------------------\n");
+	debug_end();
+}

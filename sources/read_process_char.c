@@ -53,15 +53,8 @@ void	read_process_del_char(t_control *control)
 **			-	c: the '\033' sequence.
 */
 
-void	read_process_special_key(t_control *control, char c)
+void	read_process_special_key(t_control *control, int i)
 {
-		int i;
-
-		if (-1 == (i = read_get_esc_seq_id(control->term, c)))
-		{
-			control->quit = 1;
-			return;
-		}
 		if (i == KEY_RIGHT_ID)
 			terminfo_cursor_move_right(control);
 		else if (i == KEY_LEFT_ID)
@@ -78,20 +71,10 @@ void	read_process_special_key(t_control *control, char c)
 			terminfo_cursor_move_next_word(control);
 		else if (i == KEY_LEFT_CTRL_ID)
 			terminfo_cursor_move_previous_word(control);
-		else
-			read_process_special_key2(control, i);
-}
-
-/*
-** note:	see number one for man.
-*/
-
-void	read_process_special_key2(t_control *control, int i)
-{
-	if (i == KEY_UP_ID)
-		history_search(control, 1);
-	else if (i == KEY_DOWN_ID)
-		history_search(control, 0);
+		else if (i == KEY_UP_ID)
+			history_search(control, 1);
+		else if (i == KEY_DOWN_ID)
+			history_search(control, 0);
 }
 
 /*
