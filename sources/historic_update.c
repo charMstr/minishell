@@ -87,7 +87,7 @@ int	history_decide_discard_new_link(t_control *control)
 	int len;
 
 	str = (char *)(control->history->head->content);
-	if (!str || !(len = ft_strlen(str)))
+	if (!str || !(len = ft_strlen(str)) || control->ctrl_c)
 	{
 		control->history->size--;
 		ft_dlstpop_front(&control->history->head, history_del_content);

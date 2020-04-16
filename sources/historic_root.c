@@ -18,7 +18,7 @@
 **			0 stop
 */
 
-int		hitstory_root(t_control *control, t_history *history)
+int		history_root(t_control *control, t_history *history)
 {
 	if (!control->term->line)
 	{

@@ -104,25 +104,11 @@ t_list *input_reading_and_lexing(t_control *control)
 	if (!terminfo_cursor_move_endl(control, 0))
 		return (NULL);
 	ft_putchar_fd('\n', 1);
-	if (!input_check_for_stop_condition(control))
+	if (control->quit)
 		return (NULL);
-	if (!hitstory_root(control, control->history))
+	if (!history_root(control, control->history))
 		return (NULL);
 	//printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
 	token_lst = lexer_root((char *)(control->history->head->content), control);
 	return (token_lst);
-}
-
-/*
-** note:	this function will catch the raised flags
-**
-** RETURN:	1 ok
-**			0 either crl_c or quit was raised
-*/
-
-int	input_check_for_stop_condition(t_control *control)
-{
-	if (control->quit || control->ctrl_c)
-		return (0);
-	return (1);
 }

@@ -68,7 +68,6 @@ int	read_remap_esc_sequence_from_128(t_control *control, int c)
 
 void	read_dispatch_for_processing(t_control *control, int c)
 {
-	//debug_value_char(c);
 	if (c == 27 && !(c = read_remap_esc_sequence_from_128(control, c)))
 			return ;
 	if (control->term->clipboard.highlight)
@@ -90,74 +89,9 @@ void	read_dispatch_for_processing(t_control *control, int c)
 		read_process_del_char(control);
 	else if (!ft_isprint(c))
 		read_process_control_combo(control, c);
-	else if (c == 'g')
-	{
-		debug_start();
-		debug_clipboard_struct(control->term->clipboard);
-		debug_end();
-		/*
-		printf("\ninline_position: [%d]\n", control->term->inline_position);
-		terminfo_cursor_get_pos(control, &(control->term->cursor));
-		debug_cursor(&(control->term->cursor));
-		//debug_term_size();
-		*/
-	}
 	else
 		read_process_add_char(control, c);
 }
-
-/*
-		//debug_value_char(c);
-		if (c == 127)//trying to del
-		{
-				//char *caps = tigetstr("cud");
-				//tputs(tparm(caps, 1), 1, ft_putchar);
- //erase the whole line. cursor does not move:
- //if there is a line under, it just gets shifted up as is:
-				//ft_putstr_fd("\033[M", 1);
- //erase in place (exactly like the 'delete==>' key would do)
- //whatever was on the right gets shifted to the left 1 column. (BUT NOT WHAT ON THE NEXT LINE)
- // ===> combined with a left move of the cursor first,  [THIS IS THE ONE]			++++++
-				//char *caps = tigetstr("cub1");
-				//tputs(caps, 1, ft_putchar);
-				//ft_putstr_fd("\033[P", 1); or its equivalent:
-				// 	char *caps = tigetstr("dch");
-				//	tputs(tparm(caps, 1), 1, ft_putchar);
- //erase everything from the cursor to the bottom of the screen (the end of the line as well ;) )
-				//ft_putstr_fd("\033[J", 1);
- //erase everything from the cursor postion until the end of the line (but not the next one)
-				//ft_putstr_fd("\033[K", 1);
- //erase everything from the cursor postion(included) until the BEGINING of the line:
-				//ft_putstr_fd("\033[1K", 1);
-
- //insert a blank line in position and shift the curent line and under downards
-				//ft_putstr_fd("\033[L", 1);
-//set the cursor HOME: top left corner
-				//ft_putstr_fd("\033[H", 1);
-//makes space in order to insert a char, but we still need to figure out how to		++++++++
-//actually insert a char after the space is made.
-				//char *caps = tigetstr("ich");
-				//tputs(tparm(caps, 1), 1, ft_putchar);
-//places the cursor on the next line, at the beginning of the line					++++++++
-				//char *caps = tigetstr("ind");
-				//tputs(caps, 1, ft_putchar);
-//the cursor does not move, but the whole screen shifts up.
-				//char *caps = tigetstr("indn");
-				//tputs(tparm(caps, 1), 1, ft_putchar);
-//move the cursor to the indicated column and row
-				//char *caps = tigetstr("cup");
-				//tputs(tparm(caps, 10, 10), 1, ft_putchar);
-//save cursor position
-				//char *caps = tigetstr("sc");
-				//tputs(caps, 1, ft_putchar);
-//restor cursor to that position
-				//char *caps = tigetstr("rc");
-				//tputs(caps, 1, ft_putchar);
-
-				//debug_escape_sequence(caps);
-		}
-}
-*/
 
 /*
 ** note:	this function will analyse the last read character and decide
@@ -174,10 +108,11 @@ void	read_dispatch_for_processing(t_control *control, int c)
 
 int	read_need_to_stop(t_control *control, char c, int res)
 {
-	if (control->quit) //this could happen if the terminfo function failed...
+	if (control->quit)
 		return (1);
 	if (res == -1)
 	{
+		control->quit = 1;
 		//maybe display message for a read failure
 		//maybe set control->exit_status...
 		return (1);
@@ -230,7 +165,6 @@ int	read_get_esc_seq_id(t_term *term, int c)
 			}
 		}
 	}
-//	debug_escape_sequence(str);
 	free(str);
 	return (0);
 }

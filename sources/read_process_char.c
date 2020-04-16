@@ -98,4 +98,8 @@ void	read_process_control_combo(t_control *control, char c)
 			return ;
 		control->term->inline_position = control->term->line_len -1;
 	}
+	else if (c == CTRL_P_COMBO)
+	{
+		terminfo_clipboard_paste(control, &control->term->clipboard);
+	}
 }

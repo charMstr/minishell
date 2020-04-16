@@ -47,7 +47,6 @@ t_list		*input_root(t_control *control);
 t_list		*input_root_assist_and_prompt(t_control *control);
 int			input_reset_term_struct(t_control *control);
 t_list		*input_reading_and_lexing(t_control *control);
-int			input_check_for_stop_condition(t_control *control);
 
 int			input_read_line(t_term *term);
 
@@ -115,13 +114,16 @@ int			terminfo_clipboard_copy_start(t_control *control, \
 				t_clipboard *clipboard);
 int			terminfo_clipboard_copy_end(t_control *control, \
 				t_clipboard *clipboard);
+int			terminfo_clipboard_disable_highlight(t_control *control);
 int			terminfo_clipboard_highlight_cur(t_control *control, int on);
 int			terminfo_clipboard_dispatch_action(t_control *control, int c);
+
 int			terminfo_clipboard_right_move(t_control *control, \
 				t_clipboard *clipboard);
 int			terminfo_clipboard_left_move(t_control *control, \
 				t_clipboard *clipboard);
 int			terminfo_clipboard_cut(t_control *control, t_clipboard *clipboard);
-int			terminfo_clipboard_disable_highlight(t_control *control);
+int			terminfo_clipboard_paste(t_control *control, \
+				t_clipboard *clipboard);
 
 #endif
