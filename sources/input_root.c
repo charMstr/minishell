@@ -57,7 +57,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 		ft_free((void **)&(control->term->line));
 	}
 	if (control->lexer_end.unexpected)
-		;// print an error messge about the sythax :)
+		input_synthax_error(control, control->lexer_end.unexpected);
+	//debug_tokens_list(tokens_lst);
 	return (tokens_lst);
 }
 
@@ -111,4 +112,32 @@ t_list *input_reading_and_lexing(t_control *control)
 	//printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
 	token_lst = lexer_root((char *)(control->history->head->content), control);
 	return (token_lst);
+}
+
+/*
+** displays a synthax error right after the lexer stage (before the parser).
+*/
+
+void	input_synthax_error(t_control *control, unsigned int unexpected)
+{
+	ft_putstr_fd("minishell: synthax error near unexpected token `", 2);
+	if (unexpected == SEMI)
+		ft_putchar_fd(';', 2);
+	if (unexpected == PIPE)
+		ft_putchar_fd('|', 2);
+	if (unexpected == OR_IF)
+		ft_putstr_fd("||", 2);
+	if (unexpected == AND)
+		ft_putchar_fd('&', 2);
+	if (unexpected == AND_IF)
+		ft_putstr_fd("&&", 2);
+	if (unexpected == LBRACE)
+		ft_putchar_fd('(', 2);
+	if (unexpected == RBRACE)
+		ft_putchar_fd(')', 2);
+	if (unexpected == LESS || unexpected == DLESS || unexpected ==  GREAT \
+			|| unexpected == DGREAT)
+		ft_putstr_fd("newline", 2);
+	ft_putstr_fd("'\n", 2);
+	control->lexer_end.unexpected = 0;
 }

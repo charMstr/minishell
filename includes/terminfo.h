@@ -47,6 +47,7 @@ t_list		*input_root(t_control *control);
 t_list		*input_root_assist_and_prompt(t_control *control);
 int			input_reset_term_struct(t_control *control);
 t_list		*input_reading_and_lexing(t_control *control);
+void		input_synthax_error(t_control *control, unsigned int unexpected);
 
 int			input_read_line(t_term *term);
 
