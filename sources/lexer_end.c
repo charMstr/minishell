@@ -69,7 +69,8 @@ int		lexer_end(t_list *token_head, t_control *control)
 	else if (last->id == LESS || last->id == DLESS ||
 			last->id == GREAT || last->id == DGREAT)
 		control->lexer_end.unexpected = last->id;
-	else if (ft_lstfind(token_head, &(int){LBRACE}, lexer_find_id))
+	else if (ft_lstfind(token_head, &(int){LBRACE}, lexer_find_id) ||
+			ft_lstfind(token_head, &(int){RBRACE}, lexer_find_id))
 		return (lexer_handle_braces(token_head, control, last));
 	else
 		return (1);
