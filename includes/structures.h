@@ -55,10 +55,12 @@ typedef struct		s_history
 
 typedef struct		s_lexer_end
 {
-	unsigned int other:1;       // Pour '|', '||', '&&'       => PS2 simple
-	unsigned int quote:1;       // Pour '\'' , '\"'           => PS2
-	unsigned int backslash:1;   // Pour '/'                   => PS2 + Il faudra supprimer le '\'
-	unsigned int unexpected;    // Pour '(', ')'  +autre?     => Génère une erreur, avec le char en question dedans
+	unsigned int other:1;       // Pour '|', '||', '&&'    => PS2 simple
+	unsigned int quote:1;       // Pour '\'' , '\"'        => PS2
+	unsigned int backslash:1;   // Pour '\\'               => PS2 + Del '\'
+	unsigned int brace:1;       // Pour '(''               => PS2
+	unsigned int add_semi:1;    // Pour '(''               => PS2 + Append ';'
+	unsigned int unexpected;    // Pour ')', '>>', '>' ... => Génère une erreur
 }					t_lexer_end;
 
 typedef struct		s_token

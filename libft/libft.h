@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/04/12 00:10:31 by mli              ###   ########.fr       */
+/*   Updated: 2020/04/18 21:55:05 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,7 @@ int					ft_strstradd(char **dst, int start, char *src);
 
 char				*ft_strjoin_free(char const *s1, char const *s2, \
 		int to_free);
+t_list				*ft_lstfind(t_list *begin_list, void *data_ref, \
+		int (*cmp)());
 
 #endif
