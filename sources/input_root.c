@@ -59,6 +59,7 @@ t_list *input_root_assist_and_prompt(t_control *control)
 	if (control->lexer_end.unexpected)
 		input_synthax_error(control, control->lexer_end.unexpected);
 	//debug_tokens_list(tokens_lst);
+	ft_lstclear(&tokens_lst, del_token);
 	return (tokens_lst);
 }
 

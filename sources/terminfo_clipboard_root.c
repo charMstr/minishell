@@ -32,11 +32,6 @@ int terminfo_clipboard_copy_start(t_control *control, t_clipboard *clipboard)
 	if (!(caps = terminfo_get_caps("smso", control)))
 		return (0);
 	tputs(caps, 1, ft_putchar);
-	if (!ft_strappend(&clipboard->paste_me, c))
-	{
-		control->quit = 1;
-		return (0);
-	}
 	clipboard->start = control->term->inline_position + 1;
 	clipboard->end = control->term->inline_position + 1;
 	clipboard->highlight = 1;
