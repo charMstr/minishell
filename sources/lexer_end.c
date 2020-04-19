@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/04/19 22:27:26 by mli              ###   ########.fr       */
+/*   Updated: 2020/04/19 22:57:58 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		lexer_braces_equal(t_list *tk_head, t_control *control, t_token *last)
 	if (brace[0] > brace[1])
 	{
 		control->lexer_end.brace = 1;
-		if (last->id != SEMI)
+		if (last->id != SEMI && last->id != LBRACE)
 			control->lexer_end.add_semi = 1;
 	}
 	else if (brace[0] == brace[1])
