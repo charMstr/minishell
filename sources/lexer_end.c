@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/04/19 19:31:34 by mli              ###   ########.fr       */
+/*   Updated: 2020/04/19 22:27:26 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,37 @@ int		lexer_braces_equal(t_list *tk_head, t_control *control, t_token *last)
 	return (0);
 }
 
-int 	lexer_before_rbraces(t_list *tk_head, t_control *control)
+int 	lexer_signs_near_braces(t_list *tk_head, t_control *control)
 {
-	t_token *prev_tk;
+	t_token		*prev_tk;
+	t_token		*curr_tk;
+	t_token		*next_tk;
+	const int	*signs = (int	[]){LESS, DLESS, GREAT, DGREAT,
+		AND, AND_IF, PIPE, OR_IF, SEMI, -1};
 
 	prev_tk = NULL;
-	while (tk_head)
+	while (tk_head && !control->lexer_end.unexpected)
 	{
-		if (((t_token *)tk_head->content)->id == LBRACE && prev_tk)
-			if (lexer_id_cmp(prev_tk, (int []){LESS, DLESS, AND, AND_IF,\
-			PIPE, OR_IF, GREAT, DGREAT, LBRACE, -1}))
-			{
-				control->lexer_end.unexpected = LBRACE;
-				return (0);
-			}
+		curr_tk = (t_token *)tk_head->content;
+		next_tk = (tk_head->next ? (t_token *)tk_head->next->content : NULL);
+		if ((curr_tk->id == LBRACE && prev_tk) &&
+		(lexer_id_cmp(prev_tk, (int *)signs) && prev_tk->id != LBRACE))
+			control->lexer_end.unexpected = LBRACE;
+		else if ((curr_tk->id == RBRACE && tk_head->next) &&
+		(lexer_id_cmp(next_tk, (int *)signs) && next_tk->id != RBRACE))
+			control->lexer_end.unexpected = RBRACE;
+		else if (curr_tk->id == LBRACE && next_tk &&
+			(next_tk->id == RBRACE || next_tk->id == SEMI))
+			control->lexer_end.unexpected = next_tk->id;
 		prev_tk = (t_token *)tk_head->content;
 		tk_head = tk_head->next;
 	}
-	return (1);
+	return (control->lexer_end.unexpected ? 0 : 1);
 }
 
 int		lexer_handle_braces(t_list *tk_head, t_control *control, t_token *last)
 {
-	if (!lexer_before_rbraces(tk_head, control))
+	if (!lexer_signs_near_braces(tk_head, control))
 		return (0);
 	if (!lexer_braces_equal(tk_head, control, last))
 		return (0);
@@ -86,7 +94,9 @@ int		lexer_end(t_list *token_head, t_control *control)
 	if (token_head == NULL || (t_token *)(token_head->content) == NULL)
 		return (0);
 	last = (t_token *)(ft_lstlast(token_head)->content);
-	if (last->open_quote)
+	if (((t_token *)token_head->content)->id == SEMI)
+		control->lexer_end.unexpected = SEMI;
+	else if (last->open_quote)
 		control->lexer_end.quote = 1;
 	else if (last->esc_next)
 		control->lexer_end.backslash = 1;
