@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/04/19 22:57:58 by mli              ###   ########.fr       */
+/*   Updated: 2020/04/19 23:19:29 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		lexer_braces_equal(t_list *tk_head, t_control *control, t_token *last)
 	return (0);
 }
 
-int 	lexer_signs_near_braces(t_list *tk_head, t_control *control)
+int 	lexer_signs_near_braces_semi(t_list *tk_head, t_control *control)
 {
 	t_token		*prev_tk;
 	t_token		*curr_tk;
@@ -69,8 +69,8 @@ int 	lexer_signs_near_braces(t_list *tk_head, t_control *control)
 		else if ((curr_tk->id == RBRACE && tk_head->next) &&
 		(lexer_id_cmp(next_tk, (int *)signs) && next_tk->id != RBRACE))
 			control->lexer_end.unexpected = RBRACE;
-		else if (curr_tk->id == LBRACE && next_tk &&
-			(next_tk->id == RBRACE || next_tk->id == SEMI))
+		else if (next_tk && ((curr_tk->id == LBRACE && (next_tk->id == RBRACE ||
+	next_tk->id == SEMI)) || (curr_tk->id == SEMI && next_tk->id == SEMI)))
 			control->lexer_end.unexpected = next_tk->id;
 		prev_tk = (t_token *)tk_head->content;
 		tk_head = tk_head->next;
@@ -80,7 +80,7 @@ int 	lexer_signs_near_braces(t_list *tk_head, t_control *control)
 
 int		lexer_handle_braces(t_list *tk_head, t_control *control, t_token *last)
 {
-	if (!lexer_signs_near_braces(tk_head, control))
+	if (!lexer_signs_near_braces_semi(tk_head, control))
 		return (0);
 	if (!lexer_braces_equal(tk_head, control, last))
 		return (0);
@@ -105,7 +105,7 @@ int		lexer_end(t_list *token_head, t_control *control)
 	else if (last->id == LESS || last->id == DLESS ||
 			last->id == GREAT || last->id == DGREAT)
 		control->lexer_end.unexpected = last->id;
-	else if (ft_lstfind(token_head, (int	[]){LBRACE, RBRACE, -1},
+	else if (ft_lstfind(token_head, (int	[]){LBRACE, RBRACE, SEMI, -1},
 				lexer_id_cmp))
 		return (lexer_handle_braces(token_head, control, last));
 	else
