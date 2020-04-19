@@ -20,7 +20,8 @@ int			history_add_new_link(t_control *control);
 void		history_search(t_control *control, int direction);
 int			history_swap_line_in_term_struct(t_control *control, int up);
 
-int 		history_update_line_quote(t_control *control, t_history *history);
+int			history_update_line_insert_sep(t_control *control, \
+		t_history *history);
 int			history_update_line(t_control *control, t_history *history);
 int			history_decide_discard_new_link(t_control *control);
 
