@@ -23,9 +23,9 @@ int	history_update_line(t_control *control, t_history *history)
 	current_hist = (char *)(history->head->content);
 	if (control->lexer_end.backslash)
 		current_hist[ft_strlen(current_hist) - 1] = '\0';
-	if (control->lexer_end.quote)
+	if (control->lexer_end.quote || control->lexer_end.add_semi)
 	{
-		if (!history_update_line_quote(control, history))
+		if (!history_update_line_insert_sep(control, history))
 			return (0);
 	}
 	else
@@ -48,12 +48,17 @@ int	history_update_line(t_control *control, t_history *history)
 **			0 fialure, control->quit is raised
 */
 
-int history_update_line_quote(t_control *control, t_history *history)
+int history_update_line_insert_sep(t_control *control, t_history *history)
 {
 	char *str;
+	char c;
 
+	if (control->lexer_end.quote)
+		c = '\n';
+	else
+		c = ';';
 	str = (char *)(history->head->content);
-	if (!(str = ft_strjoin_free(str, "\n", 1)))
+	if (!ft_strappend(&str, c))
 	{
 		control->quit = 1;
 		return (0);
