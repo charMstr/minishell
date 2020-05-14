@@ -6,7 +6,7 @@
 #    By: charmstr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 21:40:12 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/14 22:55:35 by mli              ###   ########.fr        #
+#    Updated: 2020/05/15 00:00:12 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,7 +110,18 @@ FILES = atoi\
 	dlstpop_front\
 	dlstpop_back\
 
-SRC = $(patsubst %, $(OBJ_PATH)ft_%.c, $(FILES))
+NO_FT_FILES = btree_add\
+			  btree_apply_bfs\
+			  btree_apply_infix\
+			  btree_apply_prefix\
+			  btree_apply_suffix\
+			  btree_depth\
+			  btree_find\
+			  btree_new\
+
+SRC = $(patsubst %, $(OBJ_PATH)ft_%.c, $(FILES)) \
+	  $(patsubst %, $(OBJ_PATH)%.c, $(NO_FT_FILES))
+
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
