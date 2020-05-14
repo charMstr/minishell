@@ -6,7 +6,7 @@
 #    By: charmstr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 21:40:12 by charmstr          #+#    #+#              #
-#    Updated: 2020/04/18 21:35:04 by mli              ###   ########.fr        #
+#    Updated: 2020/05/14 22:55:35 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,15 @@ FILES = atoi\
 	strcadd\
 	strcdel\
 	strstradd\
+	dlstnew\
+	dlstadd_back\
+	dlstadd_front\
+	dlstlast\
+	dlstfirst\
+	dlstclear\
+	dlstdelone\
+	dlstpop_front\
+	dlstpop_back\
 
 SRC = $(patsubst %, $(OBJ_PATH)ft_%.c, $(FILES))
 OBJ = $(SRC:.c=.o)

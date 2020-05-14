@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/04/13 22:19:24 by mli              ###   ########.fr        #
+#    Updated: 2020/05/14 22:58:04 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,7 +116,6 @@ SRC_FILES =	main\
 			read_process_char\
 			historic_root\
 			historic_update\
-			historic_utils\
 			historic_search\
 			control_structure\
 			debug_terminfo\

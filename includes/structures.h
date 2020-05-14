@@ -8,14 +8,6 @@ typedef struct		s_int_pair
 	int				y;
 }					t_int_pair;
 
-//double linked list
-typedef struct		s_dlist
-{
-	void			*content;
-	struct s_dlist	*previous;
-	struct s_dlist	*next;
-}					t_dlist;
-
 //structure for the clipboard (copy, cut, paste)
 typedef struct		s_clipboard
 {

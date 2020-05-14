@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/04/18 21:55:05 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/14 17:00:33 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,24 @@ char				*ft_strjoin_free(char const *s1, char const *s2, \
 		int to_free);
 t_list				*ft_lstfind(t_list *begin_list, void *data_ref, \
 		int (*cmp)());
+
+
+/*  double linked list */
+typedef struct		s_dlist
+{
+	void			*content;
+	struct s_dlist	*next;
+	struct s_dlist	*previous;
+}					t_dlist;
+
+t_dlist				*ft_dlstnew(void *content);
+void				ft_dlstadd_back(t_dlist **alst, t_dlist *new);
+void				ft_dlstadd_front(t_dlist **alst, t_dlist *new);
+t_dlist				*ft_dlstlast(t_dlist *lst);
+t_dlist				*ft_dlstfirst(t_dlist *lst);
+void				ft_dlstclear(t_dlist **lst, void (*del)(void *));
+void				ft_dlstdelone(t_dlist *lst, void (*del)(void *));
+void				ft_dlstpop_front(t_dlist **head, void (*del)(void*));
+void				ft_dlstpop_back(t_dlist **head, void (*del)(void*));
 
 #endif
