@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/14 22:58:04 by mli              ###   ########.fr        #
+#    Updated: 2020/05/16 00:03:31 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,6 +119,7 @@ SRC_FILES =	main\
 			historic_search\
 			control_structure\
 			debug_terminfo\
+			btree_debug\
 			debug_functions\
 
 			#ft_printf\
