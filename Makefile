@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/16 00:03:31 by mli              ###   ########.fr        #
+#    Updated: 2020/05/16 19:22:56 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,7 @@ SRC_FILES =	main\
 			lexer_operator\
 			lexer_just_token\
 			lexer_end\
+			lexer_end2\
 			builtin_root\
 			builtin_unset\
 			builtin_echo\

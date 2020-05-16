@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/04/19 23:19:29 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/16 23:05:56 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ int 	lexer_signs_near_braces_semi(t_list *tk_head, t_control *control)
 		else if ((curr_tk->id == RBRACE && tk_head->next) &&
 		(lexer_id_cmp(next_tk, (int *)signs) && next_tk->id != RBRACE))
 			control->lexer_end.unexpected = RBRACE;
-		else if (next_tk && ((curr_tk->id == LBRACE && (next_tk->id == RBRACE ||
-	next_tk->id == SEMI)) || (curr_tk->id == SEMI && next_tk->id == SEMI)))
-			control->lexer_end.unexpected = next_tk->id;
 		prev_tk = (t_token *)tk_head->content;
 		tk_head = tk_head->next;
 	}
@@ -94,8 +91,9 @@ int		lexer_end(t_list *token_head, t_control *control)
 	if (token_head == NULL || (t_token *)(token_head->content) == NULL)
 		return (0);
 	last = (t_token *)(ft_lstlast(token_head)->content);
-	if (((t_token *)token_head->content)->id == SEMI)
-		control->lexer_end.unexpected = SEMI;
+	control->lexer_end.unexpected = lexer_forbidden_start(token_head);
+	if (control->lexer_end.unexpected != 0)
+		return (0);
 	else if (last->open_quote)
 		control->lexer_end.quote = 1;
 	else if (last->esc_next)
