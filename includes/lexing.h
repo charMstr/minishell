@@ -44,5 +44,6 @@ int		lexer_end(t_list *token_head, t_control *control);
 int		lexer_end2(t_list *token_head, t_control *control);
 int		lexer_tk_id_chr(const int *nb, t_token * target);
 int		lexer_forbidden_start(t_list *tk_head);
+int		lexer_tk_notbeside(t_token *curr, t_token *next, int *forbid, int self);
 
 #endif

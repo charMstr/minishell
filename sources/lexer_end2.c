@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 19:23:03 by mli               #+#    #+#             */
-/*   Updated: 2020/05/17 00:03:23 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/17 19:17:34 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ int		lexer_tk_id_chr(const int *nb, t_token *target)
 	if (lexer_id_cmp(target, (int *)nb) == 0)
 		return (1);
 	return (0);
+}
+
+int		lexer_tk_notbeside(t_token *curr, t_token *next, int *forbid, int self)
+{
+	if ((self && next->id == curr->id) ||
+		(forbid && lexer_tk_id_chr(forbid, next)))
+		return (0);
+	return (1);
 }
 
 int		lexer_forbidden_start_no_exceptions(t_list *token)
