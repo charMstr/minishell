@@ -74,5 +74,7 @@ typedef struct		t_list_sh
 	t_list			*t_pipe_sequence;
 }					t_list_sh;
 
+t_btree				*parser_root(t_list *tokens, t_control *control);
+
 
 #endif
