@@ -4,17 +4,11 @@ void		parser_disp(t_token *node)
 {
 	int i;
 	int fd = 1;
-	char *str = node->str;
+	char *str = (node ? node->str : "null");
 //	int len = ft_strlen(str);
 
-	if (!node)
-	{
-		ft_putstr_fd("[null]", fd);
-		return ;
-	}
-	ft_putstr_fd("[", fd);
-
 	i = -1;
+	ft_putstr_fd("[", fd);
 	while (++i < SIZE_LEAF - 2 && str[i])
 		ft_putchar_fd(str[i], fd);
 	while (i++ < SIZE_LEAF - 2)
@@ -36,6 +30,30 @@ void		del_ast(t_btree **node)
 	}
 }
 
+int			token_id(t_token *token)
+{
+	if (!token)
+		return (-1);
+	return (token->id);
+}
+
+void		ast_add(t_btree **ast, t_btree *add)
+{
+		if (*ast == NULL)
+			*ast = add;
+		else if ((*ast)->left == NULL)
+			(*ast)->left = add;
+		else if ((*ast)->item == NULL)
+			(*ast)->item = add->item;
+		else if ((*ast)->right == NULL)
+			(*ast)->right = add;
+		else
+		{
+			add->left = *ast;
+			*ast = add;
+		}
+}
+
 t_btree		*parser_root(t_list *tokens, t_control *control)
 {
 	t_btree		*ast;
@@ -47,24 +65,24 @@ t_btree		*parser_root(t_list *tokens, t_control *control)
 		return (NULL);
 	ft_free((void **)&dlst);
 
+	ast_add(&ast, btree_new(NULL));
 	while (tokens)
 	{
+//		printf("%d\n", token_id(tokens->content));
 		tmp = btree_new(tokens->content);
-		if (ast == NULL)
-			ast = tmp;
-		else if (ast->left == NULL)
-			ast->left = tmp;
-		else if (ast->right == NULL)
-			ast->right = tmp;
-		else // Add btreefront
+		ast_add(&ast, tmp);
+		if (token_id(tokens->content) == TOKEN &&
+				tokens->next &&
+				token_id(tokens->next->content) == TOKEN)
 		{
-			tmp->left = ast;
-			ast = tmp;
+			// node->left =  linked list containing parameters
+			while (tokens->next && token_id(tokens->next->content) == TOKEN)
+				tokens = tokens->next;
 		}
 		tokens = tokens->next;
 	}
 
-//	btree_debug(ast, parser_disp);
+	btree_debug(ast, parser_disp);
 
 	del_ast(&ast);
 	return (ast);
