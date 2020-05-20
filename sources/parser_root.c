@@ -54,6 +54,14 @@ void		ast_add(t_btree **ast, t_btree *add)
 		}
 }
 
+// For specifying special state for cmds (in, maybe, a struct), ex : job &
+int			parser_special_state(t_list *lst, t_btree *new)
+{
+	(void)lst; (void)new;
+
+	return (1);
+}
+
 t_btree		*parser_root(t_list *tokens, t_control *control)
 {
 	t_btree		*ast;
@@ -75,11 +83,22 @@ t_btree		*parser_root(t_list *tokens, t_control *control)
 				tokens->next &&
 				token_id(tokens->next->content) == TOKEN)
 		{
+			tokens = tokens->next;
 			// node->left =  linked list containing parameters
-			while (tokens->next && token_id(tokens->next->content) == TOKEN)
+			while (tokens && token_id(tokens->content) == TOKEN)
 				tokens = tokens->next;
+//			if (tmp->left == NULL)
+//				tmp->left = btree_new(NULL);
+			if (tokens && token_id(tokens->content) == AND)
+			{
+				tmp->right = btree_new(tokens->content);
+				tokens = tokens->next;
+			}
+//			else
+//				tmp->right = btree_new(NULL);
 		}
-		tokens = tokens->next;
+		else
+			tokens = tokens->next;
 	}
 
 	btree_debug(ast, parser_disp);
