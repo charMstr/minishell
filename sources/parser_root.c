@@ -62,7 +62,7 @@ int			parser_special_state(t_list *lst, t_btree *new)
 	return (1);
 }
 
-t_btree		*parser_root(t_list *tokens, t_control *control)
+t_btree		*parser_root(t_list *tklst, t_control *control)
 {
 	t_btree		*ast;
 	t_btree		*tmp;
@@ -74,37 +74,35 @@ t_btree		*parser_root(t_list *tokens, t_control *control)
 	ft_free((void **)&dlst);
 
 	ast_add(&ast, btree_new(NULL));
-	while (tokens)
+	while (tklst)
 	{
-//		printf("%d\n", token_id(tokens->content));
-		tmp = btree_new(tokens->content);
+//		printf("%d\n", token_id(tklst->content));
+		tmp = btree_new(tklst->content);
 		ast_add(&ast, tmp);
-		if (token_id(tokens->content) == TOKEN &&
-				tokens->next &&
-				token_id(tokens->next->content) == TOKEN)
+		if (token_id(tklst->content) == TOKEN && tklst->next &&
+				token_id(tklst->next->content) == TOKEN)
 		{
-			tokens = tokens->next;
+			tklst = tklst->next;
 			// node->left =  linked list containing parameters
-			while (tokens && token_id(tokens->content) == TOKEN)
-				tokens = tokens->next;
+			while (tklst && token_id(tklst->content) == TOKEN)
+				tklst = tklst->next;
 //			if (tmp->left == NULL)
 //				tmp->left = btree_new(NULL);
-			if (tokens && token_id(tokens->content) == AND)
+			if (tklst && token_id(tklst->content) == AND)
 			{
-				tmp->right = btree_new(tokens->content);
-				tokens = tokens->next;
+				tmp->right = btree_new(tklst->content);
+				tklst = tklst->next;
 			}
 //			else
 //				tmp->right = btree_new(NULL);
 		}
 		else
-			tokens = tokens->next;
+			tklst = tklst->next;
 	}
 
 	btree_debug(ast, parser_disp);
 
 	del_ast(&ast);
 	return (ast);
-	(void)tokens;
 	(void)control;
 }
