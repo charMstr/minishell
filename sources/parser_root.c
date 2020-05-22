@@ -30,6 +30,11 @@ void		del_ast(t_btree **node)
 	}
 }
 
+void		del_ast_addr(void *node)
+{
+	del_ast((t_btree **)&node);
+}
+
 int			token_id(t_token *token)
 {
 	if (!token)
@@ -44,7 +49,10 @@ void		ast_add(t_btree **ast, t_btree *add)
 		else if ((*ast)->left == NULL)
 			(*ast)->left = add;
 		else if ((*ast)->item == NULL)
+		{
 			(*ast)->item = add->item;
+			ft_free((void **)&add);
+		}
 		else if ((*ast)->right == NULL)
 			(*ast)->right = add;
 		else
@@ -54,54 +62,154 @@ void		ast_add(t_btree **ast, t_btree *add)
 		}
 }
 
-// For specifying special state for cmds (in, maybe, a struct), ex : job &
-int			parser_special_state(t_list *lst, t_btree *new)
+// For specifying children + special state for cmds (in, maybe, a struct)
+// Ex : job argvs &
+int			parser_cmd(t_list **tklst, t_btree *new)
 {
-	(void)lst; (void)new;
+	if (token_id((*tklst)->content) == TOKEN && (*tklst)->next &&
+			token_id((*tklst)->next->content) == TOKEN)
+	{
+		(*tklst) = (*tklst)->next;
+		// node->left =  linked list containing parameters
+		while ((*tklst) && token_id((*tklst)->content) == TOKEN)
+			(*tklst) = (*tklst)->next;
+		if ((*tklst) && token_id((*tklst)->content) == AND)
+		{
+			if (!(new->right = btree_new((*tklst)->content)))
+				return (0);
+			(*tklst) = (*tklst)->next;
+		}
+		return (1);
+	}
+	return (0);
+}
 
+t_btree		*parser_combine_ast(t_dlist *lst)
+{
+	t_btree		*ast;
+	t_btree		*tmp;
+
+	if (!lst)
+		return (NULL);
+	ast = lst->content;
+	lst = lst->next;
+	tmp = ast;
+	while (lst)
+	{
+		while (tmp->right)
+			tmp = tmp->right;
+		tmp->right = lst->content;
+		lst = lst->next;
+	}
+	return (ast);
+}
+
+t_dlist		*parser_mvtree(t_dlist *dlst, int tkid)
+{
+	t_btree		*tmp;
+
+	tmp = NULL;
+	if (tkid == -1)
+		return (dlst);
+	if (tkid == LBRACE || tkid == SEMI)
+	{
+		if (!(tmp = btree_new(NULL)) ||
+			!(dlst->next = ft_dlstnew(tmp)))
+		{
+			ft_free((void **)&tmp);
+			return (NULL);
+		}
+		dlst->next->previous = dlst;
+		return (dlst->next);
+	}
+	if (tkid == RBRACE)
+		return (dlst->previous);
+	return (dlst);
+}
+
+int			did_move(int tkid)
+{
+	if (tkid == RBRACE ||
+		tkid == SEMI ||
+		tkid == LBRACE)
+		return (1);
+	return (0);
+}
+
+// Filling New with the new child
+// Return -1 if allocation pb,
+// 0 if tklst has no more tokens
+// 1 on success
+int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
+{
+	*new = btree_new((*tklst)->content);
+//		while (tklst && did_move(token_id(tklst->content)))
+//		{
+//			if (!(dlst = parser_mvtree(dlst, token_id(tklst->content))))
+//				return (0);
+//			if (did_move(token_id(tklst->content)))
+//				tklst = tklst->next;
+//		}
+
+	(void)dlst;
+	return (1);
+}
+
+int			parser_assist(t_dlist *dlst, t_list *tklst)
+{
+	t_btree		*new;
+	int			state;
+
+	if (!(dlst->content = btree_new(NULL)))
+		return (0);
+	while (tklst)
+	{
+//		printf("%d\n", token_id(tklst->content));
+		if ((state = parser_next_child(&dlst, &tklst, &new)) == 0)
+			return (1);
+		else if (state == -1)
+			return (0);
+		ast_add((t_btree **)&dlst->content, new);
+		if (dlst->next)
+		{
+			new->right = dlst->next->content;
+			ft_free((void **)&dlst->next);
+		}
+		if (!parser_cmd(&tklst, new))
+			tklst = tklst->next;
+	}
+//	btree_debug(ast, parser_disp);
 	return (1);
 }
 
 t_btree		*parser_root(t_list *tklst, t_control *control)
 {
-	t_btree		*ast;
-	t_btree		*tmp;
 	t_dlist		*dlst;
+	t_btree		*ast;
+
 	ast = NULL;
-
-	if (!(dlst = ft_memalloc(sizeof(*dlst))))
-		return (NULL);
-	ft_free((void **)&dlst);
-
-	ast_add(&ast, btree_new(NULL));
-	while (tklst)
+	if ((dlst = ft_memalloc(sizeof(*dlst))) && parser_assist(dlst, tklst))
 	{
-//		printf("%d\n", token_id(tklst->content));
-		tmp = btree_new(tklst->content);
-		ast_add(&ast, tmp);
-		if (token_id(tklst->content) == TOKEN && tklst->next &&
-				token_id(tklst->next->content) == TOKEN)
-		{
-			tklst = tklst->next;
-			// node->left =  linked list containing parameters
-			while (tklst && token_id(tklst->content) == TOKEN)
-				tklst = tklst->next;
-//			if (tmp->left == NULL)
-//				tmp->left = btree_new(NULL);
-			if (tklst && token_id(tklst->content) == AND)
+		printf("Nb of Btrees : %d\n", ft_lstsize((t_list *)dlst));
+//		ast = dlst->content;
+		ast = parser_combine_ast(dlst);
+		/** {
+			t_dlist		*lst = dlst;
+			while (lst)
 			{
-				tmp->right = btree_new(tklst->content);
-				tklst = tklst->next;
+				btree_debug(lst->content, parser_disp);
+				lst = lst->next;
 			}
-//			else
-//				tmp->right = btree_new(NULL);
-		}
-		else
-			tklst = tklst->next;
+
+		} */
+		btree_debug(ast, parser_disp);
+	}
+	else
+	{
+//		control->quit = 1;
 	}
 
-	btree_debug(ast, parser_disp);
-
+	ft_dlstclear(&dlst, NULL);
 	del_ast(&ast);
 	return (ast);
 	(void)control;
