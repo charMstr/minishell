@@ -83,6 +83,4 @@ int			parser_cmd(t_list **tklst, t_btree *new);
 int			parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new);
 t_btree		*parser_create_ast(t_dlist *dlst, t_list **tklst);
 
-void		parser_del_cmdargs(t_btree *ast);
-
 #endif

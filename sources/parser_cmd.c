@@ -6,21 +6,11 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 16:47:40 by mli               #+#    #+#             */
-/*   Updated: 2020/05/23 21:36:14 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/23 23:23:29 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	parser_del_cmdargs(t_btree *ast)
-{
-	if (!ast)
-		return ;
-	if (token_id((t_token *)ast->item) == TOKEN)
-		ft_lstclear((t_list **)&ast->left->item, NULL);
-	parser_del_cmdargs(ast->left);
-	parser_del_cmdargs(ast->right);
-}
 
 // For specifying children + special state for cmds (in, maybe, a struct)
 // Ex : job argvs &

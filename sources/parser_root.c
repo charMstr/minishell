@@ -26,6 +26,8 @@ void		del_ast(t_btree **node)
 {
 	if (!*node)
 		return ;
+	if (token_id((t_token *)(*node)->item) == TOKEN && (*node)->left)
+		ft_lstclear((t_list **)&(*node)->left->item, NULL);
 	del_ast(&(*node)->left);
 	del_ast(&(*node)->right);
 	if (!(*node)->left && !(*node)->right)
@@ -91,6 +93,7 @@ int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 			return (0);
 		if (!((*dlst)->next = ft_dlstnew(NULL)))
 			return (-1);
+		(*dlst)->next->previous = *dlst;
 		if (!(*new = parser_create_ast((*dlst)->next, tklst)))
 			return (-1);
 		ft_free((void **)&((*dlst)->next));
@@ -136,7 +139,7 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	t_btree		*ast;
 
 	ast = NULL;
-	debug_tokens_list(tklst);
+//	debug_tokens_list(tklst);
 	if ((dlst = ft_memalloc(sizeof(*dlst))) &&
 		(ast = parser_create_ast(dlst, &tklst)))
 	{
@@ -148,9 +151,7 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 //		control->quit = 1;
 	}
 
-	ft_dlstclear(&dlst, NULL);
-	parser_del_cmdargs(ast);
-	del_ast(&ast);
+	ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
 	return (ast);
 	(void)control;
 }
