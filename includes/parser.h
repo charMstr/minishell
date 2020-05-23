@@ -76,5 +76,12 @@ typedef struct		t_list_sh
 
 t_btree				*parser_root(t_list *tokens, t_control *control);
 
+void		parser_disp(t_token *node);
+void		del_ast(t_btree **node);
+int			token_id(t_token *token);
+void		ast_add(t_btree **ast, t_btree *add);
+int			parser_cmd(t_list **tklst, t_btree *new);
+int			parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new);
+t_btree		*parser_create_ast(t_dlist *dlst, t_list **tklst);
 
 #endif

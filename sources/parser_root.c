@@ -57,28 +57,6 @@ void		ast_add(t_btree **ast, t_btree *add)
 		}
 }
 
-// For specifying children + special state for cmds (in, maybe, a struct)
-// Ex : job argvs &
-int			parser_cmd(t_list **tklst, t_btree *new)
-{
-	if (token_id((*tklst)->content) == TOKEN && (*tklst)->next &&
-			token_id((*tklst)->next->content) == TOKEN)
-	{
-		(*tklst) = (*tklst)->next;
-		// node->left =  linked list containing parameters
-		while ((*tklst) && token_id((*tklst)->content) == TOKEN)
-			(*tklst) = (*tklst)->next;
-		if ((*tklst) && token_id((*tklst)->content) == AND)
-		{
-			if (!(new->right = btree_new((*tklst)->content)))
-				return (0);
-			(*tklst) = (*tklst)->next;
-		}
-		return (1);
-	}
-	return (0);
-}
-
 int			did_move(int tkid)
 {
 	if (tkid == LBRACE)
@@ -90,8 +68,6 @@ int			did_move(int tkid)
 //		return (1);
 	return (0);
 }
-
-t_btree		*parser_assist(t_dlist *dlst, t_list **tklst);
 
 // Filling New with the new child
 // Return -1 if allocation pb,
@@ -110,7 +86,7 @@ int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 			return (0);
 		if (!((*dlst)->next = ft_dlstnew(NULL)))
 			return (-1);
-		if (!(*new = parser_assist((*dlst)->next, tklst)))
+		if (!(*new = parser_create_ast((*dlst)->next, tklst)))
 			return (-1);
 		ft_free((void **)&((*dlst)->next));
 
@@ -126,7 +102,7 @@ int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 	return (1);
 }
 
-t_btree		*parser_assist(t_dlist *dlst, t_list **tklst)
+t_btree		*parser_create_ast(t_dlist *dlst, t_list **tklst)
 {
 	t_btree		*new;
 	int			state;
@@ -139,17 +115,13 @@ t_btree		*parser_assist(t_dlist *dlst, t_list **tklst)
 		if ((state = parser_next_child(&dlst, tklst, &new)) == 0)
 			break ;
 		else if (state == -1)
-			return (0);
+			return (NULL);
 		ast_add((t_btree **)&dlst->content, new);
-//		if (dlst->next)
-//		{
-//			new->right = dlst->next->content;
-//			ft_free((void **)&dlst->next);
-//		}
-		if (!parser_cmd(tklst, new))
+		if ((state = parser_cmd(tklst, new)) == 0)
 			*tklst = (*tklst)->next;
+		else if (state == -1)
+			return (NULL);
 	}
-//	btree_debug(dlst->content, parser_disp);
 	return (dlst->content);
 }
 
@@ -159,19 +131,11 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	t_btree		*ast;
 
 	ast = NULL;
-	if ((dlst = ft_memalloc(sizeof(*dlst))) && parser_assist(dlst, &tklst))
+	debug_tokens_list(tklst);
+	if ((dlst = ft_memalloc(sizeof(*dlst))) &&
+		(ast = parser_create_ast(dlst, &tklst)))
 	{
 		printf("Nb of Btrees : %d\n", ft_lstsize((t_list *)dlst));
-		ast = dlst->content;
-		/** {
-			t_dlist		*lst = dlst;
-			while (lst)
-			{
-				btree_debug(lst->content, parser_disp);
-				lst = lst->next;
-			}
-
-		} */
 		btree_debug(ast, parser_disp);
 	}
 	else
