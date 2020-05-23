@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/05/15 23:46:17 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/23 17:31:40 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef struct	s_depth
 	int			bottom;
 }				t_depth;
 
-static	void	btree_debug2(t_btree *node, t_depth depths, void (*display)())
+static	void	btree_debug2(t_btree *node, t_depth depths, void (*display)(),
+		t_btree *parent)
 {
 	int	size_line;
 	int	i;
@@ -59,13 +60,13 @@ static	void	btree_debug2(t_btree *node, t_depth depths, void (*display)())
 	{
 		while (i++ < (size_line - SIZE_LEAF) / 2)
 			ft_putchar_fd(' ', 1);
-		display(node->item);
+		display(node->item, parent);
 		while (i++ <= (size_line - SIZE_LEAF))
 			ft_putchar_fd(' ', 1);
 		return ;
 	}
-	btree_debug2(node->left, depths, display);
-	btree_debug2(node->right, depths, display);
+	btree_debug2(node->left, depths, display, node);
+	btree_debug2(node->right, depths, display, node);
 }
 
 void	btree_debug(t_btree *root, void (*display)())
@@ -85,7 +86,7 @@ void	btree_debug(t_btree *root, void (*display)())
 	depths.bottom = 0;
 	while (++depths.bottom <= depths.max)
 	{
-		btree_debug2(root, depths, display);
+		btree_debug2(root, depths, display, NULL);
 		ft_putchar_fd('\n', 1);
 	}
 	ft_putstr_fd("\n============================== DEBUG END ============="\

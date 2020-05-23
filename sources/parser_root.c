@@ -1,10 +1,15 @@
 #include "minishell.h"
 
-void		parser_disp(t_token *node)
+void		parser_disp(t_token *node, t_btree *parent)
 {
 	int i;
 	int fd = 1;
-	char *str = (node ? node->str : "null");
+	char *str;
+
+	if (parent && token_id(parent->item) == TOKEN && node == parent->left->item)
+		str = (char [5]){'l', 's', 't', 48 + ft_lstsize((t_list *)node), '\0'};
+	else
+		str = (node ? node->str : "null");
 //	int len = ft_strlen(str);
 
 	i = -1;
@@ -144,6 +149,7 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	}
 
 	ft_dlstclear(&dlst, NULL);
+	parser_del_cmdargs(ast);
 	del_ast(&ast);
 	return (ast);
 	(void)control;

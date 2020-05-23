@@ -6,11 +6,21 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 16:47:40 by mli               #+#    #+#             */
-/*   Updated: 2020/05/23 17:02:17 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/23 21:36:14 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	parser_del_cmdargs(t_btree *ast)
+{
+	if (!ast)
+		return ;
+	if (token_id((t_token *)ast->item) == TOKEN)
+		ft_lstclear((t_list **)&ast->left->item, NULL);
+	parser_del_cmdargs(ast->left);
+	parser_del_cmdargs(ast->right);
+}
 
 // For specifying children + special state for cmds (in, maybe, a struct)
 // Ex : job argvs &
@@ -46,16 +56,29 @@ int		parser_is_cmd_param(int tkid)
 
 int			parser_cmd(t_list **tklst, t_btree *new)
 {
-	if (token_id((*tklst)->content) == TOKEN && (*tklst)->next &&
-			parser_is_cmd_param(token_id((*tklst)->next->content)))
+	t_list *args;
+	t_list *tmp;
+
+	args = NULL;
+	if (!(token_id((*tklst)->content) == TOKEN && (*tklst)->next &&
+				parser_is_cmd_param(token_id((*tklst)->next->content))))
+		return (0);
+	if (!(new->left = btree_new(NULL)))
+		return (-1);
+	(*tklst) = (*tklst)->next;
+	while ((*tklst) && parser_is_cmd_param(token_id((*tklst)->content)))
 	{
+		if (!(tmp = ft_lstnew((*tklst)->content)))
+			break ;
+		ft_lstadd_back(&args, tmp);
 		(*tklst) = (*tklst)->next;
-		// node->left =  linked list containing parameters
-		while ((*tklst) && parser_is_cmd_param(token_id((*tklst)->content)))
-			(*tklst) = (*tklst)->next;
-		if (parser_cmd_state(new, tklst) == 0)
-			return (-1);
-		return (1);
 	}
-	return (0);
+	if ((*tklst && parser_is_cmd_param(token_id((*tklst)->content))) ||
+			parser_cmd_state(new, tklst) == 0)
+	{
+		ft_lstclear(&args, NULL);
+		return (-1);
+	}
+	new->left->item = args;
+	return (1);
 }
