@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 16:47:40 by mli               #+#    #+#             */
-/*   Updated: 2020/05/23 23:23:29 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/24 00:05:13 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			parser_cmd(t_list **tklst, t_btree *new)
 	t_list *tmp;
 
 	args = NULL;
-	if (!(token_id((*tklst)->content) == TOKEN && (*tklst)->next &&
+	if (!(*tklst && token_id((*tklst)->content) == TOKEN && (*tklst)->next &&
 				parser_is_cmd_param(token_id((*tklst)->next->content))))
 		return (0);
 	if (!(new->left = btree_new(NULL)))

@@ -46,33 +46,30 @@ int			token_id(t_token *token)
 
 void		ast_add(t_btree **ast, t_btree *add)
 {
-		if (*ast == NULL)
-			*ast = add;
-		else if ((*ast)->left == NULL)
-			(*ast)->left = add;
-		else if ((*ast)->item == NULL)
-		{
-			(*ast)->item = add->item;
-			ft_free((void **)&add);
-		}
-		else if ((*ast)->right == NULL)
-			(*ast)->right = add;
-		else
-		{
-			add->left = *ast;
-			*ast = add;
-		}
+	if (add == NULL)
+		return ;
+	if (*ast == NULL)
+		*ast = add;
+	else if ((*ast)->left == NULL)
+		(*ast)->left = add;
+	else if ((*ast)->item == NULL)
+	{
+		(*ast)->item = add->item;
+		ft_free((void **)&add);
+	}
+	else if ((*ast)->right == NULL)
+		(*ast)->right = add;
+	else
+	{
+		add->left = *ast;
+		*ast = add;
+	}
 }
 
-int			did_move(int tkid)
+int			parser_do_subtree(int tkid)
 {
 	if (tkid == LBRACE)
 		return (1);
-
-//	if (tkid == RBRACE ||
-//		tkid == SEMI ||
-//		tkid == LBRACE)
-//		return (1);
 	return (0);
 }
 
@@ -84,8 +81,11 @@ int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 {
 //	printf("ENTER WITH : [%d]\t'%s'\n",
 //		token_id((*tklst)->content), ((t_token *)(*tklst)->content)->str);
-	if (!did_move(token_id((*tklst)->content)))
-		*new = btree_new((*tklst)->content);
+	if (!parser_do_subtree(token_id((*tklst)->content)))
+	{
+		if (!(*new = btree_new((*tklst)->content)))
+			return (-1);
+	}
 	else
 	{
 		*tklst = (*tklst)->next;
@@ -106,7 +106,23 @@ int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 
 //	if ((*new)->item)
 //		printf("New is : [%d]\t'%s'\n", token_id((*new)->item), ((t_token *)(*new)->item)->str);
-	(void)dlst;
+	return (1);
+}
+
+int			parser_handle_semi(t_dlist **dlst, t_list **tklst)
+{
+	t_btree		*new;
+
+	if (!(*tklst && token_id((*tklst)->content) == SEMI &&
+			(*tklst = (*tklst)->next)))
+		return (0);
+	if (!((*dlst)->next = ft_dlstnew(NULL)))
+		return (-1);
+	(*dlst)->next->previous = *dlst;
+	if (!(new = parser_create_ast((*dlst)->next, tklst)))
+		return (-1);
+	ft_free((void **)&((*dlst)->next));
+	ast_add((t_btree **)&(*dlst)->content, new);
 	return (1);
 }
 
@@ -120,12 +136,13 @@ t_btree		*parser_create_ast(t_dlist *dlst, t_list **tklst)
 	while (*tklst && token_id((*tklst)->content) != RBRACE)
 	{
 //		printf("%d\n", token_id(tklst->content));
-		if ((state = parser_next_child(&dlst, tklst, &new)) == 0)
-			break ;
+		if ((state = parser_next_child(&dlst, tklst, &new)) == 1)
+			ast_add((t_btree **)&dlst->content, new);
 		else if (state == -1)
 			return (NULL);
-		ast_add((t_btree **)&dlst->content, new);
-		if ((state = parser_cmd(tklst, new)) == 0)
+		if (parser_handle_semi(&dlst, tklst) == -1)
+			return (NULL);
+		if ((state = parser_cmd(tklst, new)) == 0 && *tklst)
 			*tklst = (*tklst)->next;
 		else if (state == -1)
 			return (NULL);
@@ -139,6 +156,8 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	t_btree		*ast;
 
 	ast = NULL;
+	if (!tklst)
+		return (NULL);
 //	debug_tokens_list(tklst);
 	if ((dlst = ft_memalloc(sizeof(*dlst))) &&
 		(ast = parser_create_ast(dlst, &tklst)))
@@ -149,9 +168,11 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	else
 	{
 //		control->quit = 1;
+		ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
 	}
 
-	ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
+	ft_dlstclear(&dlst, NULL);
+	del_ast(&ast); // Line to delete for next step !
 	return (ast);
 	(void)control;
 }
