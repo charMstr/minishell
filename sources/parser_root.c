@@ -1,32 +1,10 @@
 #include "minishell.h"
 
-void		parser_disp(t_token *node, t_btree *parent)
-{
-	int i;
-	int fd = 1;
-	char *str;
-
-	if (parent && token_id(parent->item) == TOKEN && node == parent->left->item)
-		str = (char [5]){'l', 's', 't', 48 + ft_lstsize((t_list *)node), '\0'};
-	else
-		str = (node ? node->str : "null");
-//	int len = ft_strlen(str);
-
-	i = -1;
-	ft_putstr_fd("[", fd);
-	while (++i < SIZE_LEAF - 2 && str[i])
-		ft_putchar_fd(str[i], fd);
-	while (i++ < SIZE_LEAF - 2)
-		ft_putchar_fd(' ', fd);
-
-	ft_putstr_fd("]", fd);
-}
-
 void		del_ast(t_btree **node)
 {
 	if (!*node)
 		return ;
-	if (token_id((t_token *)(*node)->item) == TOKEN && (*node)->left)
+	if (parser_is_cmd_start(btree_id(*node)) && (*node)->left)
 		ft_lstclear((t_list **)&(*node)->left->item, NULL);
 	del_ast(&(*node)->left);
 	del_ast(&(*node)->right);
@@ -35,13 +13,6 @@ void		del_ast(t_btree **node)
 //		printf("DEL: [%s]\n", ((t_token *)(*node)->item)->str);
 		ft_free((void **)node);
 	}
-}
-
-int			token_id(t_token *token)
-{
-	if (!token)
-		return (-1);
-	return (token->id);
 }
 
 void		ast_add(t_btree **ast, t_btree *add)

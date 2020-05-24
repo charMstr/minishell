@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 16:47:40 by mli               #+#    #+#             */
-/*   Updated: 2020/05/24 00:05:13 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/24 19:14:31 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		parser_is_cmd_state(int tkid)
 	return (0);
 }
 
-int			parser_cmd_state(t_btree *new, t_list **tklst)
+int		parser_cmd_state(t_btree *new, t_list **tklst)
 {
 	if ((*tklst) && parser_is_cmd_state(token_id((*tklst)->content)))
 	{
@@ -39,19 +39,31 @@ int		parser_is_cmd_param(int tkid)
 {
 	if (tkid == -1)
 		return (0);
-	if (tkid == TOKEN || tkid == D_QUOTE || tkid == S_QUOTE)
+	if (tkid == TOKEN || tkid == D_QUOTE || tkid == S_QUOTE ||
+		tkid == LESS || tkid == DLESS || tkid == GREAT || tkid == DGREAT ||
+		tkid == AND)
 		return (1);
 	return (0);
 }
 
-int			parser_cmd(t_list **tklst, t_btree *new)
+int		parser_is_cmd_start(int tkid)
+{
+	if (tkid == -1)
+		return (0);
+	if (tkid == TOKEN || tkid == LESS || tkid == DLESS ||
+			tkid == GREAT || tkid == DGREAT || tkid == AND)
+		return (1);
+	return (0);
+}
+
+int		parser_cmd(t_list **tklst, t_btree *new)
 {
 	t_list *args;
 	t_list *tmp;
 
 	args = NULL;
-	if (!(*tklst && token_id((*tklst)->content) == TOKEN && (*tklst)->next &&
-				parser_is_cmd_param(token_id((*tklst)->next->content))))
+	if (!(*tklst && parser_is_cmd_start(token_id((*tklst)->content)) &&
+	(*tklst)->next && parser_is_cmd_param(token_id((*tklst)->next->content))))
 		return (0);
 	if (!(new->left = btree_new(NULL)))
 		return (-1);
@@ -63,8 +75,7 @@ int			parser_cmd(t_list **tklst, t_btree *new)
 		ft_lstadd_back(&args, tmp);
 		(*tklst) = (*tklst)->next;
 	}
-	if ((*tklst && parser_is_cmd_param(token_id((*tklst)->content))) ||
-			parser_cmd_state(new, tklst) == 0)
+	if ((*tklst && parser_is_cmd_param(token_id((*tklst)->content))))
 	{
 		ft_lstclear(&args, NULL);
 		return (-1);
