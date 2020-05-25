@@ -12,7 +12,7 @@ extern int errno;
 
 void my_handler(int num_sig)
 {
-	printf("sigpipe!!!\n");
+	printf("in my handler: sigpipe!!!\n");
 }
 
 /*
@@ -105,6 +105,7 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 			break;
 		default:
 			close(p_desc[1]);
+			//close(p_desc[0]);
 			sleep(2);
 			father_func(p_desc[0]);
 			break;

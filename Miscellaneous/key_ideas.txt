@@ -32,7 +32,7 @@ The only difference between pipes and FIFOs is the manner in which they are
 created and opened. Once these tasks have been accomplished, I/O on pipes and
 FIFOs has exactly the same semantics.
 
-- The simpliest way to handle SIGPIPE from your own C code if you don't want it
+- The simplest way to handle SIGPIPE from your own C code if you don't want it
 to die when writing to a fifo, would be to call signal(SIGPIPE, SIG_IGN); and
 handle it by checking for errno EPIPE after each write() instead.
 

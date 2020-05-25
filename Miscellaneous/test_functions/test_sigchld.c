@@ -27,7 +27,9 @@ void	stop_for_kiddo(int sig)
 {
 	char message[] = "had to stop since the kid stopped\n";
 	write(42, message, sizeof(message));
-	//ok this is validated, this will abort here the parent process!
+	//most recent comment: this is not executed when we do an execve
+
+	//old comment:ok this is validated, this will abort here the parent process!
 	//and this is usefull since once we go into the execve, we cannot add some
 	//more lines of code!
 	exit(0);
@@ -35,7 +37,7 @@ void	stop_for_kiddo(int sig)
 
 void	child(int fd)
 {
-	char *argv[] = {"cat", "/dev/randomm", NULL};
+	char *argv[] = {"cat", "/dev/random", NULL};
 
 	//before closing the stdout, we do a disgusting clone to 42, just for the
 	// sake of the POC
@@ -71,7 +73,7 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 
 	//note: if we dont put that here, (before the fork()) the signal might
 	//never be caught since we are not using wait...
-	//signal(SIGCHLD, stop_for_kiddo);
+	signal(SIGCHLD, stop_for_kiddo);
 
 	switch(fork())
 	{
@@ -88,6 +90,7 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 		default:
 			//parent process  (on the left of the pipe)
 			close(tube[1]);
+			//close(tube[0]);
 			parent(tube[0]);
 			break;
 	}

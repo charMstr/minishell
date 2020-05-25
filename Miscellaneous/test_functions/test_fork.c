@@ -8,31 +8,42 @@
 
 void	my_handler(int num)
 {
-	printf("the number of the signal being handled is: %d\n", num);
+	printf("\nthe number of the signal being handled is: %d\n\n", num);
+}
+
+void child_done(int num)
+{
+	printf("\nthe child process' exit status has changed(SIGCHILD)\n\n");
 }
 
 void	display_pipe_ends(int pipe_ends[2])
 {
-	printf("at index 0 (futur read): %d\n", pipe_ends[0]);
-	printf("at index 1 (futur write): %d\n", pipe_ends[1]);
+	printf("\nat index 0 (futur read): %d\n", pipe_ends[0]);
+	printf("at index 1 (futur write): %d\n\n", pipe_ends[1]);
 }
 
 int	 child_func(char *message, int pipe_ends[2])
 {
-	close(pipe_ends[0]);
-	close(pipe_ends[1]);
+	int res;
+
 	/*
 	close(pipe_ends[0]);
-	dup2(pipe_ends[1], STDOUT_FILENO);
-
-	printf("\n===>this is the child process\n" \
-			"the pid is :%d\n" \
-			"and the ppid is:%d\n", getpid(), getppid());
-		display_pipe_ends(pipe_ends);
-	//write(pipe_ends[1], message, 30);
 	close(pipe_ends[1]);
 	*/
-	exit(EXIT_SUCCESS);
+	close(pipe_ends[0]);
+	//close(pipe_ends[1]);
+	//dup2(pipe_ends[1], STDOUT_FILENO);
+	printf("\n===>this is the child process\n" \
+			"the pid is :%d\n" \
+			"and the ppid is:%d\n\n", getpid(), getppid());
+	display_pipe_ends(pipe_ends);
+	printf("HEY **********\n");
+	//res = write(pipe_ends[1], message, 4);
+	printf("HEY **********\n");
+	printf("res_write = %d\n", res);
+	//close(pipe_ends[1]);
+	//exit(EXIT_SUCCESS);
+	return (1);
 }
 
 int	parent_func(char *message, int pipe_ends[], int child_pid)
@@ -77,14 +88,18 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 		perror("pipe function failed\n");
 		exit(EXIT_FAILURE);
 	}
-
+//	signal(SIGCHLD, &child_done);
 	pid = fork();
 	if (pid == 0)
 	{
+		sleep(1);
+		signal(SIGCHLD, SIG_DFL);
 		child_func(message, pipe_ends);
+		printf("child func is done (written in main)\n");
 	}
 	else
 	{
+		close(pipe_ends[0]);
 		waitpid(pid, &child_ret, WUNTRACED);
 		printf("just BEFORE the parent call...\n");
 		//nb: as long as the signal handler is declared in the same thread...

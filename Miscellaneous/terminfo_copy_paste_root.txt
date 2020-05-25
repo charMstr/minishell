@@ -5,6 +5,7 @@
    right/left arrow highlight more/less text.
    any other key_stroke: refresh screen and end the highlight, AND process the
    key_stroke normally.
+   */
 
 
 1). ajouter une structure dans control->term		OK

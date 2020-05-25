@@ -90,13 +90,19 @@ void 	*terminfo_free_struct(t_term *term)
 **			1 OK
 */
 
+#include <sys/ioctl.h>
+
 int	terminfo_load_win_size(t_term *term)
 {
+	struct winsize ws;
+
+	ioctl(STDIN_FILENO, TIOCGWINSZ, &ws);
+	term->size_window.y = ws.ws_row;
+	term->size_window.x = ws.ws_col;
+	return (1);
+	/*
 	int res;
 
-	res = setupterm(NULL, STDOUT_FILENO, NULL);
-	if (res == ERR)
-		return (0);
 	res = tigetnum("cols");
 	if (res == -1 || res == -2)
 		return (0);
@@ -106,6 +112,7 @@ int	terminfo_load_win_size(t_term *term)
 		return (0);
 	term->size_window.y = res;
 	return (1);
+	*/
 }
 
 /*

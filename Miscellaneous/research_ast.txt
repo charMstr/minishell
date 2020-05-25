@@ -31,9 +31,9 @@ note: at this level it will be a basic link list, it is "sequential".
 ----------an and_or would be:--------------------------------------------------
 pipe_sequence
 or
-and_or AND_IF pipe_sequence
+| AND_IF pipe_sequence
 or
-and_or OR_IF pipe_sequence
+| OR_IF pipe_sequence
 
 note: at this level it should be a linked list, and we execute the following
 link only if necessary according to a boolean (for example if previous exit
@@ -82,7 +82,7 @@ or we use a builtin.
 
 [node compound_command] =====>> [node list_sh]
 compound_command in our case is a "subshell" or a "brace groupe" which is the
-same thing. It will occure idf we met parenthesis:
+same thing. It will occure if we met parenthesis:
 this is where the node will have the exact same structure as the very top node:
 the node list_sh
 All we need to do if we encounter a parenthesis is to start a new node that and
