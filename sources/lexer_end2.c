@@ -59,10 +59,33 @@ int		lexer_forbidden_start(t_list *tk_head)
 	return (0);
 }
 
-int		lexer_end2(t_list *token_head, t_control *control)
+/*
+** note:	this comment is beautiful
+** note:	your welcome mli
+** note:	this function will check that we do not have a succession of two
+**			tokens that are not allowed in the grammar.
+**			Especially here we will check that indirection successors aren't
+**			something else than a WORD Token.
+**
+** RETURN:	an int that is going into lexer_end.unexpected.
+**			0 if OK
+*/
+
+int		lexer_forbidden_combo(t_list *tk_head)
 {
-	(void)token_head; (void)control;
+	const int	*forbidden = (int []){SEMI, PIPE, OR_IF, AND, AND_IF, RBRACE,
+		LBRACE, LESS, DLESS, GREAT, DGREAT, -1};
+	const int	*matter = (int[]){LESS, DLESS, GREAT, DGREAT, -1};
 
-
+	while (tk_head)
+	{
+		if (lexer_tk_id_chr(matter, tk_head->content))
+		{
+			if (tk_head->next \
+					&& lexer_tk_id_chr(forbidden, tk_head->next->content))
+				return (((t_token *)tk_head->next->content)->id);
+		}
+		tk_head = tk_head->next;
+	}
 	return (0);
 }

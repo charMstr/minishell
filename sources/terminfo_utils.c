@@ -84,6 +84,8 @@ void 	*terminfo_free_struct(t_term *term)
 ** note:	this function will load/reload the dimensions of the terminal
 **			window into the term structure.
 **
+** note:	need to recall setupterm each time to resink the terminfo database
+**
 ** RETURN:	0 if failure
 **			1 OK
 */
@@ -92,6 +94,9 @@ int	terminfo_load_win_size(t_term *term)
 {
 	int res;
 
+	res = setupterm(NULL, STDOUT_FILENO, NULL);
+	if (res == ERR)
+		return (0);
 	res = tigetnum("cols");
 	if (res == -1 || res == -2)
 		return (0);

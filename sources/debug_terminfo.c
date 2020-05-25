@@ -13,16 +13,13 @@ void	debug_end(void)
 }
 
 //diplays the terminal size.
-void	debug_term_size(void)
-{
-	int cols;
-	int raws;
 
-	debug_start();
-	cols = tigetnum("cols");
-	raws = tigetnum("lines");
-	printf("the terminal:\ncolumns: %d\nraws: %d\n", cols, raws);
-	debug_end();
+void	debug_term_size(t_term *term)
+{
+	printf("\n==============================================================\n");
+	printf("=============================== DEBUG TERM ===================\n");
+	printf("term->size_window.x = %d\n", term->size_window.x);
+	printf("term->size_window.y = %d\n", term->size_window.y);
 }
 
 //debugs the escacped sequence returned from tigetstr()

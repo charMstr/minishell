@@ -19,8 +19,7 @@ t_list *input_root(t_control *control)
 	control->ctrl_c = 0;
 	control->term->prompt_ps1 = 1;
 	//here we can recheck the values of ps1 and ps2 in case they have been
-	//changed with export and as well update the terminal size, all that in the
-	//control->term struct
+	//changed with export, and update that in the control->term struct
 	if (!history_add_new_link(control))
 		return (NULL);
 	tokens_lst = input_root_assist_and_prompt(control);
@@ -32,6 +31,8 @@ t_list *input_root(t_control *control)
 **			input
 ** note:	as above, returning NULL, doesnt mean we have to quit, we rather
 **			use flags for this purpose in a control struct
+**
+** note:	we recheck the values of the window size between each loop.
 **
 ** RETURN:	t_tokens_lst*
 **			NULL
@@ -45,6 +46,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 	while (!tokens_lst && !control->quit && !control->ctrl_c \
 			&& !control->lexer_end.unexpected)
 	{
+		if (!terminfo_load_win_size(control->term) && (control->quit = 1))
+			break;
 		control->term->clipboard.highlight = 0;
 		if (control->term->prompt_ps1)
 			ft_putstr_fd(control->term->ps1, 2);
@@ -58,8 +61,8 @@ t_list *input_root_assist_and_prompt(t_control *control)
 	}
 	if (control->lexer_end.unexpected)
 		input_synthax_error(control, control->lexer_end.unexpected);
-	//debug_tokens_list(tokens_lst);
-	ft_lstclear(&tokens_lst, del_token);
+//	debug_tokens_list(tokens_lst);
+	//ft_lstclear(&tokens_lst, del_token);
 	return (tokens_lst);
 }
 
@@ -112,6 +115,8 @@ t_list *input_reading_and_lexing(t_control *control)
 		return (NULL);
 	//printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
 	token_lst = lexer_root((char *)(control->history->head->content), control);
+	//CHARMSTR FIX HERE.
+
 	return (token_lst);
 }
 

@@ -94,6 +94,7 @@ int		lexer_end(t_list *token_head, t_control *control)
 		return (0);
 	last = (t_token *)(ft_lstlast(token_head)->content);
 	control->lexer_end.unexpected = lexer_forbidden_start(token_head);
+	control->lexer_end.unexpected = lexer_forbidden_combo(token_head);
 	if (control->lexer_end.unexpected != 0)
 		return (0);
 	else if (last->open_quote)
