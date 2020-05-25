@@ -29,6 +29,8 @@ void		parser_disp(t_token *node, t_btree *parent)
 
 	if (parser_is_cmd_start(btree_id(parent)) && node == parent->left->item)
 		str = (char [5]){'l', 's', 't', 48 + ft_lstsize((t_list *)node), '\0'};
+	else if (token_id(node) == SUBSHELL)
+		str = "shell";
 	else
 		str = (node ? node->str : "null");
 //	int len = ft_strlen(str);

@@ -17,6 +17,8 @@
 # define DLESS 11
 # define GREAT 12
 # define DGREAT 13
+# define SUBSHELL 14
+# define LIST 15
 
 t_list	*lexer_root(char *input, t_control *control);
 t_token	*lexer_build_next_token(const char *input, int *j, t_control *control);

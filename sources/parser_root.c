@@ -6,6 +6,8 @@ void		del_ast(t_btree **node)
 		return ;
 	if (parser_is_cmd_start(btree_id(*node)) && (*node)->left)
 		ft_lstclear((t_list **)&(*node)->left->item, NULL);
+	else if (btree_id(*node) == SUBSHELL)
+		ft_free((void **)&(*node)->item);
 	del_ast(&(*node)->left);
 	del_ast(&(*node)->right);
 	if (!(*node)->left && !(*node)->right)
@@ -44,6 +46,30 @@ int			parser_do_subtree(int tkid)
 	return (0);
 }
 
+int			parser_be_subshell(t_btree **new)
+{
+	t_btree *tmp;
+	t_token *token;
+
+	tmp = NULL;
+	if (!(token = ft_memalloc(sizeof(t_token))))
+		return (-1);
+	token->id = SUBSHELL;
+	if ((*new)->item != NULL)
+	{
+		if (!(tmp = btree_new(token)))
+		{
+			ft_free((void **)&token);
+			return (-1);
+		}
+		tmp->left = *new;
+		*new = tmp;
+	}
+	else
+		(*new)->item = token;
+	return (1);
+}
+
 // Filling New with the new child
 // Return -1 if allocation pb,
 // 0 if tklst has no more tokens
@@ -67,6 +93,8 @@ int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 		(*dlst)->next->previous = *dlst;
 		if (!(*new = parser_create_ast((*dlst)->next, tklst)))
 			return (-1);
+		if (parser_be_subshell(new) == -1)
+			return (-1);
 		ft_free((void **)&((*dlst)->next));
 
 //	printf("\nNEW CONTAINS\n");
@@ -85,7 +113,7 @@ int			parser_handle_semi(t_dlist **dlst, t_list **tklst)
 	t_btree		*new;
 
 	if (!(*tklst && token_id((*tklst)->content) == SEMI &&
-			(*tklst = (*tklst)->next)))
+		(tklst_id((*tklst)->next) != RBRACE) && (*tklst = (*tklst)->next)))
 		return (0);
 	if (!((*dlst)->next = ft_dlstnew(NULL)))
 		return (-1);
@@ -138,6 +166,7 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	}
 	else
 	{
+		printf("AST FAILED\n");
 //		control->quit = 1;
 		ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
 	}
