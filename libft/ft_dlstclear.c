@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 22:41:07 by mli               #+#    #+#             */
-/*   Updated: 2020/05/14 22:42:01 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/22 23:11:19 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_dlstclear(t_dlist **lst, void (*del)(void *))
 	t_dlist	*current;
 	t_dlist	*then;
 
-	if (!lst || !del)
+	if (!lst || !*lst)
 		return ;
 	if (*lst)
 	{

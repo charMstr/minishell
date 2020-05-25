@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/05/14 23:58:26 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/23 23:08:38 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,6 @@ void				ft_dlstclear(t_dlist **lst, void (*del)(void *));
 void				ft_dlstdelone(t_dlist *lst, void (*del)(void *));
 void				ft_dlstpop_front(t_dlist **head, void (*del)(void*));
 void				ft_dlstpop_back(t_dlist **head, void (*del)(void*));
+void				ft_dlstclearback_addr(t_dlist **lst, void (*del)(void **));
 
 #endif

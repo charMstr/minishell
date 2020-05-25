@@ -10,6 +10,8 @@
 int	master_loop(t_control *control)
 {
 	t_list *tokens_list;
+	t_btree *ast;
+
 	while (1)
 	{
 		tokens_list = input_root(control);
@@ -18,8 +20,10 @@ int	master_loop(t_control *control)
 		if (control->ctrl_c || control->lexer_end.unexpected)
 			continue;
 		//here we should enter the parsing
+		ast = parser_root(tokens_list, control);
 		//here we should enter the command processing
 		//here we should set the exit_status.
+		ft_lstclear(&tokens_list, del_token);
 	}
 	return (control->exit_status);
 }

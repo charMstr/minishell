@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/16 19:22:56 by mli              ###   ########.fr        #
+#    Updated: 2020/05/24 18:54:07 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,6 +122,9 @@ SRC_FILES =	main\
 			debug_terminfo\
 			btree_debug\
 			debug_functions\
+			parser_root\
+			parser_cmd\
+			parser_utils\
 
 			#ft_printf\
 			
