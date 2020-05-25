@@ -27,8 +27,8 @@ void		parser_disp(t_token *node, t_btree *parent)
 	int fd = 1;
 	char *str;
 
-	if (parser_is_cmd_start(btree_id(parent)) && node == parent->left->item)
-		str = (char [5]){'l', 's', 't', 48 + ft_lstsize((t_list *)node), '\0'};
+	if (token_id(node) == LIST)
+		str = (char [5]){'l', 's', 't', 47 + ft_lstsize((t_list *)node->str), '\0'};
 	else if (token_id(node) == SUBSHELL)
 		str = "shell";
 	else
@@ -43,4 +43,5 @@ void		parser_disp(t_token *node, t_btree *parent)
 		ft_putchar_fd(' ', fd);
 
 	ft_putstr_fd("]", fd);
+	(void)parent;
 }

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 16:47:40 by mli               #+#    #+#             */
-/*   Updated: 2020/05/24 19:14:31 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/25 18:01:41 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,9 @@
 // For specifying children + special state for cmds (in, maybe, a struct)
 // Ex : job argvs &
 
-int		parser_is_cmd_state(int tkid)
-{
-	if (tkid == -1)
-		return (0);
-	if (tkid == AND)
-		return (1);
-	return (0);
-}
-
 int		parser_cmd_state(t_btree *new, t_list **tklst)
 {
-	if ((*tklst) && parser_is_cmd_state(token_id((*tklst)->content)))
+	if (tklst_id(*tklst) == AND)
 	{
 		if (!(new->right = btree_new((*tklst)->content)))
 			return (0);
@@ -50,36 +41,46 @@ int		parser_is_cmd_start(int tkid)
 {
 	if (tkid == -1)
 		return (0);
-	if (tkid == TOKEN || tkid == LESS || tkid == DLESS ||
-			tkid == GREAT || tkid == DGREAT || tkid == AND)
+	if (tkid == TOKEN || tkid == D_QUOTE || tkid == S_QUOTE ||
+		tkid == LESS || tkid == DLESS || tkid == GREAT || tkid == DGREAT ||
+		tkid == AND)
 		return (1);
 	return (0);
 }
 
-int		parser_cmd(t_list **tklst, t_btree *new)
+int		parser_cmdlst(t_list **args, t_list **tklst)
 {
-	t_list *args;
 	t_list *tmp;
 
-	args = NULL;
-	if (!(*tklst && parser_is_cmd_start(token_id((*tklst)->content)) &&
-	(*tklst)->next && parser_is_cmd_param(token_id((*tklst)->next->content))))
+	if (!(tmp = ft_lstnew((*tklst)->content)))
 		return (0);
-	if (!(new->left = btree_new(NULL)))
-		return (-1);
-	(*tklst) = (*tklst)->next;
-	while ((*tklst) && parser_is_cmd_param(token_id((*tklst)->content)))
+	ft_lstadd_back(args, tmp);
+	while (((*tklst) = (*tklst)->next) && parser_is_cmd_param(tklst_id(*tklst))
+			&& (tmp = ft_lstnew((*tklst)->content)))
+		ft_lstadd_back(args, tmp);
+	if (!tmp)
 	{
-		if (!(tmp = ft_lstnew((*tklst)->content)))
-			break ;
-		ft_lstadd_back(&args, tmp);
-		(*tklst) = (*tklst)->next;
+		ft_lstclear(args, NULL);
+		return (0);
 	}
-	if ((*tklst && parser_is_cmd_param(token_id((*tklst)->content))))
+	return (1);
+}
+
+int		parser_cmd(t_list **tklst, t_btree **new)
+{
+	if (!(*new = btree_new(NULL)))
+		return (-1);
+	if (!((*new)->item = lexer_init_token()))
 	{
-		ft_lstclear(&args, NULL);
+		ft_free((void **)new);
 		return (-1);
 	}
-	new->left->item = args;
+	((t_token *)((*new)->item))->id = LIST;
+	if (!parser_cmdlst((t_list **)&((t_token *)((*new)->item))->str, tklst))
+	{
+		ft_free((void **)&(*new)->item);
+		ft_free((void **)new);
+		return (-1);
+	}
 	return (1);
 }
