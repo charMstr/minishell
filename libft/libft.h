@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/05/23 23:08:38 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/26 11:52:59 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ char				*ft_strjoin_free(char const *s1, char const *s2, \
 		int to_free);
 t_list				*ft_lstfind(t_list *begin_list, void *data_ref, \
 		int (*cmp)());
+void				ft_lstremove_if(t_list **begin_list, void *data_ref, \
+		int (*cmp)(), void (*free_fct)(void *));
 
 
 /*  double linked list */

@@ -2,19 +2,7 @@
 
 void		del_ast(t_btree **node)
 {
-	if (!*node)
-		return ;
-	if (btree_id(*node) == LIST)
-		ft_lstclear((t_list **)&((t_token *)(*node)->item)->str, NULL);
-	if (btree_id(*node) == SUBSHELL || btree_id(*node) == LIST)
-		ft_free((void **)&(*node)->item);
-	del_ast(&(*node)->left);
-	del_ast(&(*node)->right);
-	if (!(*node)->left && !(*node)->right)
-	{
-//		printf("DEL: [%s]\n", ((t_token *)(*node)->item)->str);
-		ft_free((void **)node);
-	}
+	btree_clear(node, NULL);
 }
 
 void		ast_add(t_btree **ast, t_btree *add)
@@ -149,30 +137,40 @@ t_btree		*parser_create_ast(t_dlist *dlst, t_list **tklst)
 	return (dlst->content);
 }
 
+int			tkcmp_braces(t_token *token)
+{
+	int id;
+
+	id = token_id(token);
+	if (id == LBRACE || id == RBRACE)
+		return (0);
+	return (1);
+}
+
 t_btree		*parser_root(t_list *tklst, t_control *control)
 {
 	t_dlist		*dlst;
 	t_btree		*ast;
+	t_list		*tkcpy;
 
 	ast = NULL;
-	if (!tklst)
+	if (!(tkcpy = tklst))
 		return (NULL);
 //	debug_tokens_list(tklst);
 	if ((dlst = ft_memalloc(sizeof(*dlst))) &&
-		(ast = parser_create_ast(dlst, &tklst)))
-	{
-		printf("Nb of Btrees : %d\n", ft_lstsize((t_list *)dlst));
+		(ast = parser_create_ast(dlst, &tkcpy)))
 		btree_debug(ast, parser_disp);
-	}
 	else
 	{
 		printf("AST FAILED\n");
-//		control->quit = 1;
+		control->quit = 1;
+		ft_lstclear(&tklst, del_token);
 		ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
+		return (NULL);
 	}
-
+	ft_lstremove_if(&tklst, NULL, tkcmp_braces, del_token);
+	ft_lstclear(&tklst, NULL);
 	ft_dlstclear(&dlst, NULL);
-	del_ast(&ast); // Line to delete for next step !
+	btree_clear(&ast, del_token); // Line to delete for next step !
 	return (ast);
-	(void)control;
 }

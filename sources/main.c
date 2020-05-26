@@ -21,9 +21,10 @@ int	master_loop(t_control *control)
 			continue;
 		//here we should enter the parsing
 		ast = parser_root(tokens_list, control);
+		if (control->quit)
+			break;
 		//here we should enter the command processing
 		//here we should set the exit_status.
-		ft_lstclear(&tokens_list, del_token);
 	}
 	return (control->exit_status);
 }

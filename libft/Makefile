@@ -6,7 +6,7 @@
 #    By: charmstr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 21:40:12 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/23 23:07:54 by mli              ###   ########.fr        #
+#    Updated: 2020/05/26 12:37:59 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,7 @@ FILES = atoi\
 	dlstpop_front\
 	dlstpop_back\
 	dlstclearback_addr\
+	lstremove_if\
 
 NO_FT_FILES = btree_add\
 			  btree_apply_bfs\
@@ -119,6 +120,8 @@ NO_FT_FILES = btree_add\
 			  btree_depth\
 			  btree_find\
 			  btree_new\
+			  btree_clear\
+			  btree_delone\
 
 SRC = $(patsubst %, $(OBJ_PATH)ft_%.c, $(FILES)) \
 	  $(patsubst %, $(OBJ_PATH)%.c, $(NO_FT_FILES))

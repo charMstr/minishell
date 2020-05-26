@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 19:23:03 by mli               #+#    #+#             */
-/*   Updated: 2020/05/17 19:17:34 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/26 11:40:54 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int		lexer_forbidden_start_no_exceptions(t_list *token)
 
 int		lexer_forbidden_start(t_list *tk_head)
 {
-	const int	*is_start = (int []){SEMI, LBRACE, PIPE, OR_IF, AND, AND_IF,
+	const int	*is_start = (int []){SEMI, LBRACE, PIPE, OR_IF, AND_IF,
 		-1};
-	const int	*forbidden = (int []){SEMI, PIPE, OR_IF, AND, AND_IF, RBRACE,
+	const int	*forbidden = (int []){SEMI, PIPE, OR_IF, AND_IF, RBRACE,
 		-1};
 
 	if (lexer_tk_id_chr(forbidden, tk_head->content))

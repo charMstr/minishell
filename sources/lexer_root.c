@@ -53,7 +53,11 @@ t_list	*lexer_root(char *input, t_control *control)
 
 void	del_token(void *token)
 {
-	if (token)
+	if (!token)
+		return ;
+	if (token_id(token) == LIST)
+		ft_lstclear((t_list **)&(((t_token *)token)->str), del_token);
+	else
 		ft_free((void **)&(((t_token *)token)->str));
 	ft_free(&token);
 }

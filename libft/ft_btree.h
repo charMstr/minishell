@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:34:36 by mli               #+#    #+#             */
-/*   Updated: 2020/05/02 23:39:43 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/26 12:50:18 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,8 @@ void			*btree_find(t_btree *root, void *data_ref,
 int				btree_depth(t_btree *root);
 int				btree_apply_bfs(t_btree *root,
 			int (*applyf)(void *item, int current_level, int is_first_elem));
+
+void			btree_clear(t_btree **node, void (*del)(void *));
+void			btree_delone(t_btree **node, void (*del)(void *));
 
 #endif
