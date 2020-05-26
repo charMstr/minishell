@@ -5,13 +5,16 @@
 */
 
 /*
-** note:	this function will build the env linked list.
-** RETURN:	1 ok
-**			0 malloc failed
+** note:	this function will build the env linked list. using as input the
+**			exter char **environ
+**
+** RETURN:	t_list *
+**			NULL malloc failed
 */
 
-int	env_build_linked_list(char **env)
-{	t_list *lst_head;
+t_list	*env_build_linked_list(char **env)
+{
+	t_list *lst_head;
 	t_list *lst_link;
 	t_env *env_struct;
 	int i;
@@ -22,16 +25,19 @@ int	env_build_linked_list(char **env)
 	{		if (!(env_struct = env_build(env[i])))
 		{
 			ft_lstclear(&lst_head, env_del_struct);
-			return (0);
+			return (NULL);
 		}
 		if (!(lst_link = ft_lstnew(env_struct)))
 		{
 			ft_lstclear(&lst_head, env_del_struct);
-			return (0);
+			return (NULL);
 		}
 		ft_lstadd_back(&lst_head, lst_link);
 		i++;
 	}
+	return (lst_head);
+}
+/*
 	//debug_env_list(lst_head);
 	char *argv[] = {"MAIL", "PS1", "PS2", "CLICOLOR", NULL };
 	printf("--------------------------avant\n");
@@ -47,6 +53,7 @@ int	env_build_linked_list(char **env)
 	printf("-------------------------APRES\n");
 	return (1);
 }
+*/
 
 /*
 **	note:	this function will be called when its necessary to free the list of
@@ -61,8 +68,8 @@ void	env_del_struct(void *env)
 }
 
 /*
-** note:	This finction will get the string either imported from the env, and
-**			sent byt the export function and split it to the first '=' sign
+** note:	This function will get the string either imported from the env, or
+**			sent by the export function. And split it at the first '=' sign
 **			found into two elements of a struct: label and value.
 ** note:	If no '=' is found, label takes str, and value is an empty string.
 ** RETURN:	t_env *

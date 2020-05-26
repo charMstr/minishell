@@ -7,11 +7,15 @@
 ** RETURN:	the exit_status, that was stored int the control->exit_status field
 */
 
+extern char **environ;
+
 int	master_loop(t_control *control)
 {
 	t_list *tokens_list;
 	t_btree *ast;
 
+	if (!(control->env = env_build_linked_list(environ)))
+		return (1);
 	while (1)
 	{
 		tokens_list = input_root(control);
@@ -21,9 +25,11 @@ int	master_loop(t_control *control)
 			continue;
 		//here we should enter the parsing
 		ast = parser_root(tokens_list, control);
+		exe_root(ast, control);
 		//here we should enter the command processing
 		//here we should set the exit_status.
-		ft_lstclear(&tokens_list, del_token);
+		del_ast(&ast);
+		//ft_lstclear(&tokens_list, del_token);
 	}
 	return (control->exit_status);
 }
@@ -51,5 +57,5 @@ int main()
 	control_free_struct(&control);
 	terminfo_reset_terminal();
 	termios_reset_cooked_mode(&saved_copy);
-    return exit_status;
+    return (exit_status);
 }

@@ -172,7 +172,7 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	}
 
 	ft_dlstclear(&dlst, NULL);
-	del_ast(&ast); // Line to delete for next step !
+	//del_ast(&ast); // Line to delete for next step !
 	return (ast);
 	(void)control;
 }

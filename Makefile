@@ -68,6 +68,7 @@ H_FILES =	minishell\
 			parser\
 			structures\
 			historic\
+			exe\
 			debug_terminfo\
 			debug_minishell\
 
@@ -119,12 +120,17 @@ SRC_FILES =	main\
 			historic_update\
 			historic_search\
 			control_structure\
-			debug_terminfo\
-			btree_debug\
-			debug_functions\
 			parser_root\
 			parser_cmd\
 			parser_utils\
+			exe_root\
+			simple_cmd_root\
+			simple_cmd_assist1\
+			simple_cmd_assist2\
+			debug_functions\
+			debug_terminfo\
+			btree_debug\
+			debug_exe\
 
 			#ft_printf\
 			

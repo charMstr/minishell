@@ -24,6 +24,8 @@
 
 void	*ft_array_free(char **ptr, int k)
 {
+	if (!ptr)
+		return (NULL);
 	while (--k >= 0)
 	{
 		free (ptr[k]);

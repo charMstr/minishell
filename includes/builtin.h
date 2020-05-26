@@ -1,15 +1,7 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-extern char **environ;
-
-typedef struct	s_env
-{
-	char *label;
-	char *value;
-}				t_env;
-
-int		env_build_linked_list(char **env);
+t_list	*env_build_linked_list(char **env);
 t_env	*env_build(char *str);
 void	env_del_struct(void *env);
 void	env_builtin(t_list *env);
