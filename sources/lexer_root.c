@@ -55,7 +55,9 @@ void	del_token(void *token)
 {
 	if (!token)
 		return ;
-	if (token_id(token) == LIST)
+	if (token_id(token) == CMD)
+		free_simple_cmd_struct((t_simple_cmd**)(((t_token *)token)->str));
+	else if (token_id(token) == LIST)
 		ft_lstclear((t_list **)&(((t_token *)token)->str), del_token);
 	else
 		ft_free((void **)&(((t_token *)token)->str));

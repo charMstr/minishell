@@ -103,8 +103,11 @@ t_simple_cmd	*simple_cmd_init(void)
 ** note:	this function will free the memory taken by a struct of this type.
 */
 
-void	free_simple_cmd_struct(t_simple_cmd *cmd)
+void	free_simple_cmd_struct(void *void_cmd)
 {
+	t_simple_cmd *cmd;
+
+	cmd = (t_simple_cmd*)void_cmd;
 	ft_array_free(cmd->argv, ft_array_len(cmd->argv));
 	ft_lstclear(&cmd->redirections, free_t_arrow);
 	ft_lstclear(&cmd->indirections, free_t_arrow);

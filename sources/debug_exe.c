@@ -64,6 +64,7 @@ void	debug_arrow_struct(t_arrow *arrow)
 void	debug_simple_cmd(t_simple_cmd *cmd)
 {
 	int i;
+	t_list *tmp;
 
 	i = 0;
 	printf("\n==============================================================\n");
@@ -84,16 +85,18 @@ void	debug_simple_cmd(t_simple_cmd *cmd)
 		i++;
 	}
 	printf("redirections:\n");
-	while (cmd->redirections)
+	tmp = cmd->redirections;
+	while (tmp)
 	{
-		debug_arrow_struct((t_arrow*)cmd->redirections->content);
-		cmd->redirections = cmd->redirections->next;
+		debug_arrow_struct((t_arrow*)tmp->content);
+		tmp = tmp->next;
 	}
 	printf("indirections:\n");
-	while (cmd->indirections)
+	tmp = cmd->indirections;
+	while (tmp)
 	{
-		debug_arrow_struct((t_arrow*)cmd->indirections->content);
-		cmd->indirections = cmd->indirections->next;
+		debug_arrow_struct((t_arrow*)tmp->content);
+		tmp = tmp->next;
 	}
 	printf("======================= END DEBUG SIMPLE_CMD =================\n");
 }
