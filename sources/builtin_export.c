@@ -11,6 +11,7 @@
 ** note:	if the list is empty, a new head is created.
 ** note:	the export can have more than one arg to add at a time.
 ** note:	it is assumed that the very first arg is the builtin name (argv[0])
+**			so we start at argv[1];
 **
 ** RETURN:	0 if ok
 **			1 if malloc failed.
@@ -22,7 +23,7 @@ int export_builtin(t_list **head, char **argv)
 	t_env *env;
 	t_list *new_link;
 
-	i = 0;
+	i = 1;
 	while (argv[i])
 	{
 		if (!(env = env_build(argv[i])))

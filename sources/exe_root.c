@@ -65,7 +65,12 @@ void	exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control)
 		//need in echo to make it use the redirections. and need to modify its
 		//general behavior regarding the \\, \t etc (quoted or not)
 		echo_builtin(cmd->argv);
-	(void)control;
+	else if (id == B_ENV)
+		env_builtin(control->env);
+	else if (id == B_EXPORT)
+		export_builtin(&control->env, cmd->argv);
+	else if (id == B_UNSET)
+		unset_builtin(&control->env, cmd->argv);
 }
 
 /*
