@@ -27,14 +27,13 @@
 # include "parser.h"
 # include "terminfo.h"
 # include "historic.h"
-
+# include "exe.h"
 
 
 # define BUFFER_SIZE 32
 
 extern int	errno;
 
-//int			only_white_spaces(char *str);
 
 //minishell_utils
 void		ft_pipe(int (*fildes)[2]);

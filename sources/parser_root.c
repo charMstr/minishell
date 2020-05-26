@@ -171,6 +171,10 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	ft_lstremove_if(&tklst, NULL, tkcmp_braces, del_token);
 	ft_lstclear(&tklst, NULL);
 	ft_dlstclear(&dlst, NULL);
+<<<<<<< HEAD
 	btree_clear(&ast, del_token); // Line to delete for next step !
+=======
+	//del_ast(&ast); // Line to delete for next step !
+>>>>>>> charmstr
 	return (ast);
 }

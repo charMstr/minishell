@@ -17,6 +17,7 @@ void	control_init_struct(t_control *control)
 	control->exit_status = 0;
 	control->history = NULL;
 	control->term = NULL;
+	control->env = NULL;
 	ft_bzero((void*)(&control->lexer_end), sizeof(t_lexer_end));
 }
 
@@ -29,4 +30,5 @@ void	control_free_struct(t_control *control)
 {
 	terminfo_free_struct(control->term);
 	ft_dlstclear(&(control->history->head), history_del_content);
+	ft_lstclear(&control->env, env_del_struct);
 }
