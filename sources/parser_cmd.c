@@ -6,14 +6,16 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 16:47:40 by mli               #+#    #+#             */
-/*   Updated: 2020/05/25 18:01:41 by mli              ###   ########.fr       */
+/*   Updated: 2020/05/27 12:00:00 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// For specifying children + special state for cmds (in, maybe, a struct)
-// Ex : job argvs &
+/*
+** For specifying children + special state for cmds (in, maybe, a struct)
+** Ex : job argvs &
+*/
 
 int		parser_cmd_state(t_btree *new, t_list **tklst)
 {
@@ -65,6 +67,13 @@ int		parser_cmdlst(t_list **args, t_list **tklst)
 	}
 	return (1);
 }
+
+/*
+** Create a linked list of a cmd and its args and add it directly to the AST
+** Returns :
+**			1:Success
+**			-1:Failure
+*/
 
 int		parser_cmd(t_list **tklst, t_btree **new)
 {
