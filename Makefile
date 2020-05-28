@@ -126,7 +126,6 @@ SRC_FILES =	main\
 			exe_root\
 			simple_cmd_root\
 			simple_cmd_assist1\
-			simple_cmd_assist2\
 			debug_functions\
 			debug_terminfo\
 			btree_debug\

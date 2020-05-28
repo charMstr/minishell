@@ -21,105 +21,120 @@ int	simple_cmd_convert_root(t_btree* ast)
 	if ((res = simple_cmd_convert_root(ast->left)))
 		res = simple_cmd_convert_root(ast->right);
 	if (res && btree_id(ast) == LIST)
-		res = simple_cmd_convert1((t_token *)ast->item);
+		res = simple_cmd_convert((t_token *)ast->item);
 	return (res);
 }
 
 /*
-** note:	this function calls the subfunction that will convert the token
-**			from id LIST to id CMD. and it will unquote the redirections
+** note:	This function will replace the token contained an ast node, from
+**			type LIST to type CMD. token->str then contains a t_simple_cmd ptr.
 **
-** note:	We dont unquote the argv[1+] yet because the rules are a bit
-**			different, especially with the echo builtin that needs to make a
-**			distinction between a double quoted, simple quoted and unquoted str
-** example:	a command like "cd" is equivalent to cd
+** note:	When doing a command like such:
+**			echo HEYYY > hello1 > hello2 > hello3 >> world1 >> world2 >> world3
+**			Only the final world3 file will contain "HEYYY" but all files are
+**			created still. Thats why the t_simple_cmd structure contains a
+**			linked list for the stdout redirection, and one for the stdin.
+**
+** INPUT:	Token with a LIST id. (token->str contains a list of tokens of
+**			type: WORD, GREAT, DGREAT or LESS.)
 **
 ** RETURN:	1 OK
 **			0 KO
 */
 
-int	simple_cmd_convert1(t_token *token_node)
+int	simple_cmd_convert(t_token *token_node)
 {
-	if (!simple_cmd_convert2(token_node))
+	t_simple_cmd *cmd;
+	t_list *tokens_list;
+	t_list *redirections;
+
+	tokens_list = (t_list *)(token_node->str);
+	if (!(cmd = simple_cmd_init()))
 		return (0);
-	simple_cmd_unquote_redirections((t_simple_cmd*)token_node->str);
-	unquote_str(((t_simple_cmd*)token_node->str)->argv[0]);
+	redirections = simple_cmd_skim_redirections(&tokens_list);
+	/* OK
+	printf("for the command words:\n");
+	debug_tokens_list(tokens_list);
+	printf("for the redirections:\n");
+	debug_tokens_list(redirections);
+	*/
+	if (!simple_cmd_fill_argv_field(cmd, tokens_list))
+	{
+		ft_lstclear(&redirections, del_token);
+		free_simple_cmd_struct(cmd);
+		return (0);
+	}
+	if (!simple_cmd_fill_redirections_fields(cmd, redirections))
+	{
+		ft_lstclear(&redirections, del_token);
+		free_simple_cmd_struct(cmd);
+		return (0);
+	}
+	ft_lstclear(&redirections, del_token);
+	ft_lstclear(&tokens_list, del_token);
+	token_node->str = (char *)cmd;
+	token_node->id = CMD;
+	//debug_simple_cmd(cmd);
 	return (1);
 }
 
 /*
-** note:	this function will unquote the redirections's filenames in the
-**			t_simple_cmd struct's redirections and indirections.
+** note:	this function will separate the redirections and its following
+**			token from the command token. the original linked list will only
+**			contain the remaining tokens concerning argv afterall
+**
+** RETURN:	a linked list containing only the the redirections related tokens.
 */
 
-void	simple_cmd_unquote_redirections(t_simple_cmd *cmd)
+t_list *simple_cmd_skim_redirections(t_list **tokens)
 {
-	t_list	*tmp;
+	t_list *redirections;
+	t_list *couple;
 
-	tmp = cmd->redirections;
-	while (tmp)
+	redirections = NULL;
+	while (*tokens)
 	{
-		unquote_str(((t_arrow*)tmp->content)->filename);
-		tmp = tmp->next;
+		if (tklst_id(*tokens) == GREAT || tklst_id(*tokens) == DGREAT \
+					|| tklst_id(*tokens) == LESS)
+		{
+			couple = *tokens;
+			*tokens = (*tokens)->next->next;
+			couple->next->next = NULL;
+			ft_lstadd_back(&redirections, couple);
+		}
+		else
+			tokens = &(*tokens)->next;
 	}
-	tmp = cmd->indirections;
-	while (tmp)
-	{
-		unquote_str(((t_arrow*)tmp->content)->filename);
-		tmp = tmp->next;
-	}
+	return (redirections);
 }
 
 /*
-**	note:	this function will shift all the characters to the left, and
-**			replace the last quote by a '\0'. no mallocs.
-** note:	the reduce_backslash function is called only if the quote_type is
-**			double quote.
+** note:	this function will init a structure of type t_simple_cmd.
+**
+** RETURN:	pointer to malloced struct.
+**			NULL if failure.
 */
-
-void	unquote_str(char *str)
+t_simple_cmd	*simple_cmd_init(void)
 {
-	int i;
-	char quote_type;
+	t_simple_cmd *cmd;
 
-	i = 0;
-	if (!str || (str[0] != '\'' && str[0] != '\"'))
-		return ;
-	if (str[0] == '\'')
-		quote_type = '\'';
-	else
-		quote_type = '\"';
-	while (str[i])
-	{
-		if (quote_type == '\"' && str[i] == '\\' && str[i + 1] == '\\')
-			reduce_backslash(str + i);
-		i++;
-	}
-	i = 0;
-	while (str[i])
-	{
-		str[i] = str[i + 1];
-		if (!str[i])
-			str[i - 1] = '\0';
-		i++;
-	}
+	if (!(cmd = malloc(sizeof(t_simple_cmd))))
+		return (NULL);
+	ft_bzero(cmd, sizeof(t_simple_cmd));
+	return (cmd);
 }
 
 /*
-** note:	This function is called when removing the quotes from a string
-**			if we have a double back_slash, it is reduced to one backslash.
-**			Whatever that was on the right is shifted to the left one index
-**			magnitude.
+** note:	this function will free the memory taken by a struct of this type.
 */
 
-void	reduce_backslash(char *str)
+void	free_simple_cmd_struct(void *void_cmd)
 {
-	int i;
+	t_simple_cmd *cmd;
 
-	i = 0;
-	while (str[i])
-	{
-		str[i] = str[i + 1];
-		i++;
-	}
+	cmd = (t_simple_cmd*)void_cmd;
+	ft_array_free(cmd->argv, ft_array_len(cmd->argv));
+	ft_lstclear(&cmd->redirections, free_t_arrow);
+	ft_lstclear(&cmd->indirections, free_t_arrow);
+	free(cmd);
 }
