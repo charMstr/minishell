@@ -5,6 +5,21 @@
 */
 
 /*
+** note:	this function will represent the env buit-in facility
+*/
+
+void	env_builtin(t_list *env)
+{
+	while (env)
+	{
+		ft_putstr_fd(((t_env*)(env->content))->label, 1);
+		ft_putstr_fd("=", 1);
+		ft_putendl_fd(((t_env*)(env->content))->value, 1);
+		env = env->next;
+	}
+}
+
+/*
 ** note:	this function will build the env linked list. using as input the
 **			exter char **environ
 **
@@ -121,19 +136,4 @@ t_env *env_init_struct(void)
 	new->label = NULL;
 	new->value = NULL;
 	return (new);
-}
-
-/*
-** note:	this function will represent the env buit-in facility
-*/
-
-void	env_builtin(t_list *env)
-{
-	while (env)
-	{
-		ft_putstr_fd(((t_env*)(env->content))->label, 1);
-		ft_putstr_fd("=", 1);
-		ft_putendl_fd(((t_env*)(env->content))->value, 1);
-		env = env->next;
-	}
 }

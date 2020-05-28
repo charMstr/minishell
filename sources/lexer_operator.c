@@ -8,14 +8,18 @@
 */
 
 /*
-** note:	this function will be entered in the case we have met an operator
-**			as a first characer for out token.
+** note:	this function will be entered in the case we have met an operator.
+**			If we were currently building a token, we can detect it with
+**			token->str being non NULL. we terminate the current token.
+**
 ** RETURN:	1 ok
 **			0 if malloc failed
 */
 
 int	lexer_operator(const char *input, int *j, t_token *token)
 {
+	if (token->str)
+		return (1);
 	lexer_set_operator_id(token, input[*j]);
 	if (ft_strchr("();", input[*j]))
 	{

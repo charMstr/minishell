@@ -97,7 +97,7 @@ SRC_FILES =	main\
 			lexer_just_token\
 			lexer_end\
 			lexer_end2\
-			builtin_root\
+			builtin_env\
 			builtin_unset\
 			builtin_echo\
 			builtin_export\

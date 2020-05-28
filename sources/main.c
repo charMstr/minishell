@@ -12,7 +12,7 @@ extern char **environ;
 int	master_loop(t_control *control)
 {
 	t_list *tokens_list;
-	t_btree *ast;
+	//t_btree *ast;
 
 	if (!(control->env = env_build_linked_list(environ)))
 		return (1);

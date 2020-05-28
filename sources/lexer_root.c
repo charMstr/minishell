@@ -48,7 +48,7 @@ t_list	*lexer_root(char *input, t_control *control)
 
 /*
 ** note:	this function will be called when destroying the linked list
-**			containing token
+**			containing tokens
 */
 
 void	del_token(void *token)
