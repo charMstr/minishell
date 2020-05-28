@@ -8,7 +8,7 @@
 /*
 ** note:	This function will allocate memory for the token->str element of
 **			token struct.
-** note:	When starting we know that the first cahracter will be a character
+** note:	When starting we know that the first character will be a character
 **			other than end of string or space.
 ** note:	if the element token->esc_next is sitll on when we are done, it
 **			means that the last char was a single escape sequence. this flag
@@ -24,6 +24,8 @@
 
 int	lexer_find_token(const char *input, int *j, t_token *token)
 {
+	if (!input[*j])
+		return (1);
 	if (!token->esc_next)
 	{
 		if (input[*j] == '\\' && lexer_jump_esc(j, token))

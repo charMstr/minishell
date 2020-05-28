@@ -14,17 +14,12 @@
 void			exe_root(t_btree *ast, t_control *control);
 
 int				simple_cmd_convert_root(t_btree* ast);
-int				simple_cmd_convert1(t_token *token_node);
-void			simple_cmd_unquote_redirections(t_simple_cmd *cmd);
-void			unquote_str(char *str);
-void			reduce_backslash(char *str);
-
-int				simple_cmd_convert2(t_token *token_node);
+int				simple_cmd_convert(t_token *token_node);
+t_list			*simple_cmd_skim_redirections(t_list **tokens);
 t_simple_cmd	*simple_cmd_init(void);
 void			free_simple_cmd_struct(void *void_cmd);
-t_list			*simple_cmd_skim_redirections(t_list **tokens);
-int				simple_cmd_fill_argv_field(t_simple_cmd *cmd, t_list *tokens);
 
+int				simple_cmd_fill_argv_field(t_simple_cmd *cmd, t_list *tokens);
 int				simple_cmd_fill_redirections_fields(t_simple_cmd *cmd, \
 			t_list *tokens);
 int				simple_cmd_fill_redirections_fields_assist(t_simple_cmd *cmd, \

@@ -57,7 +57,7 @@ int lexer_quoted_double(const char *input, char c, int *j, t_token *token)
 		{
 			(*j)++;
 			token->open_quote = 0;
-			return (1);
+			return (lexer_find_token(input, j, token));
 		}
 		token->esc_next = 0;
 		(*j)++;
@@ -84,7 +84,7 @@ int	lexer_quoted_single(const char *input, char c, int *j, t_token *token)
 		{
 			(*j)++;
 			token->open_quote = 0;
-			return (1);
+			return (lexer_find_token(input, j, token));
 		}
 		(*j)++;
 	}
