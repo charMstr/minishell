@@ -123,9 +123,12 @@ SRC_FILES =	main\
 			parser_root\
 			parser_cmd\
 			parser_utils\
+			parser_LIST_to_CMD_root\
+			parser_LIST_to_CMD_assist\
 			exe_root\
-			simple_cmd_root\
-			simple_cmd_assist1\
+			cmd_expand_root\
+			parameter_expansion\
+			parameter_expansion2\
 			debug_functions\
 			debug_terminfo\
 			btree_debug\

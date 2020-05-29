@@ -50,6 +50,7 @@ FILES = atoi\
 	putnbr_fd\
 	putstr_fd\
 	split\
+	split_whitespaces\
 	strchr\
 	strdup\
 	strjoin\

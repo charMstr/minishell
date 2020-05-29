@@ -32,8 +32,15 @@
 
 # define BUFFER_SIZE 32
 
-extern int	errno;
+# define B_ECHO 1
+# define B_CD 2
+# define B_PWD 3
+# define B_EXPORT 4
+# define B_UNSET 5
+# define B_ENV 6
+# define B_EXIT 7
 
+extern int	errno;
 
 //minishell_utils
 void		ft_pipe(int (*fildes)[2]);

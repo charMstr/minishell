@@ -3,28 +3,33 @@
 
 # include "minishell.h"
 
-# define B_ECHO 1
-# define B_CD 2
-# define B_PWD 3
-# define B_EXPORT 4
-# define B_UNSET 5
-# define B_ENV 6
-# define B_EXIT 7
-
 void			exe_root(t_btree *ast, t_control *control);
+int				exe_is_builtin(char *argv0);
+int				exe_prototype(t_control *control, t_btree *ast);
+void			exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control);
+int				exe_simple_cmd(t_simple_cmd *cmd, t_control *control);
 
-int				simple_cmd_convert_root(t_btree* ast);
-int				simple_cmd_convert(t_token *token_node);
-t_list			*simple_cmd_skim_redirections(t_list **tokens);
-t_simple_cmd	*simple_cmd_init(void);
-void			free_simple_cmd_struct(void *void_cmd);
-
-int				simple_cmd_fill_argv_field(t_simple_cmd *cmd, t_list *tokens);
-int				simple_cmd_fill_redirections_fields(t_simple_cmd *cmd, \
+int				cmd_expand_root(t_simple_cmd *cmd, t_control *control);
+int				cmd_expand_argv_list(t_list **argv_list, t_control *control);
+int				cmd_expand_argv(t_simple_cmd * cmd, t_control *control);
+int				cmd_expand_list_to_argv_array(t_simple_cmd *cmd, \
 			t_list *tokens);
-int				simple_cmd_fill_redirections_fields_assist(t_simple_cmd *cmd, \
-			int id, char **str);
-t_arrow			*init_t_arrow(void);
-void			free_t_arrow(void *void_arrow);
+int				cmd_expand_argv_token(t_list **argv, t_control *control);
+
+int				parameter_expansion(t_list **token, t_control *control, \
+			int field_split);
+int				param_exp_find_start(t_list **token, int start, char *quot);
+int				param_exp_find_end(t_list **token, int start);
+char			*param_exp_get_env(t_control *control, char *str, int len);
+void			reset_t_expanssion(t_expansion *exp, int field_splitting);
+
+int				param_exp2(t_list **token, t_control *control, char *var, \
+			t_expansion *exp);
+int				param_exp_field_split(t_list **token, t_expansion *exp, \
+			char *var, char *str2);
+int				param_exp_no_fsplit(char **str, char *var, char *str2, \
+			t_expansion *exp);
+int				param_exp_field_split2(t_list **token, t_expansion *exp, \
+			char **array, char *str2);
 
 #endif

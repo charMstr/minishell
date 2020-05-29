@@ -203,6 +203,10 @@ int			tkcmp_braces(t_token *token)
 **			first, because all sub-ast should be linked but we have to avoid
 **			double free (or maybe they are not and it is useless)
 **
+** note:	the call to parser_LIST_to_CMD_root will reparcour the tree and
+**			transform the nodes of type LIST, into nodes of type CMD, creating
+**			a structure containing argv and a linked list for redirections.
+**			(control->quit raised inside the subfunction if failure).
 ** RETURN:	A btree (AST) which item are (t_token *)
 **			NULL if a malloc failed.
 */
@@ -232,5 +236,6 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 		ft_lstclear(&tklst, del_token);
 		ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
 	}
+	parser_LIST_to_CMD_root(ast, control);
 	return (ast);
 }

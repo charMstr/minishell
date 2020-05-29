@@ -11,17 +11,19 @@
 **			0 KO
 */
 
-int	simple_cmd_convert_root(t_btree* ast)
+int	parser_LIST_to_CMD_root(t_btree* ast, t_control *control)
 {
 	int res;
 
 	if (!ast)
 		return (1);
 	//debug_node_id(ast);
-	if ((res = simple_cmd_convert_root(ast->left)))
-		res = simple_cmd_convert_root(ast->right);
+	if ((res = parser_LIST_to_CMD_root(ast->left, control)))
+		res = parser_LIST_to_CMD_root(ast->right, control);
 	if (res && btree_id(ast) == LIST)
-		res = simple_cmd_convert((t_token *)ast->item);
+		res = parser_LIST_to_CMD1((t_token *)ast->item);
+	if (!res)
+		control->quit = 1;
 	return (res);
 }
 
@@ -42,36 +44,30 @@ int	simple_cmd_convert_root(t_btree* ast)
 **			0 KO
 */
 
-int	simple_cmd_convert(t_token *token_node)
+int	parser_LIST_to_CMD1(t_token *token_node)
 {
 	t_simple_cmd *cmd;
 	t_list *tokens_list;
 	t_list *redirections;
 
 	tokens_list = (t_list *)(token_node->str);
-	if (!(cmd = simple_cmd_init()))
+	if (!(cmd = init_t_simple_cmd()))
 		return (0);
-	redirections = simple_cmd_skim_redirections(&tokens_list);
+	redirections = parser_LIST_to_CMD_skim_redirections(&tokens_list);
 	/* OK
 	printf("for the command words:\n");
 	debug_tokens_list(tokens_list);
 	printf("for the redirections:\n");
 	debug_tokens_list(redirections);
 	*/
-	if (!simple_cmd_fill_argv_field(cmd, tokens_list))
+	if (!parser_LIST_to_CMD_fill_redirection_fields(cmd, redirections))
 	{
 		ft_lstclear(&redirections, del_token);
-		free_simple_cmd_struct(cmd);
+		free_t_simple_cmd(cmd);
 		return (0);
 	}
-	if (!simple_cmd_fill_redirections_fields(cmd, redirections))
-	{
-		ft_lstclear(&redirections, del_token);
-		free_simple_cmd_struct(cmd);
-		return (0);
-	}
+	cmd->argv_list = tokens_list;
 	ft_lstclear(&redirections, del_token);
-	ft_lstclear(&tokens_list, del_token);
 	token_node->str = (char *)cmd;
 	token_node->id = CMD;
 	//debug_simple_cmd(cmd);
@@ -86,7 +82,7 @@ int	simple_cmd_convert(t_token *token_node)
 ** RETURN:	a linked list containing only the the redirections related tokens.
 */
 
-t_list *simple_cmd_skim_redirections(t_list **tokens)
+t_list *parser_LIST_to_CMD_skim_redirections(t_list **tokens)
 {
 	t_list *redirections;
 	t_list *couple;
@@ -114,7 +110,7 @@ t_list *simple_cmd_skim_redirections(t_list **tokens)
 ** RETURN:	pointer to malloced struct.
 **			NULL if failure.
 */
-t_simple_cmd	*simple_cmd_init(void)
+t_simple_cmd	*init_t_simple_cmd(void)
 {
 	t_simple_cmd *cmd;
 
@@ -128,12 +124,13 @@ t_simple_cmd	*simple_cmd_init(void)
 ** note:	this function will free the memory taken by a struct of this type.
 */
 
-void	free_simple_cmd_struct(void *void_cmd)
+void	free_t_simple_cmd(void *void_cmd)
 {
 	t_simple_cmd *cmd;
 
 	cmd = (t_simple_cmd*)void_cmd;
 	ft_array_free(cmd->argv, ft_array_len(cmd->argv));
+	ft_lstclear(&cmd->argv_list, del_token);
 	ft_lstclear(&cmd->redirections, free_t_arrow);
 	ft_lstclear(&cmd->indirections, free_t_arrow);
 	free(cmd);

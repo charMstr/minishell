@@ -74,6 +74,7 @@ typedef struct		t_list_sh
 	t_list			*t_pipe_sequence;
 }					t_list_sh;
 
+
 t_btree				*parser_root(t_list *tokens, t_control *control);
 
 void		del_ast(t_btree **node);
@@ -90,5 +91,18 @@ int			token_id(t_token *token);
 int			tklst_id(t_list *tklst);
 int			btree_id(t_btree *node);
 void		parser_disp(t_token *node, t_btree *parent);
+
+int				parser_LIST_to_CMD_root(t_btree* ast, t_control *control);
+int				parser_LIST_to_CMD1(t_token *token_node);
+t_list			*parser_LIST_to_CMD_skim_redirections(t_list **tokens);
+t_simple_cmd	*init_t_simple_cmd(void);
+void			free_t_simple_cmd(void *void_cmd);
+
+int				parser_LIST_to_CMD_fill_redirection_fields(t_simple_cmd *cmd, \
+			t_list *tokens);
+int				parser_LIST_to_CMD_fill_redirection_fields2(t_simple_cmd *cmd,\
+			int id, char **str);
+t_arrow			*init_t_arrow(void);
+void			free_t_arrow(void *void_arrow);
 
 #endif

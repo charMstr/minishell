@@ -137,3 +137,28 @@ t_env *env_init_struct(void)
 	new->value = NULL;
 	return (new);
 }
+
+/*
+** note:	this function will return the value of the string matching the env
+**			variable given as input.
+**
+** note:	as input we give len, so str could be a substring of a char *.
+**
+** RETURN:	char * (not malloced! just a copy)
+**			NULL if env does not exist
+*/
+
+char	*env_get(char *str, size_t len, t_list *env)
+{
+	while (env)
+	{
+		if (((t_env*)env->content)->label)
+		{
+			if (ft_strlen(((t_env*)env->content)->label) == len \
+					&& !ft_strncmp(str, ((t_env*)env->content)->label, len))
+				return (((t_env*)env->content)->value);
+		}
+		env = env->next;
+	}
+	return (NULL);
+}

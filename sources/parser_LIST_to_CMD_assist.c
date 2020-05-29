@@ -1,43 +1,8 @@
 #include "minishell.h"
 
 /*
-** this file assists the simple_cmd_root.c file.
+** this file assists the parser_LIST_to_CMD_root.c file.
 */
-
-/*
-** note:	this function is called to creat a 2d array with the tokens of type
-**			WORD and put it into the argv field of the t_simple_cmd struct
-**
-** RETURN:	1 OK
-**			0 OK
-*/
-
-int	simple_cmd_fill_argv_field(t_simple_cmd *cmd, t_list *tokens)
-{
-	int size;
-	int index;
-	t_list *copy;
-
-	copy = tokens;
-	size = 0;
-	index = 0;
-	while (copy)
-	{
-		copy = copy->next;
-		size++;
-	}
-	if (!(cmd->argv = malloc(sizeof(char *) * (size + 1))))
-		return (0);
-	cmd->argv[size] = NULL;
-	while (tokens)
-	{
-		cmd->argv[index] = ((t_token *)tokens->content)->str;
-		((t_token *)tokens->content)->str = NULL;
-		tokens = tokens->next;
-		index++;
-	}
-	return (1);
-}
 
 /*
 ** note:	this function is called when we want to build the two linked lists
@@ -51,7 +16,8 @@ int	simple_cmd_fill_argv_field(t_simple_cmd *cmd, t_list *tokens)
 **			1 OK
 */
 
-int	simple_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
+int	parser_LIST_to_CMD_fill_redirection_fields(t_simple_cmd *cmd, \
+		t_list *tokens)
 {
 	int id;
 	while (tokens)
@@ -59,7 +25,7 @@ int	simple_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
 		id = tklst_id(tokens);
 		if (id == GREAT || id == DGREAT || id == LESS)
 		{
-			if (!simple_cmd_fill_redirections_fields_assist(cmd, id, \
+			if (!parser_LIST_to_CMD_fill_redirection_fields2(cmd, id, \
 						&((t_token *)tokens->next->content)->str))
 					return (0);
 			tokens = tokens->next;
@@ -79,8 +45,8 @@ int	simple_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
 ** 			0 KO
 */
 
-int	simple_cmd_fill_redirections_fields_assist(t_simple_cmd *cmd, int id, \
-		char **str)
+int	parser_LIST_to_CMD_fill_redirection_fields2(t_simple_cmd *cmd, \
+		int id, char **str)
 {
 	t_arrow *arrow;
 	t_list *new;

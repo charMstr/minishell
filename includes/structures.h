@@ -98,11 +98,13 @@ typedef struct		s_control
 ** This structure contains everything required by a simple command to be run.
 ** redirections will need to be operated in the order of the linked list.
 ** the indirections and redirections bothe contains a linked list of t_arrow*.
+**	argv_list will hold temporary the argv words until expansion is done.
 */
 typedef struct	s_simple_cmd
 {
 		t_list	*indirections;
 		t_list	*redirections;
+		t_list 	*argv_list;
 		char	**argv;
 }				t_simple_cmd;
 
@@ -125,6 +127,23 @@ typedef struct	s_env
 	char *label;
 	char *value;
 }				t_env;
+
+/*
+** structure assising in the process of parameter expansion and field splitting
+** start: the position in the string where the $ is at.
+** end:	the index of the last char belonging to the variable.
+** quoted: will help us know if the field_splitting will be applied or not.
+** ifs: internal field separator. stored here for when it comes to the field
+**		splittting part.
+*/
+typedef struct	s_expansion
+{
+	int			start;
+	int			end;
+	char		quoted;
+	int			field_splitting;
+	char		*ifs;
+}				t_expansion;
 
 //unused for now
 typedef struct	s_mysh

@@ -84,6 +84,13 @@ void	debug_simple_cmd(t_simple_cmd *cmd)
 		printf("\tcmd->argv[%d]: [%s]\n", i, cmd->argv[i]);
 		i++;
 	}
+	printf("argv_list:\n");
+	tmp = cmd->argv_list;
+	while (tmp)
+	{
+		printf("\t[%s]\n", ((t_token*)tmp->content)->str);
+		tmp = tmp->next;
+	}
 	printf("redirections:\n");
 	tmp = cmd->redirections;
 	while (tmp)

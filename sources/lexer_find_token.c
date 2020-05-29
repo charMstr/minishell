@@ -26,17 +26,15 @@ int	lexer_find_token(const char *input, int *j, t_token *token)
 {
 	if (!input[*j])
 		return (1);
-	if (!token->esc_next)
-	{
-		if (input[*j] == '\\' && lexer_jump_esc(j, token))
-			return (lexer_find_token(input, j, token));
-		else if (ft_strchr("\"\'", input[*j]))
-			return (lexer_quoted(input, j, token));
-		else if (ft_strchr("&<>()|;", input[*j]))
-			return (lexer_operator(input, j, token));
-		else if (ft_isdigit(input[*j]))
-			return (lexer_token_or_indirection(input, j, token));
-	}
+
+	if (input[*j] == '\\')
+		return (lexer_just_token(input, j, token));
+	else if (ft_strchr("\"\'", input[*j]))
+		return (lexer_quoted(input, j, token));
+	else if (ft_strchr("&<>()|;", input[*j]))
+		return (lexer_operator(input, j, token));
+	else if (ft_isdigit(input[*j]))
+		return (lexer_token_or_indirection(input, j, token));
 	return (lexer_just_token(input, j, token));
 }
 

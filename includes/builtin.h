@@ -6,6 +6,7 @@ t_env	*env_build(char *str);
 void	env_del_struct(void *env);
 void	env_builtin(t_list *env);
 t_env	*env_init_struct(void);
+char	*env_get(char *str, size_t len, t_list *env);
 
 int		unset_builtin(t_list **env_head, char **argv);
 int		unset_in_env_list(t_list **env_head, char *str);

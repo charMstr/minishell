@@ -9,6 +9,9 @@
 /*
 ** note:	this function is going to be called when the token is neither going
 **			to be an operator or a quote.
+** note:	when we meet an escape sequence, we still add it to the token, but
+**			we know we will see the next character as a simple character.
+**
 ** RETURN:	1 ok
 **			0 if malloc failed.
 */
@@ -17,16 +20,19 @@ int lexer_just_token(const char *input, int *j, t_token *token)
 {
 	while (input[*j] && (token->esc_next || input[*j] != ' '))
 	{
-		if (!token->esc_next)
+		if (!token->esc_next && ft_strchr("\"\'", input[*j]))
+			return (lexer_quoted(input, j, token));
+		else if (!token->esc_next && ft_strchr("&<>()|;", input[*j]))
+			return (1);
+		else if (!token->esc_next && input[*j] == '\\')
 		{
-			if (input[*j] == '\\' && lexer_jump_esc(j, token))
-				continue;
-			else if (ft_strchr("\"\'", input[*j]))
-				return (lexer_quoted(input, j, token));
-			else if (ft_strchr("&<>()|;", input[*j]))
-				return (1);
+			token->esc_next = 1;
+			if (!ft_strappend(&(token->str), input[*j]))
+				return (0);
+			(*j)++;
+			continue;
 		}
-		if (!ft_strappend(&(token->str), input[*j]))
+		else if (!ft_strappend(&(token->str), input[*j]))
 			return (0);
 		token->esc_next = 0;
 		(*j)++;
