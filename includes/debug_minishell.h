@@ -15,9 +15,10 @@ void	debug_lexer_flags(t_control *control);
 void	debug_simple_cmd(t_simple_cmd *cmd);
 void	debug_node_id(t_btree *node);
 void	debug_arrow_struct(t_arrow *arrow);
+void	debug_array(char **array);
+void	debug_unquote(t_token *token);
 
 # define SIZE_LEAF 6
 void	btree_debug(t_btree *root, void (*display)());
-
 
 #endif

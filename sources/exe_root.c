@@ -31,6 +31,7 @@ int	exe_prototype(t_control *control, t_btree *ast)
 	if (btree_id(ast) == CMD)
 	{
 		tok = (t_token*)ast->item;
+	//	debug_simple_cmd(((t_simple_cmd *)tok->str));
 		if (!exe_simple_cmd((t_simple_cmd *)tok->str, control))
 			return (0);
 		debug_simple_cmd(((t_simple_cmd *)tok->str));

@@ -1,37 +1,60 @@
 #include "minishell.h"
 
 /*
-** note:	at this stage, we already commited to field splitting, since the
-**			array contains at least two strings. We will have to malloc at
-**			least one new token and append it to the string.
-**			current token's string is actually str1, and the second part str2
-**			is given as a parameter.
-**			the first field is appended to the end of str1 in the current token
-**			And the other fields go into newly created and appended tokens.
-**			str2 is appended to the last token.
+** note:	this function will decide if we operate the field splitting algo
+**			or not onto the parameter expansion.
+**			If not we simply insert ther var string into the current token's
+**			str. If yes we will have to eventually creat new tokens
 **
-** note:	when tokens are created/appended, the token variable is shifted to
-**			next. In that case also the start is updated.
-**
-** input:	-array: the expanded parameter that got field split.
-**			-token: in which is str1, in which we will inject var's first field
-**			-exp: the structure containg start, which need to be updated.
-**			-str2: will be appended to the last token.(could be the first one
-**			if no splitting occurs.
-**
+** note:	the token->unquote_protected and its related start and end will
+**			mark the begining and end of the inserted expanded variable.
 ** RETURN:	1 OK
 **			0 KO
 */
 
-int	param_exp_field_split2(t_list **token, t_expansion *exp, char **array, \
-		char *str2)
+int	param_exp2(t_list ***token, t_control *control, char *var, t_expansion *x)
 {
-	//HERE, and field_splitting
-	(void)token;
-	(void)exp;
-	(void)array;
-	(void)str2;
+	char *str2;
+	char **str;
+
+	str = param_exp2_assist(x, **token, control);
+	if (x->quoted || !x->field_splitting || (x->ifs && !ft_strlen(x->ifs)))
+	{
+		((t_token *)(**token)->content)->protect_e = ft_strlen(var) + x->start;
+		if (!ft_strstradd(str, x->start, var))
+			return (0);
+		x->start += ft_strlen(var);
+		return (1);
+	}
+	else
+	{
+		//printf("we are going to attempt to field split\n");
+		//printf("once the $var collapsed: str = [%s]\n", *str);
+		if (!(str2 = ft_substr(*str, x->start, ft_strlen(*str) + x->start)))
+			return (0);
+		(*str)[x->start] = '\0';
+		//printf("before param expansion: (str1) = [%s]\n", *str);
+		//printf("after param expansion: (str2)  = [%s]\n", str2);
+		if (!param_exp_field_split(token, x, var, str2))
+		{
+			free(str2);
+			return (0);
+		}
+		free(str2);
+	}
 	return (1);
+}
+
+/*
+** note:	assising the param_exp2 func
+*/
+
+char **param_exp2_assist(t_expansion *x, t_list *token, t_control *control)
+{
+	x->ifs = env_get("IFS", 3, control->env);
+	((t_token *)token->content)->unquote_protected = 1;
+	((t_token *)token->content)->protect_s = x->start;
+	return (&((t_token *)token->content)->str);
 }
 
 /*
@@ -54,7 +77,7 @@ int	param_exp_field_split2(t_list **token, t_expansion *exp, char **array, \
 **			0 KO
 */
 
-int	param_exp_field_split(t_list **token, t_expansion *exp, char *var, \
+int	param_exp_field_split(t_list ***token, t_expansion *exp, char *var, \
 		char *str2)
 {
 	char	**array;
@@ -66,13 +89,17 @@ int	param_exp_field_split(t_list **token, t_expansion *exp, char *var, \
 	}
 	else if (!(array = ft_split_whitespaces(var, exp->ifs)))
 			return (0);
+	((t_token *)(**token)->content)->protect_e = exp->start + \
+				ft_strlen(array[0]);
 	if (ft_array_len(array) == 1)
 	{
 		ft_array_free(array, ft_array_len(array));
-		return (param_exp_no_fsplit(&((t_token*)(*token)->content)->str, var,
+		return (param_exp_no_fsplit(&((t_token*)(**token)->content)->str, var,
 					str2, exp));
 	}
-	if (!param_exp_field_split2(token, exp, array, str2))
+	//printf("\nthe field splitting resulted in more that one field:");
+	//debug_array(array);
+	if (!field_splitting(token, exp, array, str2))
 	{
 		ft_array_free(array, ft_array_len(array));
 		return (0);
@@ -99,48 +126,5 @@ int	param_exp_no_fsplit(char **str, char *var, char *str2, t_expansion *exp)
 	if (!(*str = ft_strjoin_free(*str, str2, 1)))
 		return (0);
 	exp->start += ft_strlen(var);
-	return (1);
-}
-
-/*
-** note:	this function will decide if we operate the field splitting algo
-**			or not onto the parameter expansion.
-**			If not we simply insert ther var string into the current token's
-**			str. If yes we will have to eventually creat new tokens
-**
-** RETURN:	1 OK
-**			0 KO
-*/
-
-int	param_exp2(t_list **token, t_control *control, char *var, t_expansion *x)
-{
-	char *str2;
-	char **str;
-
-	x->ifs = env_get("IFS", 3, control->env);
-	str = &((t_token *)(*token)->content)->str;
-	if (x->quoted || !x->field_splitting || (x->ifs && !ft_strlen(x->ifs)))
-	{
-		if (!ft_strstradd(str, x->start, var))
-			return (0);
-		x->start += ft_strlen(var);
-		return (1);
-	}
-	else
-	{
-		//printf("we are going to field split\n");
-		//printf("entering with *str = [%s]\n", *str);
-		if (!(str2 = ft_substr(*str, x->start, ft_strlen(*str) + x->start)))
-			return (0);
-		(*str)[x->start] = '\0';
-	//	printf("str1 = [%s]\n", *str);
-	//	printf("str2 = [%s]\n", str2);
-		if (!param_exp_field_split(token, x, var, str2))
-		{
-			return (0);
-			free(str2);
-		}
-		free(str2);
-	}
 	return (1);
 }

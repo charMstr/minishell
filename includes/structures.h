@@ -71,6 +71,11 @@ typedef struct		s_lexer_end
 
 /*
 ** see lexing.h for the defined values of the id.
+**
+** unquote_protected marks a token that should not be subject to quote removal
+** at the time of word expansion before executing the command.
+** Within that token, the start and end of the protection are marked by the
+** unquote_start  and unquote_end
 */
 typedef struct		s_token
 {
@@ -78,6 +83,9 @@ typedef struct		s_token
 	unsigned int	open_quote:1;
 	unsigned int	esc_next:1;
 	int				id;
+	int				unquote_protected;
+	int				protect_s;
+	int				protect_e;
 }					t_token;
 
 /*
@@ -144,6 +152,21 @@ typedef struct	s_expansion
 	int			field_splitting;
 	char		*ifs;
 }				t_expansion;
+
+/*
+** note:	this structure will only help us with the norm and clarity.
+**			it is used while unquoting strings. If the string is not protected
+**			the  values are set to -1.
+**			both fiels contain the inclusive start and end index of the
+**			protected section of the string.
+*/
+
+typedef struct	s_no_unquote
+{
+	int	start;
+	int	end;
+}				t_no_unquote;
+
 
 //unused for now
 typedef struct	s_mysh

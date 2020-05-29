@@ -140,13 +140,16 @@ int	parameter_expansion(t_list **token, t_control *control, int field_split)
 	{
 		str = ((t_token *)(*token)->content)->str;
 		if ((exp.end = param_exp_find_end(token, exp.start)) == exp.start)
-			return (1);
+		{
+			exp.start++;
+			continue;
+		}
 		insert = param_exp_get_env(control, str + exp.start + 1, \
 				exp.end - exp.start);
-		//printf("insert: vairable = [%s]\n", insert);
+		//printf("expanded variable = [%s]\n", insert);
 		ft_memmove(str + exp.start, str + exp.end + 1, \
 				ft_strlen(str + exp.end));
-		if (!param_exp2(token, control, insert, &exp))
+		if (!param_exp2(&token, control, insert, &exp))
 		{
 			free(insert);
 			return (0);

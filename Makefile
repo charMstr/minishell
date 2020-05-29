@@ -129,6 +129,8 @@ SRC_FILES =	main\
 			cmd_expand_root\
 			parameter_expansion\
 			parameter_expansion2\
+			quote_removal\
+			field_splitting\
 			debug_functions\
 			debug_terminfo\
 			btree_debug\

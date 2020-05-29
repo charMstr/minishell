@@ -107,3 +107,39 @@ void	debug_simple_cmd(t_simple_cmd *cmd)
 	}
 	printf("======================= END DEBUG SIMPLE_CMD =================\n");
 }
+
+void	debug_array(char **array)
+{
+	int i;
+
+	i = 0;
+	printf("\n==============================================================\n");
+	printf("=============================== DEBUG ARRAY ==================\n");
+	if (!array || !*array)
+	{
+		printf("\033[31mNULL POINTER!\033[0m\n");
+		return ;
+	}
+	while (array[i])
+	{
+		printf("\t[%s]\n", array[i]);
+		i++;
+	}
+	printf("======================= END DEBUG ARRAY ======================\n");
+}
+
+void	debug_unquote(t_token *token)
+{
+	printf("\n==============================================================\n");
+	printf("=============================== DEBUG UNQUOTE ================\n");
+	printf("the string is: [%s]\n", token->str);
+	if (!token->unquote_protected)
+	{
+		printf("\033[31mthe protection is off\033[0m\n");
+		return ;
+	}
+	printf("\033[32mthe protection is ON\033[0m\n");
+	printf("start: %d\n", token->protect_s);
+	printf("end: %d\n", token->protect_e);
+	printf("======================= END DEBUG UNQUOTE ====================\n");
+}
