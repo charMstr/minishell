@@ -162,3 +162,22 @@ char	*env_get(char *str, size_t len, t_list *env)
 	}
 	return (NULL);
 }
+
+/*
+** Same as env_get but returns the address of the found value (or NULL)
+*/
+
+char	**env_get_addr(char *str, size_t len, t_list *env)
+{
+	while (env)
+	{
+		if (((t_env *)env->content)->label)
+		{
+			if (ft_strlen(((t_env *)env->content)->label) == len \
+					&& !ft_strncmp(str, ((t_env *)env->content)->label, len))
+				return (&((t_env *)env->content)->value);
+		}
+		env = env->next;
+	}
+	return (NULL);
+}

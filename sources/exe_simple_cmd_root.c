@@ -72,6 +72,8 @@ void	exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control)
 		export_builtin(&control->env, cmd->argv);
 	else if (id == B_UNSET)
 		unset_builtin(&control->env, cmd->argv);
+	else if (id == B_CD)
+		cd_builtin(control->env, cmd->argv);
 }
 
 /*

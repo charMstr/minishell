@@ -5,8 +5,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <errno.h>
+# include <string.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <dirent.h>
 # include "../libft/libft.h"
 
 //for the terminfo database. usings the "termcaps" control sequences.

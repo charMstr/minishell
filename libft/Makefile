@@ -6,7 +6,7 @@
 #    By: charmstr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 21:40:12 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/26 12:37:59 by mli              ###   ########.fr        #
+#    Updated: 2020/05/30 15:40:06 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,6 +112,7 @@ FILES = atoi\
 	dlstpop_back\
 	dlstclearback_addr\
 	lstremove_if\
+	ptrswap\
 
 NO_FT_FILES = btree_add\
 			  btree_apply_bfs\
