@@ -115,8 +115,6 @@ t_list *input_reading_and_lexing(t_control *control)
 		return (NULL);
 	//printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
 	token_lst = lexer_root((char *)(control->history->head->content), control);
-	//CHARMSTR FIX HERE.
-
 	return (token_lst);
 }
 

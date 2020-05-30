@@ -47,8 +47,8 @@ int	param_exp_find_start(t_list **token, int start, char *quot)
 **
 ** note:	the other special characters are treated as a whitespace or EOS...
 **
-** note:	the end of the variable name is marked by(non included) whitespace,
-**			or '*', or '\', or quote, or the end of the string.
+** note:	the end of the variable name is marked by (non included)
+**			anything that is neither a digit nor a letter nor an underscore.
 **
 ** RETURN:	the end index (could be the start)
 */
@@ -64,8 +64,7 @@ int		param_exp_find_end(t_list **token, int start)
 	{
 		if (str[start + 1] == '?')
 			return (start + 1);
-		if (str[end] == '*' || str[end] == '\\' || str[end] == '\'' \
-				|| str[end] == '\"' || str[end] == '$' || str[end] == ' ')
+		if (!ft_isalnum(str[end]) && str[end] != '_')
 			break;
 		end++;
 	}

@@ -6,18 +6,27 @@
 void			exe_root(t_btree *ast, t_control *control);
 int				exe_is_builtin(char *argv0);
 int				exe_prototype(t_control *control, t_btree *ast);
-void			exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control);
-int				exe_simple_cmd(t_simple_cmd *cmd, t_control *control);
-
-
-int				cmd_expand_root(t_simple_cmd *cmd, t_control *control);
-int				cmd_expand_list_to_argv_array(t_simple_cmd *cmd, \
-			t_list *tokens);
-int				cmd_expand_argv_token(t_list **argv, t_control *control);
-int				word_expand_argv(t_simple_cmd * cmd, t_control *control);
-int				parameter_expansion_argv_list(t_list **argv_list, \
+void			exe_call_builtin(t_simple_cmd *cmd, int id, \
 			t_control *control);
-void			quote_removal_argv_list(t_list **argv_list);
+
+int				exe_simple_cmd_root(t_token *token, t_control *control);
+
+int				list_to_cmd_root(t_token *token_node);
+t_list			*list_to_cmd_skim_redirections(t_list **tokens);
+int				list_to_cmd_fill_argv_array(t_simple_cmd *cmd, t_list *tokens);
+t_simple_cmd	*init_t_simple_cmd(void);
+void			free_t_simple_cmd(void *void_cmd);
+
+int				list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, \
+			t_list *tokens);
+int				list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, \
+			int id, char **str);
+t_arrow			*init_t_arrow(void);
+void			free_t_arrow(void *void_arrow);
+
+int				word_expand_root(t_list *tokens, t_control *control);
+int				parameter_expansion_loop(t_list **tokens, t_control *control);
+void			quote_removal_loop(t_list **tokens);
 
 int				parameter_expansion(t_list **token, t_control *control, \
 			int field_split);
@@ -40,7 +49,6 @@ char			**param_exp2_assist(t_expansion *x, t_list *token, \
 int				field_splitting(t_list ***token, t_expansion *exp, \
 			char **array, char *str2);
 int				field_splitting_assist(t_list **tok, char *str);
-
 
 void			quote_removal(t_token *token);
 void			quote_removal_unquoted_part(char *str, int i, \

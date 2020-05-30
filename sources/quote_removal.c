@@ -59,7 +59,7 @@ void	quote_removal_doubly_quoted_part(char *str, int i, t_no_unquote *no)
 		}
 		if (str[i] == '\\' && str[i + 1] && (str[i + 1] == '\\' \
 				|| str[i + 1] == '\"' || str[i + 1] == '$' \
-				|| str[i + 1] == '\n'))
+				|| str[i + 1] == '\n' || str[i + 1] == '`'))
 			if (!quote_removal_eat_char(str, &i, no))
 				return ;
 		i++;

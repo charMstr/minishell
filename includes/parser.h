@@ -2,45 +2,6 @@
 # define PARSER_H
 
 /*
-** this structure is going to be filed when we meet a redirection operator in
-** our token list. the filename will be the first following token.
-** note:	the io_number is out of the scope of the minishell subject but if  it
-**			is parsed in the t_token structure we can implement it easily if we
-**			want...(nop!)
-*/
-
-typedef struct	s_io_redirect
-{
-	char	*filename;	// the first token that follows a redirection operator
-	int		type;		// LESS, DLESS, GREAT DGREAT
-	int		io_number;	// the n in the formula "[n]> filename"
-}				t_io_redirect;
-
-
-/*
-** This structure will contain everything required by a simple command
-** according to the shell grammar.
-** The cmd_words[0] will be the exact same thing as the cmd_name, the rest will
-** be the arguments to the command.
-**
-** the list_of_redirections list:
-** updated each time we find a redirection token (LESS, DLESS, GREAT, DGREAT).
-** redirections are parsed from left to right for that same simple command. For
-** example if there is > file1 > file2, the last one will erase the previous,
-** we will still do a open(file1, O_WRITE | O_TRUNC)... to create file1.
-**
-*/
-
-typedef struct		s_simple_command
-{
-	char			*cmd_name;
-	char			**cmd_words;
-	t_list			*list_of_redirections; // list of t_io_redirect struct
-	//a link list of the redirections we will have to operate on every single simple command
-}					t_simple_command;
-
-
-/*
 ** this will be the structure that contains a job, or "pipe_sequence" according
 ** to the shell grammar
 **
@@ -91,18 +52,5 @@ int			token_id(t_token *token);
 int			tklst_id(t_list *tklst);
 int			btree_id(t_btree *node);
 void		parser_disp(t_token *node, t_btree *parent);
-
-int				parser_LIST_to_CMD_root(t_btree* ast, t_control *control);
-int				parser_LIST_to_CMD1(t_token *token_node);
-t_list			*parser_LIST_to_CMD_skim_redirections(t_list **tokens);
-t_simple_cmd	*init_t_simple_cmd(void);
-void			free_t_simple_cmd(void *void_cmd);
-
-int				parser_LIST_to_CMD_fill_redirection_fields(t_simple_cmd *cmd, \
-			t_list *tokens);
-int				parser_LIST_to_CMD_fill_redirection_fields2(t_simple_cmd *cmd,\
-			int id, char **str);
-t_arrow			*init_t_arrow(void);
-void			free_t_arrow(void *void_arrow);
 
 #endif

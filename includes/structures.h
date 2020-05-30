@@ -112,7 +112,6 @@ typedef struct	s_simple_cmd
 {
 		t_list	*indirections;
 		t_list	*redirections;
-		t_list 	*argv_list;
 		char	**argv;
 }				t_simple_cmd;
 

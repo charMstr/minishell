@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /*
-** this file assists the parser_LIST_to_CMD_root.c file.
+** this file assists the list_to_cmd_root.c file.
 */
 
 /*
@@ -16,8 +16,7 @@
 **			1 OK
 */
 
-int	parser_LIST_to_CMD_fill_redirection_fields(t_simple_cmd *cmd, \
-		t_list *tokens)
+int	list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
 {
 	int id;
 	while (tokens)
@@ -25,7 +24,7 @@ int	parser_LIST_to_CMD_fill_redirection_fields(t_simple_cmd *cmd, \
 		id = tklst_id(tokens);
 		if (id == GREAT || id == DGREAT || id == LESS)
 		{
-			if (!parser_LIST_to_CMD_fill_redirection_fields2(cmd, id, \
+			if (!list_to_cmd_fill_redirections_fields2(cmd, id, \
 						&((t_token *)tokens->next->content)->str))
 					return (0);
 			tokens = tokens->next;
@@ -45,8 +44,8 @@ int	parser_LIST_to_CMD_fill_redirection_fields(t_simple_cmd *cmd, \
 ** 			0 KO
 */
 
-int	parser_LIST_to_CMD_fill_redirection_fields2(t_simple_cmd *cmd, \
-		int id, char **str)
+int	list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, int id, \
+		char **str)
 {
 	t_arrow *arrow;
 	t_list *new;

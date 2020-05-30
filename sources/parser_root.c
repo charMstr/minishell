@@ -236,6 +236,6 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 		ft_lstclear(&tklst, del_token);
 		ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
 	}
-	parser_LIST_to_CMD_root(ast, control);
+//	parser_LIST_to_CMD_root(ast, control);
 	return (ast);
 }
