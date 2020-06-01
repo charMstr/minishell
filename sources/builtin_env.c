@@ -85,9 +85,14 @@ void	env_del_struct(void *env)
 }
 
 /*
-** note:	This function will get the string either imported from the env, or
-**			sent by the export function. And split it at the first '=' sign
-**			found into two elements of a struct: label and value.
+** note:	This function will get the string either imported from the env
+**			variable list that we are converting at the start. Or from the
+**			export utility. in the second case, the validity of the string has
+**			already been checked (equal sign present, str not starting by a '='
+**			or a '\')
+**			It split str at the first '=' sign found into two elements of a
+**			struct: label and value.
+**
 ** RETURN:	t_env *
 **			NULL if some malloc failed.
 */
@@ -154,7 +159,13 @@ char	*env_get(char *str, size_t len, t_list *env)
 }
 
 /*
-** Same as env_get but returns the address of the found value (or NULL)
+** note:	this function will return the address of the value of the label
+**			string matching the env variable given as input.
+**
+** note:	as input we give len, so str could be a substring of a char *.
+**
+** RETURN:	char **.
+**			NULL if env does not exist
 */
 
 char	**env_get_addr(char *str, size_t len, t_list *env)

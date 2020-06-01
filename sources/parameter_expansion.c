@@ -87,16 +87,17 @@ int		param_exp_find_end(t_list **token, int start)
 char *param_exp_get_env(t_control *control, char *str, int len)
 {
 	char *value;
+	char **addr_value;
 
 	if (!ft_strncmp(str, "?", len))
 		return (ft_itoa(control->exit_status));
-	value = env_get(str, len, control->env);
+	addr_value = env_get_addr(str, len, control->env);
 	//printf("str: [%s], len: %d\n", str,  len);
 	//printf("value: %s\n", value);
-	if (!value)
+	if (!addr_value)
 		value = ft_strdup("");
 	else
-		value = ft_strdup(value);
+		value = ft_strdup(*addr_value);
 	return (value);
 }
 
