@@ -59,4 +59,13 @@ int				quote_removal_skip_protected_part(char *str, int *i, \
 			t_no_unquote *no);
 int				quote_removal_eat_char(char *str, int *i, t_no_unquote *no);
 
+int				pathname_expand_root(char *str);
+
+int				match_star(char *str, char *star, int quoted, int offset);
+void			match_within_quote_escape_met(int *j, char *str, \
+			int *esc_next);
+int				match_no_star(char *ref, char *no_star, int esc_next, int j);
+int				match_until_double_quote(char *ref, char *str, int esc_next);
+int				match_within_quote(char *ref, char *str, char quote);
+
 #endif

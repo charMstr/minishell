@@ -91,7 +91,7 @@ int	param_exp_field_split(t_list ***token, t_expansion *exp, char *var, \
 			return (0);
 	((t_token *)(**token)->content)->protect_e = exp->start + \
 				ft_strlen(array[0]);
-	if (ft_array_len(array) == 1)
+	if (ft_array_len(array) <= 1)
 	{
 		ft_array_free(array, ft_array_len(array));
 		return (param_exp_no_fsplit(&((t_token*)(**token)->content)->str, var,
