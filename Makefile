@@ -130,6 +130,8 @@ SRC_FILES =	main\
 			parameter_expansion\
 			parameter_expansion2\
 			field_splitting\
+			pathname_expand_root\
+			match_star\
 			quote_removal\
 			list_to_cmd_root\
 			list_to_cmd_assist\

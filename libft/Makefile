@@ -37,6 +37,7 @@ FILES = atoi\
 	isascii\
 	isdigit\
 	isprint\
+	isonly\
 	itoa\
 	memccpy\
 	memchr\
