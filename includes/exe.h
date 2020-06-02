@@ -6,7 +6,7 @@
 void			exe_root(t_btree *ast, t_control *control);
 int				exe_is_builtin(char *argv0);
 int				exe_prototype(t_control *control, t_btree *ast);
-void			exe_call_builtin(t_simple_cmd *cmd, int id, \
+int				exe_call_builtin(t_simple_cmd *cmd, int id, \
 			t_control *control);
 
 int				exe_simple_cmd_root(t_token *token, t_control *control);

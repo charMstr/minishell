@@ -102,6 +102,7 @@ SRC_FILES =	main\
 			builtin_echo\
 			builtin_export\
 			builtin_cd\
+			builtin_pwd\
 			input_root\
 			termios_utils\
 			terminfo_utils\

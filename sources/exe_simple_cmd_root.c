@@ -18,7 +18,7 @@
 **			exit_status should alway be set here.
 **
 ** RETURN:	1 OK
-**			0 KO
+**			0 KO, need to exit.
 */
 
 int	exe_simple_cmd_root(t_token *token, t_control *control)
@@ -29,6 +29,7 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 	if (!word_expand_root((t_list *)token->str, control))
 	{
 		control->quit = 1;
+		//control->exit_status = ...?
 		return (0);
 	}
 //	printf("\033[34mAFTER WORD EXPAND:\033[0m\n");
@@ -36,19 +37,22 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 	if (!list_to_cmd_root(token))
 	{
 		control->quit = 1;
+		//control->exit_status = ...?
 		return (0);
 	}
 	debug_simple_cmd(((t_simple_cmd *)token->str));
-	//HERE command to does all the redirections.
+	//HERE function that does all the redirections.
 	//need to operate the redirections list just before executing the simple
-	//command. note: the stdin and stdout, should be
+	//command. note: the stdin and stdout, should be saved then restored.
 	if ((builtin = exe_is_builtin(((t_simple_cmd *)token->str)->argv[0])))
 	{
 		printf("\033[35mthis is a builtin\033[0m\n");
+		//check the returned value here;
 		exe_call_builtin(((t_simple_cmd *)token->str), builtin, control);
 	}
 	//try execute the non builtin commands here.
 	//always make sure we set the exit status.
+	//always restore the stdion and stdout, to original value.
 	return (1);
 }
 
@@ -59,21 +63,29 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 **			control struct
 **
 ** RETURN:	1 OK
-**			0 KO.
+**			0 KO. it means the control->quit has been raised as well.
 */
 
-void	exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control)
+int	exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control)
 {
 	if (id == B_ECHO)
-		echo_builtin(cmd->argv);
+		return (echo_builtin(cmd->argv, control));
 	else if (id == B_ENV)
-		env_builtin(control->env);
+		return (env_builtin(control->env, control));
 	else if (id == B_EXPORT)
-		export_builtin(&control->env, cmd->argv);
+		return (export_builtin(&control->env, cmd->argv, control));
 	else if (id == B_UNSET)
-		unset_builtin(&control->env, cmd->argv);
+		return (unset_builtin(&control->env, cmd->argv, control));
 	else if (id == B_CD)
-		cd_builtin(control->env, cmd->argv);
+		return (cd_builtin(control->env, cmd->argv));
+	else if (id == B_EXIT)
+	{
+		control->quit = 1;
+		return (0);
+	}
+	else if (id == B_PWD)
+		return (pwd_builtin(control));
+	return (0);
 }
 
 /*

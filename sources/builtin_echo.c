@@ -9,12 +9,12 @@
 ** note:	this implementation of the echo builtin only takes one option:
 **			the -n.
 ** note:	we assume the argv[0] is the name of the utility.
+** note:	the exit_status is always set to zero.
 **
-** RETURN:	0 on success
-**			>0 if an error occured
+** RETURN:	1 on success always.
 */
 
-int	echo_builtin(char **argv)
+int	echo_builtin(char **argv, t_control *control)
 {
 	int i;
 	int n_option;
@@ -38,5 +38,6 @@ int	echo_builtin(char **argv)
 	}
 	if (!n_option)
 		ft_putendl_fd("", 1);
-	return (0);
+	control->exit_status = 0;
+	return (1);
 }

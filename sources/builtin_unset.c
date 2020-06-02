@@ -7,14 +7,18 @@
 
 /*
 ** note:	the unset can take more than one argument, therefore we will loop
-**			over each of them
+**			over each of them.
 **
 ** note:	we assume that we do call the function with the argv[0] as being
-**			the builtin name
-** RETURN:	0
+**			the builtin name. so we start with arg argv[1].
+**
+** note:	set the exit_status to 0 if everytihng ok, or 1 if at least one of
+**			the unset identifiers was wrong, starting by a forbidden character.
+**
+** RETURN:	1 always. because no fatal error possible.
 */
 
-int	unset_builtin(t_list **env_head, char **argv)
+int	unset_builtin(t_list **env_head, char **argv, t_control *control)
 {
 	int i;
 	int res;
@@ -23,11 +27,16 @@ int	unset_builtin(t_list **env_head, char **argv)
 	res = 0;
 	while (argv[i])
 	{
-		printf("truc a enlever:[%s]\n", argv[i]);
-		res = unset_in_env_list(env_head, argv[i]);
+		if (!(res |= is_identifier_valid(argv[i], "unset")))
+		{
+			i++;
+			continue;
+		}
+		unset_in_env_list(env_head, argv[i]);
 		i++;
 	}
-	return (res);
+	control->exit_status = res;
+	return (1);
 }
 
 /*
@@ -37,12 +46,9 @@ int	unset_builtin(t_list **env_head, char **argv)
 **			really afect the list (*ptr = (*ptr)->next). And we free the link
 **			and set it to NULL. Terefore if it is the last link, the head of
 **			the list is set to NULL.
-**
-** RETURN:	0 the unset was successful
-**			0 elsewise.
 */
 
-int	unset_in_env_list(t_list **env_head, char *str)
+void	unset_in_env_list(t_list **env_head, char *str)
 {
 	t_list **ptr;
 	t_list *extra;
@@ -57,9 +63,38 @@ int	unset_in_env_list(t_list **env_head, char *str)
 			*ptr = (*ptr)->next;
 			env_del_struct(extra->content);
 			free(extra);
-			return (0);
+			return ;
 		}
 		ptr = &(*ptr)->next;
+	}
+}
+
+/*
+** note:	this function will check that the identifer is ok, when passed to
+**			unset or export builtin command.
+**
+** note:	the message is displayed on the standard error when the first char
+**			of the identifier is either:
+**			@, ~, %, ^, *, +, =, \, /, ?, ',' or '.'
+**
+** input:	- command: command name to display in case of error message
+**			- the identifier string.
+**
+** RETURN:	0 OK
+**			1 KO therefore we can assign the returned value directly in the
+**			control->exit_status variable.
+*/
+
+int	is_identifier_valid(char *identifier, char *command)
+{
+	if (ft_stristr(identifier, "@~%^*+=\\/?,.") == 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(command, 2);
+		ft_putstr_fd(": `", 2);
+		ft_putstr_fd(identifier, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		return (1);
 	}
 	return (0);
 }

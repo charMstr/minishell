@@ -6,9 +6,12 @@
 
 /*
 ** note:	this function will represent the env buit-in facility
+**			it just displays the env list, and set the exit status to 0
+**
+** RETURN:	always 1. and therefore the exit_status is always 0
 */
 
-void	env_builtin(t_list *env)
+int env_builtin(t_list *env, t_control *control)
 {
 	while (env)
 	{
@@ -17,6 +20,8 @@ void	env_builtin(t_list *env)
 		ft_putendl_fd(((t_env *)env->content)->value, 1);
 		env = env->next;
 	}
+	control->exit_status = 0;
+	return (1);
 }
 
 /*
