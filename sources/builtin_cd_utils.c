@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:23:43 by mli               #+#    #+#             */
-/*   Updated: 2020/06/03 23:30:38 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/04 00:27:51 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 
 /*
-** To be used with strerror(errno) or "string\n"
+** To be used with str == strerror(errno) or "string describing the error"
 */
 
 int		ft_print_error(char *cmd, char *param, char *str)

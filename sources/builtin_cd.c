@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
-/*   Updated: 2020/06/03 23:31:16 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/04 00:24:43 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		cd_special(char *envdir, t_list *env)
 
 	if (!(dir = env_get(envdir, ft_strlen(envdir), env)))
 	{
-		ft_print_error("cd", envdir, "environement variable not set");
+		ft_print_error("cd", envdir, "environment variable not set");
 		return (-1);
 	}
 	return (ft_chdir(dir, env));
