@@ -23,7 +23,13 @@ int		echo_builtin(char **argv, t_control *control);
 
 int		pwd_builtin(t_control *control);
 
-//more than one function for cd?
 int		cd_builtin(t_list *env, char **argv, t_control *control);
+int		ft_print_error(char *cmd, char *param, char *str);
+void	ft_ls(char *directory, int showdot);
+int		ft_getcwd(char **target);
+int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env);
+int		ft_chdir(char *target_dir, t_list *env);
+int		cd_special(char *envdir, t_list *env);
+
 
 #endif

@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/29 22:20:31 by mli              ###   ########.fr        #
+#    Updated: 2020/06/03 22:29:40 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,6 +102,7 @@ SRC_FILES =	main\
 			builtin_echo\
 			builtin_export\
 			builtin_cd\
+			builtin_cd_utils\
 			builtin_pwd\
 			input_root\
 			termios_utils\

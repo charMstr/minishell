@@ -84,12 +84,9 @@ int export_builtin2(t_list **head, char **argv, t_control *control)
 char *export_builtin_check_label(char *str, t_control *control)
 {
 	int i;
-	int res;
-	if ((res = is_identifier_valid(str, "export")))
-	{
-		control->exit_status |= res;
+
+	if ((control->exit_status = is_identifier_valid(str, "export")) == 1)
 		return (NULL);
-	}
 	if ((i = ft_strichr(str, '=')) == -1)
 		return (NULL);
 	str[i] = '\0';

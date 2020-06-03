@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
+/*   Updated: 2020/06/03 23:31:16 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -11,62 +23,50 @@
 ** note:	we assume the argv[0] is the name of the utility.
 **
 ** RETURN:	1 on success
-**			0 if an error occured (malloc)
-**			-1 if an error occured (chdir)
+**			0 if an error occured (malloc) and quit
+**			-1 if an error occured (chdir/env var not set) but don't quit
 */
 
-int		ft_print_error(char *str)
+int		cd_builtin(t_list *env, char **argv, t_control *control)
 {
-	ft_putstr_fd("Error: ", 2);
-	ft_putendl_fd(str, 2);
-	return (-1);
-}
+	int ret;
 
-void	ft_ls(char *directory, int showdot)
-{
-	struct dirent	*reader;
-	DIR				*dir;
-	int				i;
-
-	i = 1;
-	if (!(dir = opendir(directory)))
+	if (!argv[1])
+		ret = cd_special("HOME", env);
+	else if (!ft_strcmp("-", argv[1]))
+		ret = cd_special("OLDPWD", env);
+	else
+		ret = ft_chdir(argv[1], env);
+	if (ret == 1)
+		ft_ls(".", 0);
+	else if (ret == 0)
+		control->quit = 1;
+	else if (errno)
 	{
-		printf("Couldn't read this directory (%s)\n", directory);
-		return ;
+		ft_print_error(argv[0], argv[1], strerror(errno));
+		errno = 0;
 	}
-	while ((reader = readdir(dir)) != NULL)
-	{
-		if (!(showdot == 0 && reader->d_name[0] == '.'))
-		{
-			ft_putstr_fd("\033[0;93m", 1);
-			ft_putstr_fd(reader->d_name, 1);
-			ft_putstr_fd("\033[0m", 1);
-			ft_putstr_fd((i++ % 3 != 0 ? "     \t\t" : "\n"), 1);
-		}
-	}
-	ft_putstr_fd(((i - 1) % 3 == 0 ? "" : "\n"), 1);
-	closedir(dir);
+	control->exit_status = (ret == 1 ? 0 : 1);
+	return (ret == 0 ? 0 : 1);
 }
 
 /*
-** note : Fills target with the current path (getcwd)
-**	If the new path does not fit in the current buffer, errno is raised
-**	so we erase it, and let getcwd allocate a new buffer containing the new path
-**
-** RETURN:	1 on success
-**			0 if an error occured
+** note : It treats special cases :
+**	- cd    => go to $HOME
+**	- cd -  => go to $OLDWPD
+**	Prints an error if the env variable is not set
 */
 
-int		ft_getcwd(char **target)
+int		cd_special(char *envdir, t_list *env)
 {
-	if (!(getcwd(*target, ft_strlen(*target))))
+	char *dir;
+
+	if (!(dir = env_get(envdir, ft_strlen(envdir), env)))
 	{
-		errno = 0;
-		ft_free((void **)target);
-		if (!(*target = getcwd(NULL, 0)))
-			return (0);
+		ft_print_error("cd", envdir, "environement variable not set");
+		return (-1);
 	}
-	return (1);
+	return (ft_chdir(dir, env));
 }
 
 /*
@@ -126,52 +126,4 @@ int		ft_chdir(char *target_dir, t_list *env)
 	if (update_pwd && ft_getcwd(pwd_env) == 0)
 		return (0);
 	return (1);
-}
-
-/*
-** note : It treats special cases :
-**	- cd    => go to $HOME
-**	- cd -  => go to $OLDWPD
-**	Prints an error if the env variable is not set
-*/
-
-int		cd_special(char *envdir, t_list *env)
-{
-	char *dir;
-
-	if (!(dir = env_get(envdir, ft_strlen(envdir), env)))
-	{
-		ft_putstr_fd("\033[0;1;91mminishell: cd: ", 1);
-		ft_putstr_fd(envdir, 1);
-		ft_putstr_fd(" not set\033[0m\n", 1);
-		return (0);
-	}
-	return (ft_chdir(dir, env));
-}
-
-/*
-** note : This is the cd main fonction
-*/
-
-int		cd_builtin(t_list *env, char **argv, t_control *control)
-{
-	int ret;
-
-	if (!argv[1])
-		ret = cd_special("HOME", env);
-	else if (!ft_strcmp("-", argv[1]))
-		ret = cd_special("OLDPWD", env);
-	else
-		ret = ft_chdir(argv[1], env);
-	if (ret == 1)
-		ft_ls(".", 0);
-	else if (ret == 0)
-		control->quit = 1;
-	else
-	{
-		ft_print_error(strerror(errno));
-		errno = 0;
-	}
-	control->exit_status = (ret == 1 ? 0 : 1);
-	return (ret == 0 ? 0 : 1);
 }

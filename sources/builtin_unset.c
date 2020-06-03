@@ -27,12 +27,8 @@ int	unset_builtin(t_list **env_head, char **argv, t_control *control)
 	res = 0;
 	while (argv[i])
 	{
-		if (!(res |= is_identifier_valid(argv[i], "unset")))
-		{
-			i++;
-			continue;
-		}
-		unset_in_env_list(env_head, argv[i]);
+		if (!(res = is_identifier_valid(argv[i], "unset")))
+			unset_in_env_list(env_head, argv[i]);
 		i++;
 	}
 	control->exit_status = res;
