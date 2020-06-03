@@ -77,7 +77,7 @@ int	exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control)
 	else if (id == B_UNSET)
 		return (unset_builtin(&control->env, cmd->argv, control));
 	else if (id == B_CD)
-		return (cd_builtin(control->env, cmd->argv));
+		return (cd_builtin(control->env, cmd->argv, control));
 	else if (id == B_EXIT)
 	{
 		control->quit = 1;

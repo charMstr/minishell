@@ -24,6 +24,6 @@ int		echo_builtin(char **argv, t_control *control);
 int		pwd_builtin(t_control *control);
 
 //more than one function for cd?
-int		cd_builtin(t_list *env, char **argv);
+int		cd_builtin(t_list *env, char **argv, t_control *control);
 
 #endif

@@ -10,14 +10,15 @@
 ** note:	cd look only on the first arg, and don't treat the others
 ** note:	we assume the argv[0] is the name of the utility.
 **
-** RETURN:	0 on success
-**			>0 if an error occured
+** RETURN:	1 on success
+**			0 if an error occured (malloc)
+**			-1 if an error occured (chdir)
 */
 
 int		ft_print_error(char *str)
 {
-	ft_putstr_fd("Error: ", 1);
-	ft_putendl_fd(str, 1);
+	ft_putstr_fd("Error: ", 2);
+	ft_putendl_fd(str, 2);
 	return (-1);
 }
 
@@ -52,8 +53,8 @@ void	ft_ls(char *directory, int showdot)
 **	If the new path does not fit in the current buffer, errno is raised
 **	so we erase it, and let getcwd allocate a new buffer containing the new path
 **
-** RETURN : 0 Success
-**         <0 Failure
+** RETURN:	1 on success
+**			0 if an error occured
 */
 
 int		ft_getcwd(char **target)
@@ -63,9 +64,9 @@ int		ft_getcwd(char **target)
 		errno = 0;
 		ft_free((void **)target);
 		if (!(*target = getcwd(NULL, 0)))
-			return (-1);
+			return (0);
 	}
-	return (0);
+	return (1);
 }
 
 /*
@@ -76,8 +77,8 @@ int		ft_getcwd(char **target)
 **		Then the OLDPWD is updated if needed
 **		Doing a ft_swap in order to avoid a potential allocation
 **
-** RETURN : 0 Success
-**         <0 Failure
+** RETURN:	1 on success
+**			0 if an error occured
 */
 
 int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env)
@@ -88,12 +89,12 @@ int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env)
 	oldpwd = env_get_addr("OLDPWD", 6, env);
 	*uppwd = (*pwdptr != NULL);
 	if ((*upold = (oldpwd != NULL)) == 0)
-		return (0);
+		return (1);
 	if (*pwdptr)
 		ft_ptrswap((void **)*pwdptr, (void **)oldpwd);
-	if (ft_getcwd(oldpwd) == -1)
-		return (-1);
-	return (0);
+	if (ft_getcwd(oldpwd) == 0)
+		return (0);
+	return (1);
 }
 
 /*
@@ -106,8 +107,9 @@ int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env)
 **		The chdir is performed
 **		Finally, the PWD is updated if needed
 **
-** RETURN : 0 Success
-**         <0 Failure
+** RETURN:	1 on success
+**			0 if an error occured (malloc)
+**			-1 if an error occured (chdir)
 */
 
 int		ft_chdir(char *target_dir, t_list *env)
@@ -116,14 +118,14 @@ int		ft_chdir(char *target_dir, t_list *env)
 	int		update_pwd;
 	int		update_old;
 
-	if (ft_update_oldpwd(&update_old, &update_pwd, &pwd_env, env) == -1)
-		return (-1);
+	if (ft_update_oldpwd(&update_old, &update_pwd, &pwd_env, env) == 0)
+		return (0);
 	printf("Moving to \033[0;1;94m%s\033[0m\n", target_dir);
 	if (chdir(target_dir) == -1)
 		return (-1);
-	if (update_pwd && ft_getcwd(pwd_env) == -1)
-		return (-1);
-	return (0);
+	if (update_pwd && ft_getcwd(pwd_env) == 0)
+		return (0);
+	return (1);
 }
 
 /*
@@ -142,18 +144,16 @@ int		cd_special(char *envdir, t_list *env)
 		ft_putstr_fd("\033[0;1;91mminishell: cd: ", 1);
 		ft_putstr_fd(envdir, 1);
 		ft_putstr_fd(" not set\033[0m\n", 1);
-		return (-1);
+		return (0);
 	}
-	if (ft_chdir(dir, env) == -1)
-		return (-1);
-	return (0);
+	return (ft_chdir(dir, env));
 }
 
 /*
 ** note : This is the cd main fonction
 */
 
-int		cd_builtin(t_list *env, char **argv)
+int		cd_builtin(t_list *env, char **argv, t_control *control)
 {
 	int ret;
 
@@ -163,9 +163,15 @@ int		cd_builtin(t_list *env, char **argv)
 		ret = cd_special("OLDPWD", env);
 	else
 		ret = ft_chdir(argv[1], env);
-	if (errno)
-		ft_print_error(strerror(errno));
-	if (!ret)
+	if (ret == 1)
 		ft_ls(".", 0);
-	return (ret);
+	else if (ret == 0)
+		control->quit = 1;
+	else
+	{
+		ft_print_error(strerror(errno));
+		errno = 0;
+	}
+	control->exit_status = (ret == 1 ? 0 : 1);
+	return (ret == 0 ? 0 : 1);
 }
