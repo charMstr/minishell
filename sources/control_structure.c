@@ -30,5 +30,6 @@ void	control_free_struct(t_control *control)
 {
 	terminfo_free_struct(control->term);
 	ft_dlstclear(&(control->history->head), history_del_content);
+	ft_free((void **)&control->history);
 	ft_lstclear(&control->env, env_del_struct);
 }
