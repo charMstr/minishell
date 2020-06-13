@@ -30,6 +30,8 @@ int	master_loop(t_control *control)
 		//here we should enter the command processing
 		exe_root(ast, control);
 		btree_clear(&ast, del_token);
+		if (control->quit)
+			break;
 		//here we should set the exit_status.
 	}
 	return (control->exit_status);

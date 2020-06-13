@@ -166,6 +166,16 @@ typedef struct	s_no_unquote
 	int	end;
 }				t_no_unquote;
 
+/*
+** note:	A global variable to know which function have to be executed
+**			for a precise token id. (+) avoid une foret de if
+*/
+
+typedef struct	s_exe
+{
+	int		id;
+	int		(*fct)(t_btree *, t_control *);
+}				t_exe;
 
 //unused for now
 typedef struct	s_mysh
