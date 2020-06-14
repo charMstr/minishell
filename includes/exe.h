@@ -11,6 +11,8 @@ int				exe_or(t_btree *ast, t_control *control);
 int				exe_pipe(t_btree *ast, t_control *control);
 int				exe_cmd(t_btree *ast, t_control *control);
 
+int				exe_binary(t_simple_cmd *cmd, t_control *control);
+
 int				exe_is_builtin(char *argv0);
 int				exe_call_builtin(t_simple_cmd *cmd, int id, \
 			t_control *control);

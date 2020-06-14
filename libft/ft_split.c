@@ -6,7 +6,7 @@
 /*   By: mli <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:00:32 by mli               #+#    #+#             */
-/*   Updated: 2019/11/12 14:58:32 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/14 16:53:49 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int		ft_malloc_w_len(char const *s, char c, char **result)
 			if (!(result[j++] = (char *)malloc(sizeof(char) * (len + 1))))
 				return (j - 1);
 	}
-	if (!(result[j] = (char *)malloc(sizeof(char))))
-		return (j);
 	return (-1);
 }
 

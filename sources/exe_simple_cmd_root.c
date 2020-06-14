@@ -50,10 +50,12 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 		//check the returned value here;
 		exe_call_builtin(((t_simple_cmd *)token->str), builtin, control);
 	}
+	else
+		exe_binary((t_simple_cmd *)token->str, control);
 	//try execute the non builtin commands here.
 	//always make sure we set the exit status.
 	//always restore the stdion and stdout, to original value.
-	return (1);
+	return (!!control->exit_status);
 }
 
 /*
