@@ -2,6 +2,8 @@
 # define EXE_H
 
 # include "minishell.h"
+# include <sys/types.h>
+# include <sys/stat.h>
 
 void			exe_root(t_btree *ast, t_control *control);
 
@@ -12,6 +14,10 @@ int				exe_pipe(t_btree *ast, t_control *control);
 int				exe_cmd(t_btree *ast, t_control *control);
 
 int				exe_binary(t_simple_cmd *cmd, t_control *control);
+int				exe_binary_fork(char *prog, char **argv, t_control *control);
+int				exe_given_path(char **argv0, t_control *control, char **path);
+int				exe_search_path(char *argv0, t_control *control, char **path);
+char			**build_env2d(t_list *env, t_control *control);
 
 int				exe_is_builtin(char *argv0);
 int				exe_call_builtin(t_simple_cmd *cmd, int id, \

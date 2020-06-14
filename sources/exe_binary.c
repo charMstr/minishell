@@ -1,26 +1,17 @@
 #include "minishell.h"
-#include <sys/types.h>
-#include <sys/stat.h>
 
-char	*build_env2d_line(t_env *env)
-{
-	char *res;
-
-	if (!(res = ft_strjoin_free(env->label, (char [2]){'=', '\0'}, 0)))
-		return (NULL);
-	if (!(res = ft_strjoin_free(res, env->value, 1)))
-		return (NULL);
-	return (res);
-}
+/*
+** This function creates the (char **env) for the fork
+** RETURN : NULL if empty, or error (control->quit raised)
+*/
 
 char	**build_env2d(t_list *env, t_control *control)
 {
-	int		i;
-	int		lstsize;
-	char	**res;
+	int			i;
+	const int	lstsize = ft_lstsize(env);
+	char		**res;
+	t_env		*tmp;
 
-	if ((lstsize = ft_lstsize(env)) < 1)
-		return (NULL);
 	if (!(res = (char **)ft_memalloc(sizeof(char *) * (lstsize + 1))))
 	{
 		control->quit = 1;
@@ -29,7 +20,9 @@ char	**build_env2d(t_list *env, t_control *control)
 	i = -1;
 	while (env)
 	{
-		if (!(res[++i] = build_env2d_line(env->content)))
+		tmp = env->content;
+		if (!(res[++i] = ft_strjoin_free(tmp->label, (char [2]){'=', '\0'}, 0))
+		|| !(res[i] = ft_strjoin_free(res[i], tmp->value, 1)))
 		{
 			control->quit = 1;
 			ft_array_free(res, lstsize);
@@ -40,14 +33,11 @@ char	**build_env2d(t_list *env, t_control *control)
 	return (res);
 }
 
-int		is_binary(struct stat buf)
-{
-	// Check if it's a regular file + one of the exec rights
-	// But may be an useless function
-	if (S_ISREG(buf.st_mode) && (buf.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
-		return (1);
-	return (0);
-}
+/*
+** Note : Do the fork, (build char **env just before)
+**        + Get the exit status of the child
+** RETURN : For now, always returns 1
+*/
 
 int		exe_binary_fork(char *prog, char **argv, t_control *control)
 {
@@ -57,13 +47,17 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 
 	if ((pid = fork()) == 0)
 	{
-		if (!(env = build_env2d(control->env, control)))
-			return (-1);
+		if (!(env = build_env2d(control->env, control)) && control->quit)
+		{
+			ft_print_error("malloc", NULL, strerror(errno));
+			exit(1);
+		}
 		if (execve(prog, argv, env) == -1)
 			ft_print_error(prog, NULL, strerror(errno));
 		ft_array_free(env, ft_array_len(env));
-		control->exit_status = 1;
-		control->quit = 1;
+//		printf("Errno is %d\n", errno);
+		if (errno == 13)
+			exit(126);
 		exit(1);
 	}
 	else
@@ -74,6 +68,14 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	}
 	return (1);
 }
+
+/*
+** Note : Just make argv[0] in a good format if path given:
+**        a.out instead of ./a.out (in argv[0])
+** RETURN : 1 on Success
+**          0 The path isn't given
+**         -1 Malloc error -> control->quit
+*/
 
 int		exe_given_path(char **argv0, t_control *control, char **path_to_binary)
 {
@@ -92,8 +94,8 @@ int		exe_given_path(char **argv0, t_control *control, char **path_to_binary)
 }
 
 /*
-** Note : Search the correct path with $PATH
-**
+** Note : Search the correct path inside $PATH : i.e. a regular file
+**        (don't check rights, execve does)
 ** RETURN : 1 on success
 **          0 not found
 **         -1 malloc error
@@ -102,6 +104,7 @@ int		exe_given_path(char **argv0, t_control *control, char **path_to_binary)
 int		exe_search_path(char *argv0, t_control *control, char **path_to_binary)
 {
 	int			i;
+	int			ret;
 	char		*path;
 	char		**split;
 	struct stat	buf;
@@ -109,24 +112,35 @@ int		exe_search_path(char *argv0, t_control *control, char **path_to_binary)
 	if (!(split = ft_split(env_get("PATH", 4, control->env), ':')))
 		return (errno ? -1 : 0);
 	i = -1;
-	while (split[++i])
+	ret = 0;
+	while (ret == 0 && split[++i])
 	{
 		if (!(path = ft_strjoin(split[i], argv0)))
-		{
-			ft_array_free(split, ft_array_len(split));
-			return (-1);
-		}
-		if (!stat(path, &buf) && S_ISREG(buf.st_mode))
+			ret = -1;
+		else if (!stat(path, &buf) && S_ISREG(buf.st_mode))
 		{
 			*path_to_binary = path;
-			ft_array_free(split, ft_array_len(split));
-			return (1);
+			ret = 1;
 		}
-		ft_free((void **)&path);
+		else
+			ft_free((void **)&path);
 	}
 	ft_array_free(split, ft_array_len(split));
-	return (0);
+	return (ret);
 }
+
+/*
+** Note : The root function for executing binaries
+**       First, check if the argv[0] contains a '/'.
+**           If yes, don't need to check the content of $PATH
+**           If no, check it
+**              If failed, command not found
+**       Finally, do the fork
+**
+** RETURN : 1 on success
+**          0 not found
+**         -1 malloc error, thus, control->quit is raised
+*/
 
 int		exe_binary(t_simple_cmd *cmd, t_control *control)
 {
@@ -140,9 +154,7 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 		return (ret);
 	else if (ret == 0)
 	{
-		// search true path to binary
-		ret = 0;
-		if ((argv0 = ft_strjoin((char []){'/', '\0'}, cmd->argv[0])) &&
+		if (!(argv0 = ft_strjoin((char []){'/', '\0'}, cmd->argv[0])) ||
 			((ret = exe_search_path(argv0, control, &path_to_binary)) == -1))
 			control->quit = 1;
 		else if (ret == 0)

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
-/*   Updated: 2020/06/04 00:24:43 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/14 22:12:18 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ int		cd_builtin(t_list *env, char **argv, t_control *control)
 		ret = cd_special("OLDPWD", env);
 	else
 		ret = ft_chdir(argv[1], env);
-	if (ret == 1)
-		ft_ls(".", 0);
-	else if (ret == 0)
+	if (ret == 0)
 		control->quit = 1;
 	else if (errno)
 	{
