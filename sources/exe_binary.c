@@ -49,22 +49,30 @@ int		is_binary(struct stat buf)
 	return (0);
 }
 
-void	exe_binary_fork(char **argv, char **env, t_control *control)
+int		exe_binary_fork(char *prog, char **argv, t_control *control)
 {
-	// Was a test function, don't read it now
-	if (fork() != 0)
+	char	**env;
+	pid_t	pid;
+	int		status;
+
+	if ((pid = fork()) == 0)
 	{
-		wait(NULL);
-		printf("I've been waiting for u\n");
-		exit (1);
-		// recup l'exit status
+		if (!(env = build_env2d(control->env, control)))
+			return (-1);
+		if (execve(prog, argv, env) == -1)
+			ft_print_error(prog, NULL, strerror(errno));
+		ft_array_free(env, ft_array_len(env));
+		control->exit_status = 1;
+		control->quit = 1;
+		exit(1);
 	}
 	else
 	{
-		if (execve("./minishell", argv, env) == -1)
-			ft_putstr_fd(strerror(errno), 2);
+		waitpid(pid, &status, 0);
+		control->exit_status = (WIFEXITED(status) ? WEXITSTATUS(status) : 1);
+		printf("Exit status of the child was %d\n", control->exit_status);
 	}
-	(void)control;
+	return (1);
 }
 
 int		exe_given_path(char **argv0, t_control *control, char **path_to_binary)
@@ -137,12 +145,13 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 		if ((argv0 = ft_strjoin((char []){'/', '\0'}, cmd->argv[0])) &&
 			((ret = exe_search_path(argv0, control, &path_to_binary)) == -1))
 			control->quit = 1;
+		else if (ret == 0)
+			ft_print_error(cmd->argv[0], NULL, "Command not found");
 		free(argv0);
 		if (ret != 1)
 			return (ret);
 	}
-	// do the fork
-	printf("Final path : %s\n", path_to_binary);
+	ret = exe_binary_fork(path_to_binary, cmd->argv, control);
 	free(path_to_binary);
 	return (ret);
 }
