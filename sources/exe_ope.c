@@ -37,3 +37,21 @@ int		exe_cmd(t_btree *ast, t_control *control)
 		return (0);
 	return (1);
 }
+
+int		exe_subshell(t_btree *ast, t_control *control)
+{
+	pid_t	pid;
+	int		status;
+
+	if ((pid = fork()) == 0)
+	{
+		exe_root(ast->left, control);
+		exit(control->exit_status);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		control->exit_status = (WIFEXITED(status) ? WEXITSTATUS(status) : 1);
+	}
+	return (control->exit_status);
+}

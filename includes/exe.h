@@ -12,6 +12,7 @@ int				exe_and(t_btree *ast, t_control *control);
 int				exe_or(t_btree *ast, t_control *control);
 int				exe_pipe(t_btree *ast, t_control *control);
 int				exe_cmd(t_btree *ast, t_control *control);
+int				exe_subshell(t_btree *ast, t_control *control);
 
 int				exe_binary(t_simple_cmd *cmd, t_control *control);
 int				exe_binary_fork(char *prog, char **argv, t_control *control);

@@ -15,6 +15,7 @@
 
 const t_exe *g_exec = (const t_exe []){{AND_IF, exe_and}, {OR_IF, exe_or},
 	{PIPE, exe_pipe}, {LIST, exe_cmd}, {SEMI, exe_semi}, {-1, exe_semi},
+	{SUBSHELL, exe_subshell},
 	{0, NULL}};
 
 void	exe_root(t_btree *ast, t_control *control)
