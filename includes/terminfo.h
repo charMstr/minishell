@@ -40,7 +40,7 @@
 
 int			master_loop(t_control *control);
 
-void		control_init_struct(t_control *control);
+int			control_init_struct(t_control *control);
 void		control_free_struct(t_control *control);
 
 t_list		*input_root(t_control *control);

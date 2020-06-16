@@ -100,6 +100,7 @@ typedef struct		s_control
 	t_term			*term;
 	t_list 			*env;
 	t_lexer_end		lexer_end;
+	int				truefd[3];
 }					t_control;
 
 /*

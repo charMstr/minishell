@@ -37,22 +37,17 @@ int	master_loop(t_control *control)
 	return (control->exit_status);
 }
 
-int main()
+int main(void)
 {
 	struct termios	saved_copy;
 	int				exit_status;
 	t_control		control;
 
-	control_init_struct(&control);
-	if (!(control.history = history_init_struct()))
-		return (1);
-	if (!(control.term = terminfo_init_database()))
+	if (!control_init_struct(&control) ||
+		!(termios_enable_raw_mode(&saved_copy)))
 	{
-		control_free_struct(&control);
-		return (1);
-	}
-	if (!(termios_enable_raw_mode(&saved_copy)))
-	{
+		ft_print_error("minishell", NULL,
+				(errno ? strerror(errno) : "Couldn't init minishell"));
 		control_free_struct(&control);
 		return (1);
 	}

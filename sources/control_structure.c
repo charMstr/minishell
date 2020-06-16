@@ -10,15 +10,17 @@
 ** note:	this function will init the t_control struct
 */
 
-void	control_init_struct(t_control *control)
+int		control_init_struct(t_control *control)
 {
-	control->quit = 0;
-	control->ctrl_c = 0;
-	control->exit_status = 0;
-	control->history = NULL;
-	control->term = NULL;
-	control->env = NULL;
-	ft_bzero((void*)(&control->lexer_end), sizeof(t_lexer_end));
+	ft_bzero(control, sizeof(*control));
+	if (!(control->history = history_init_struct()) ||
+		!(control->term = terminfo_init_database()))
+		return (0);
+	if ((control->truefd[STDIN_FILENO] = dup(STDIN_FILENO)) == -1 ||
+		(control->truefd[STDOUT_FILENO] = dup(STDOUT_FILENO)) == -1 ||
+		(control->truefd[STDERR_FILENO] = dup(STDERR_FILENO)) == -1)
+		return (0);
+	return (1);
 }
 
 /*
