@@ -36,7 +36,8 @@ int		exe_subshell(t_btree *ast, t_control *control)
 	pid_t	pid;
 	int		status;
 
-	if ((pid = fork()) == 0)
+	ft_fork(&pid);
+	if (pid == 0)
 	{
 		exe_root(ast->left, control);
 		exit(control->exit_status);

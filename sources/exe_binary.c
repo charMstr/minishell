@@ -45,7 +45,8 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	pid_t	pid;
 	int		status;
 
-	if ((pid = fork()) == 0)
+	ft_fork(&pid);
+	if (pid == 0)
 	{
 		if (!(env = build_env2d(control->env, control)) && control->quit)
 			ft_exit("malloc", NULL, strerror(errno), 1);
