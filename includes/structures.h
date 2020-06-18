@@ -178,12 +178,11 @@ typedef struct	s_exe
 	int		(*fct)(t_btree *, t_control *);
 }				t_exe;
 
-//unused for now
-typedef struct	s_mysh
+typedef struct	s_pipe
 {
 	int	pid;
-	int	pipe[2];
-	int	stat_loc;
-}				t_mysh;
+	int	fildes[2];
+	int	status;
+}				t_pipe;
 
 #endif

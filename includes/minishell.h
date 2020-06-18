@@ -47,7 +47,7 @@ extern int	errno;
 //minishell_utils
 void		ft_pipe(int (*fildes)[2]);
 void		ft_fork(pid_t *pid);
-void		ft_fork_pipe(t_mysh *mini);
+void		ft_fork_pipe(t_pipe *pipe);
 void		ft_exit(char *cmd, char *param, char *str, int status);
 int			ft_perror(char *cmd, char *param, char *str);
 

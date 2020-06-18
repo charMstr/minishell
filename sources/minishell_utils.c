@@ -32,10 +32,10 @@ void	ft_fork(pid_t *pid)
 **			using the dedicated struct.
 */
 
-void	ft_fork_pipe(t_mysh *mini)
+void	ft_fork_pipe(t_pipe *pipe)
 {
-	ft_pipe(&(mini->pipe));
-	ft_fork(&(mini->pid));
+	ft_pipe(&(pipe->fildes));
+	ft_fork(&(pipe->pid));
 }
 
 /*
