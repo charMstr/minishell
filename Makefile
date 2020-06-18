@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/06/14 16:54:33 by mli              ###   ########.fr        #
+#    Updated: 2020/06/16 17:09:53 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,6 +128,7 @@ SRC_FILES =	main\
 			parser_utils\
 			exe_root\
 			exe_ope\
+			exe_pipe\
 			exe_simple_cmd_root\
 			exe_binary\
 			word_expand_root\

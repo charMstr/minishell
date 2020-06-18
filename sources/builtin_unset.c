@@ -85,7 +85,7 @@ int	is_identifier_valid(char *identifier, char *command)
 {
 	if (ft_stristr(identifier, "@~%^*+=\\/?,.") == 0)
 	{
-		ft_print_error(command, identifier, "not a valid identifier");
+		ft_perror(command, identifier, "not a valid identifier");
 		return (1);
 	}
 	return (0);

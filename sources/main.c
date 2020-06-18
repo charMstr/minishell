@@ -46,8 +46,7 @@ int main(void)
 	if (!control_init_struct(&control) ||
 		!(termios_enable_raw_mode(&saved_copy)))
 	{
-		ft_print_error("minishell", NULL,
-				(errno ? strerror(errno) : "Couldn't init minishell"));
+		ft_perror(NULL, NULL, errno ? strerror(errno) : "Couldn't initialize");
 		control_free_struct(&control);
 		return (1);
 	}

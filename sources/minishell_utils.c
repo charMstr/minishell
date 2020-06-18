@@ -12,7 +12,7 @@
 void	ft_pipe(int (*fildes)[2])
 {
 	if (pipe(*fildes) == -1)
-		ft_perror("pipe", EXIT_FAILURE);
+		ft_exit("pipe", NULL, strerror(errno), EXIT_FAILURE);
 }
 
 /*
@@ -20,11 +20,11 @@ void	ft_pipe(int (*fildes)[2])
 **			the pid value is equal to zero.
 */
 
-void	ft_fork(int *pid)
+void	ft_fork(pid_t *pid)
 {
-	*pid = (int)fork();
+	*pid = fork();
 	if (*pid == -1)
-		ft_perror("fork", EXIT_FAILURE);
+		ft_exit("fork", NULL, strerror(errno), EXIT_FAILURE);
 }
 
 /*
@@ -39,18 +39,44 @@ void	ft_fork_pipe(t_mysh *mini)
 }
 
 /*
-** note:	this one liner will call perror and exit, all at once.
+** note:	this one liner will call strerror and exit, all at once.
 */
 
-void	ft_perror(char *str, int status)
+void	ft_exit(char *cmd, char *param, char *str, int status)
 {
-	perror(str);
+	ft_perror(cmd, param, str);
 	exit(status);
 }
 
-//maybe remove me?
-void	ft_exit(char *str, int status)
+/*
+** cmd and param gives additional (&& optional) details
+** str describs the error || is strerror(errno) if NULL is given && errno is set
+*/
+
+int		ft_perror(char *cmd, char *param, char *str)
 {
-	ft_putstr_fd(str, STDERR_FILENO);
-	exit(status);
+	const int fd = STDERR_FILENO;
+
+	ft_putstr_fd("\033[0;91m", fd);
+	ft_putstr_fd("minishell: ", fd);
+	if (cmd)
+	{
+		ft_putstr_fd(cmd, fd);
+		ft_putstr_fd(": ", fd);
+	}
+	if (param)
+	{
+		ft_putstr_fd("`", fd);
+		ft_putstr_fd(param, fd);
+		ft_putstr_fd("': ", fd);
+	}
+	if (errno && !str)
+		str = strerror(errno);
+	if (str)
+	{
+		ft_putstr_fd("Error: ", fd);
+		ft_putendl_fd(str, fd);
+	}
+	ft_putstr_fd("\033[0m", fd);
+	return (-1);
 }

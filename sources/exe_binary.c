@@ -48,12 +48,9 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	if ((pid = fork()) == 0)
 	{
 		if (!(env = build_env2d(control->env, control)) && control->quit)
-		{
-			ft_print_error("malloc", NULL, strerror(errno));
-			exit(1);
-		}
+			ft_exit("malloc", NULL, strerror(errno), 1);
 		if (execve(prog, argv, env) == -1)
-			ft_print_error(prog, NULL, strerror(errno));
+			ft_perror(prog, NULL, strerror(errno));
 		ft_array_free(env, ft_array_len(env));
 //		printf("Errno is %d\n", errno);
 		if (errno == 13)
@@ -158,7 +155,7 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 			((ret = exe_search_path(argv0, control, &path_to_binary)) == -1))
 			control->quit = 1;
 		else if (ret == 0)
-			ft_print_error(cmd->argv[0], NULL, "Command not found");
+			ft_perror(cmd->argv[0], NULL, "Command not found");
 		free(argv0);
 		if (ret != 1)
 			return (ret);

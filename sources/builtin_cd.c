@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
-/*   Updated: 2020/06/14 22:12:18 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/16 19:28:41 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		cd_builtin(t_list *env, char **argv, t_control *control)
 		control->quit = 1;
 	else if (errno)
 	{
-		ft_print_error(argv[0], argv[1], strerror(errno));
+		ft_perror(argv[0], argv[1], strerror(errno));
 		errno = 0;
 	}
 	control->exit_status = (ret == 1 ? 0 : 1);
@@ -61,7 +61,7 @@ int		cd_special(char *envdir, t_list *env)
 
 	if (!(dir = env_get(envdir, ft_strlen(envdir), env)))
 	{
-		ft_print_error("cd", envdir, "environment variable not set");
+		ft_perror("cd", envdir, "environment variable not set");
 		return (-1);
 	}
 	return (ft_chdir(dir, env));

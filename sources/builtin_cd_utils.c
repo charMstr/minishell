@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:23:43 by mli               #+#    #+#             */
-/*   Updated: 2020/06/04 00:27:51 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/16 19:09:49 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,8 @@
 */
 
 /*
-** To be used with str == strerror(errno) or "string describing the error"
+** Fake ls if we can't exec binary
 */
-
-int		ft_print_error(char *cmd, char *param, char *str)
-{
-	ft_putstr_fd("\033[0;91mminishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
-	if (param)
-	{
-		ft_putstr_fd("`", 2);
-		ft_putstr_fd(param, 2);
-		ft_putstr_fd("': ", 2);
-	}
-	ft_putstr_fd("Error: ", 2);
-	ft_putendl_fd(str, 2);
-	ft_putstr_fd("\033[0m", 2);
-	return (-1);
-}
 
 void	ft_ls(char *directory, int showdot)
 {

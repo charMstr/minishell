@@ -11,22 +11,15 @@ int		exe_and(t_btree *ast, t_control *control)
 int		exe_or(t_btree *ast, t_control *control)
 {
 	exe_root(ast->left, control);
-	if (control->exit_status != 0)
+	if (control->exit_status != 0 && !control->quit)
 		exe_root(ast->right, control);
 	return (control->exit_status);
-}
-
-int		exe_pipe(t_btree *ast, t_control *control)
-{
-	printf("EXE_PIPE : |\n");
-	return (control->exit_status);
-	(void)ast; (void)control;
 }
 
 int		exe_semi(t_btree *ast, t_control *control)
 {
 	exe_root(ast->left, control);
-	if (ast->right)
+	if (ast->right && !control->quit)
 		exe_root(ast->right, control);
 	return (control->exit_status);
 }

@@ -1,6 +1,8 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
+# include "minishell.h"
+
 t_list	*env_build_linked_list(char **env);
 t_env	*env_build(char *str);
 void	env_del_struct(void *env);
@@ -24,7 +26,6 @@ int		echo_builtin(char **argv, t_control *control);
 int		pwd_builtin(t_control *control);
 
 int		cd_builtin(t_list *env, char **argv, t_control *control);
-int		ft_print_error(char *cmd, char *param, char *str);
 void	ft_ls(char *directory, int showdot);
 int		ft_getcwd(char **target);
 int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env);
