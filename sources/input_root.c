@@ -127,19 +127,19 @@ void	input_synthax_error(t_control *control, unsigned int unexpected)
 	ft_putstr_fd("minishell: synthax error near unexpected token `", 2);
 	if (unexpected == SEMI)
 		ft_putchar_fd(';', 2);
-	if (unexpected == PIPE)
+	else if (unexpected == PIPE)
 		ft_putchar_fd('|', 2);
-	if (unexpected == OR_IF)
+	else if (unexpected == OR_IF)
 		ft_putstr_fd("||", 2);
-	if (unexpected == AND)
+	else if (unexpected == AND)
 		ft_putchar_fd('&', 2);
-	if (unexpected == AND_IF)
+	else if (unexpected == AND_IF)
 		ft_putstr_fd("&&", 2);
-	if (unexpected == LBRACE)
+	else if (unexpected == LBRACE)
 		ft_putchar_fd('(', 2);
-	if (unexpected == RBRACE)
+	else if (unexpected == RBRACE)
 		ft_putchar_fd(')', 2);
-	if (unexpected == LESS || unexpected == DLESS || unexpected ==  GREAT \
+	else if (unexpected == LESS || unexpected == DLESS || unexpected ==  GREAT \
 			|| unexpected == DGREAT)
 		ft_putstr_fd("newline", 2);
 	ft_putstr_fd("'\n", 2);

@@ -85,7 +85,7 @@ char *export_builtin_check_label(char *str, t_control *control)
 {
 	int i;
 
-	if ((control->exit_status = is_identifier_valid(str, "export")) == 1)
+	if ((control->exit_status |= is_identifier_valid(str, "export")))
 		return (NULL);
 	if ((i = ft_strichr(str, '=')) == -1)
 		return (NULL);
