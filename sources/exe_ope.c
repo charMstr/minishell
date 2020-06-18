@@ -11,7 +11,7 @@ int		exe_and(t_btree *ast, t_control *control)
 int		exe_or(t_btree *ast, t_control *control)
 {
 	exe_root(ast->left, control);
-	if (control->exit_status != 0 && !control->quit)
+	if (control->exit_status != 0)
 		exe_root(ast->right, control);
 	return (control->exit_status);
 }
@@ -19,8 +19,7 @@ int		exe_or(t_btree *ast, t_control *control)
 int		exe_semi(t_btree *ast, t_control *control)
 {
 	exe_root(ast->left, control);
-	if (ast->right && !control->quit)
-		exe_root(ast->right, control);
+	exe_root(ast->right, control);
 	return (control->exit_status);
 }
 
