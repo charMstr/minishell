@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
-/*   Updated: 2020/06/16 19:28:41 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/19 18:59:04 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		cd_builtin(t_list *env, char **argv, t_control *control)
 {
 	int ret;
 
-	if (!argv[1])
+	if (!argv[1] || !ft_strcmp("~", argv[1]))
 		ret = cd_special("HOME", env);
 	else if (!ft_strcmp("-", argv[1]))
 		ret = cd_special("OLDPWD", env);
