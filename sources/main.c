@@ -11,28 +11,21 @@ extern char **environ;
 
 int	master_loop(t_control *control)
 {
-	t_list *tokens_list;
-	t_btree *ast;
+	t_list	*tokens_list;
+	t_btree	*ast;
 
 	if (!(control->env = env_build_linked_list(environ)))
 		return (1);
-	while (1)
+	while (!control->quit)
 	{
 		tokens_list = input_root(control);
-		if (control->quit)
-			break;
-		if (control->ctrl_c || control->lexer_end.unexpected)
+		if (control->quit || control->ctrl_c || control->lexer_end.unexpected)
 			continue;
-		//here we should enter the parsing
 		ast = parser_root(tokens_list, control);
 		if (control->quit)
 			break;
-		//here we should enter the command processing
 		exe_root(ast, control);
 		btree_clear(&ast, del_token);
-		if (control->quit)
-			break;
-		//here we should set the exit_status.
 	}
 	return (control->exit_status);
 }

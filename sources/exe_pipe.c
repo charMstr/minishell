@@ -16,15 +16,11 @@ void	exe_pipe_child(t_btree *ast, t_control *control)
 	else
 	{
 		close(pipe.fildes[1]);
-		waitpid(pipe.pid, &pipe.status, 0);
-		control->exit_status = (WIFEXITED(pipe.status) ?
-				WEXITSTATUS(pipe.status) : 1);
-		if (control->exit_status != 0)
-			ft_exit("pipe child", NULL, NULL, control->exit_status);
 		if (dup2(pipe.fildes[0], STDIN_FILENO) == -1)
 			ft_exit("dup2", NULL, strerror(errno), EXIT_FAILURE);
 		exe_root(ast->right, control);
 		close(pipe.fildes[0]);
+		waitpid(pipe.pid, &pipe.status, 0);
 	}
 	exit(control->exit_status);
 }
