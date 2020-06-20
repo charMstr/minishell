@@ -6,7 +6,7 @@
 #    By: charmstr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 21:40:12 by charmstr          #+#    #+#              #
-#    Updated: 2020/05/30 15:40:06 by mli              ###   ########.fr        #
+#    Updated: 2020/06/20 22:07:34 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ FILES = atoi\
 	isdigit\
 	isprint\
 	isonly\
+	isonly_ft\
 	itoa\
 	memccpy\
 	memchr\

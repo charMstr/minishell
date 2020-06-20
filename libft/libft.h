@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/05/30 15:40:26 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/20 22:27:15 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_isonly(char *str, char c);
+int					ft_isonly_ft(char *str, int (*ftissmth)(int c), int strict);
 
 int					ft_toupper(int c);
 int					ft_tolower(int c);

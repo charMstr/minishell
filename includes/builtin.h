@@ -32,5 +32,6 @@ int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env);
 int		ft_chdir(char *target_dir, t_list *env);
 int		cd_special(char *envdir, t_list *env);
 
+int		exit_builtin(char **argv, t_control *control);
 
 #endif

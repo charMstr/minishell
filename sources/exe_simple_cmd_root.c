@@ -81,10 +81,7 @@ int	exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control)
 	else if (id == B_CD)
 		return (cd_builtin(control->env, cmd->argv, control));
 	else if (id == B_EXIT)
-	{
-		control->quit = 1;
-		return (0);
-	}
+		return (exit_builtin(cmd->argv, control));
 	else if (id == B_PWD)
 		return (pwd_builtin(control));
 	return (0);
