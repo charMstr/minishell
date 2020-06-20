@@ -148,7 +148,6 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 	char	*argv0;
 	char	*path_to_binary;
 
-	printf("\e[95mThis is a binary !\e[0m\n");
 	g_sig = 1;
 	path_to_binary = NULL;
 	if ((ret = exe_given_path(&cmd->argv[0], control, &path_to_binary)) == -1)
@@ -158,7 +157,7 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 		if (!(argv0 = ft_strjoin((char []){'/', '\0'}, cmd->argv[0])) ||
 			((ret = exe_search_path(argv0, control, &path_to_binary)) == -1))
 			control->quit = 1;
-		else if (ret == 0)
+		else if (ret == 0 && (control->exit_status = 127))
 			ft_perror(cmd->argv[0], NULL, "Command not found");
 		free(argv0);
 		if (ret != 1)

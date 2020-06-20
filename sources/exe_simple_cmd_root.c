@@ -41,6 +41,8 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 		return (0);
 	}
 	debug_simple_cmd(((t_simple_cmd *)token->str));
+	if (!((t_simple_cmd *)token->str)->argv[0])
+		return (1);
 	//HERE function that does all the redirections.
 	//need to operate the redirections list just before executing the simple
 	//command. note: the stdin and stdout, should be saved then restored.
