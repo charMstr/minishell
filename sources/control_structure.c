@@ -20,6 +20,8 @@ int		control_init_struct(t_control *control)
 		(control->truefd[STDOUT_FILENO] = dup(STDOUT_FILENO)) == -1 ||
 		(control->truefd[STDERR_FILENO] = dup(STDERR_FILENO)) == -1)
 		return (0);
+	if (tcgetattr(STDIN_FILENO, &control->termios_default) == -1)
+		return (0);
 	return (1);
 }
 

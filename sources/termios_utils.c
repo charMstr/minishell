@@ -13,8 +13,6 @@ int	termios_enable_raw_mode(struct termios *old)
 {
 	struct termios new;
 
-	if (tcgetattr(STDIN_FILENO, old) == -1)
-		return (0);
 	new = *old;
 	//This would turn off the fact that carriage return (ENTER, 13, '\r') are
 	// translated into newline (10, '\n'). we dont want that.
@@ -59,5 +57,5 @@ int	termios_enable_raw_mode(struct termios *old)
 void	termios_reset_cooked_mode(struct termios *saved_copy)
 {
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, saved_copy) == -1)
-		printf("failure should be handled\n");
+		ft_exit("tcsetattr can't reset", NULL, strerror(errno), 1);
 }

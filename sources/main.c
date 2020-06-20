@@ -32,12 +32,13 @@ int	master_loop(t_control *control)
 
 int main(void)
 {
-	struct termios	saved_copy;
-	int				exit_status;
+	unsigned char	exit_status;
 	t_control		control;
 
+	signal(SIGQUIT, ft_sigquit);
+	signal(SIGINT, ft_sigint);
 	if (!control_init_struct(&control) ||
-		!(termios_enable_raw_mode(&saved_copy)))
+		!(termios_enable_raw_mode(&control.termios_default)))
 	{
 		ft_perror(NULL, NULL, errno ? strerror(errno) : "Couldn't initialize");
 		control_free_struct(&control);
@@ -46,6 +47,6 @@ int main(void)
 	exit_status = master_loop(&control);
 	control_free_struct(&control);
 	terminfo_reset_terminal();
-	termios_reset_cooked_mode(&saved_copy);
+	termios_reset_cooked_mode(&control.termios_default);
     return (exit_status);
 }

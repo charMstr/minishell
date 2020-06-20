@@ -84,4 +84,6 @@ int				match_no_star(char *ref, char *no_star, int esc_next, int j);
 int				match_until_double_quote(char *ref, char *str, int esc_next);
 int				match_within_quote(char *ref, char *str, char quote);
 
+void			ft_errno_exit(void);
+
 #endif

@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern int g_sig;
+
 void	exe_pipe_child(t_btree *ast, t_control *control)
 {
 	t_pipe pipe;
@@ -36,7 +38,7 @@ int		exe_pipe(t_btree *ast, t_control *control)
 	else
 	{
 		waitpid(pid, &status, 0);
-		control->exit_status = (WIFEXITED(status) ? WEXITSTATUS(status) : 1);
+		control->exit_status = WIFEXITED(status) ? WEXITSTATUS(status) : g_sig;
 	}
 	return (control->exit_status);
 }

@@ -95,12 +95,13 @@ typedef struct		s_control
 {
 	unsigned int	quit:1;
 	unsigned int	ctrl_c:1;
-	int				exit_status;
+	unsigned char	exit_status;
 	t_history		*history;
 	t_term			*term;
 	t_list 			*env;
 	t_lexer_end		lexer_end;
 	int				truefd[3];
+	struct termios	termios_default;
 }					t_control;
 
 /*

@@ -33,3 +33,10 @@ void	exe_root(t_btree *ast, t_control *control)
 	if (g_exec[i].fct)
 		g_exec[i].fct(ast, control);
 }
+
+void	ft_errno_exit(void)
+{
+	if (errno == 13)
+		exit(126);
+	exit(1);
+}

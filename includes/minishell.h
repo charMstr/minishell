@@ -31,7 +31,6 @@
 # include "historic.h"
 # include "exe.h"
 
-
 # define BUFFER_SIZE 32
 
 # define B_ECHO 1
@@ -42,6 +41,8 @@
 # define B_ENV 6
 # define B_EXIT 7
 
+# define SIGCAUGHT 128
+
 extern int	errno;
 
 //minishell_utils
@@ -50,5 +51,8 @@ void		ft_fork(pid_t *pid);
 void		ft_fork_pipe(t_pipe *pipe);
 void		ft_exit(char *cmd, char *param, char *str, int status);
 int			ft_perror(char *cmd, char *param, char *str);
+
+void		ft_sigquit(int sigquit);
+void		ft_sigint(int sigquit);
 
 #endif

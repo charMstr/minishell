@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int g_sig;
+
 /*
 ** This function creates the (char **env) for the fork
 ** RETURN : NULL if empty, or error (control->quit raised)
@@ -48,20 +50,20 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	ft_fork(&pid);
 	if (pid == 0)
 	{
+		termios_reset_cooked_mode(&control->termios_default);
 		if (!(env = build_env2d(control->env, control)) && control->quit)
 			ft_exit("malloc", NULL, strerror(errno), 1);
 		if (execve(prog, argv, env) == -1)
 			ft_perror(prog, NULL, strerror(errno));
 		ft_array_free(env, ft_array_len(env));
-//		printf("Errno is %d\n", errno);
-		if (errno == 13)
-			exit(126);
-		exit(1);
+		ft_errno_exit();
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		control->exit_status = (WIFEXITED(status) ? WEXITSTATUS(status) : 1);
+		control->exit_status = WIFEXITED(status) ? WEXITSTATUS(status) : g_sig;
+		if (!termios_enable_raw_mode(&control->termios_default))
+			ft_exit("tcsetattr can't set raw mode", NULL, NULL, 1);
 		printf("Exit status of the child was %d\n", control->exit_status);
 	}
 	return (1);
@@ -147,6 +149,7 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 	char	*path_to_binary;
 
 	printf("\e[95mThis is a binary !\e[0m\n");
+	g_sig = 1;
 	path_to_binary = NULL;
 	if ((ret = exe_given_path(&cmd->argv[0], control, &path_to_binary)) == -1)
 		return (ret);

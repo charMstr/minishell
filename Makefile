@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/06/16 17:09:53 by mli              ###   ########.fr        #
+#    Updated: 2020/06/20 19:09:31 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,6 +140,7 @@ SRC_FILES =	main\
 			quote_removal\
 			list_to_cmd_root\
 			list_to_cmd_assist\
+			signal_handler\
 			debug_functions\
 			debug_terminfo\
 			btree_debug\
