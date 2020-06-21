@@ -109,25 +109,23 @@ void	read_dispatch_for_processing(t_control *control, int c)
 int	read_need_to_stop(t_control *control, char c, int res)
 {
 	if (control->quit)
-		return (1);
-	if (res == -1)
+		;
+	else if (res == -1)
 	{
 		control->quit = 1;
 		//maybe display message for a read failure
 		//maybe set control->exit_status...
-		return (1);
 	}
-	if (c == 4 && !control->term->line_len)
+	else if (c == 4 && !control->term->line_len)
 	{
 		control->quit = 1;
-		return (1);
+		ft_putstr_fd("exit", 2);
 	}
-	if (c == 3)
-	{
+	else if (c == 3)
 		control->ctrl_c = 1;
-		return (1);
-	}
-	return (0);
+	else
+		return (0);
+	return (1);
 }
 
 /*
