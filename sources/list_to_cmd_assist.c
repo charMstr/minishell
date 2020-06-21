@@ -24,8 +24,7 @@ int	list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
 		id = tklst_id(tokens);
 		if (id == GREAT || id == DGREAT || id == LESS)
 		{
-			if (!list_to_cmd_fill_redirections_fields2(cmd, id, \
-						&((t_token *)tokens->next->content)->str))
+			if (!list_to_cmd_fill_redirections_fields2(cmd, id, tokens))
 					return (0);
 			tokens = tokens->next;
 		}
@@ -45,15 +44,18 @@ int	list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
 */
 
 int	list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, int id, \
-		char **str)
+		t_list *tokens)
 {
-	t_arrow *arrow;
-	t_list *new;
+	t_arrow	*arrow;
+	t_list	*new;
+	char	**dest;
 
 	if (!(arrow = init_t_arrow()))
 		return (0);
-	arrow->filename = *str;
-	*str = NULL;
+	dest = &((t_token *)tokens->next->content)->str;
+	arrow->dest = *dest;
+	*dest = NULL;
+	arrow->src = ((t_token *)tokens->content)->str;
 	arrow->id = id;
 	if (!(new = ft_lstnew(arrow)))
 	{
@@ -86,6 +88,6 @@ void	free_t_arrow(void *void_arrow)
 	t_arrow *arrow;
 
 	arrow = (t_arrow*)void_arrow;
-	free(arrow->filename);
+	free(arrow->dest);
 	free(arrow);
 }

@@ -58,7 +58,7 @@ void	debug_arrow_struct(t_arrow *arrow)
 		printf("LESS\n");
 	else
 		printf("\033[31mWR0NG ID\033[0m\n");
-	printf("\tarrow->filename = [%s]\n", arrow->filename);
+	printf("\tarrow->dest = [%s]\n", arrow->dest);
 }
 
 void	debug_simple_cmd(t_simple_cmd *cmd)

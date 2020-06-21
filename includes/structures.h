@@ -123,7 +123,8 @@ typedef struct	s_simple_cmd
 */
 typedef struct	s_arrow
 {
-	char	*filename;
+	char	*src;
+	char	*dest;
 	int		id;
 }				t_arrow;
 

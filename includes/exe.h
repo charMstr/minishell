@@ -36,7 +36,7 @@ void			free_t_simple_cmd(void *void_cmd);
 int				list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, \
 			t_list *tokens);
 int				list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, \
-			int id, char **str);
+			int id, t_list *tokens);
 t_arrow			*init_t_arrow(void);
 void			free_t_arrow(void *void_arrow);
 
