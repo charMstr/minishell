@@ -51,8 +51,8 @@ void		input_synthax_error(t_control *control, unsigned int unexpected);
 
 int			input_read_line(t_term *term);
 
-int			termios_enable_raw_mode(struct termios *old);
-void		termios_reset_cooked_mode(struct termios *saved_copy);
+int			termios_enable_raw_mode(t_control *control, struct termios *old);
+int			termios_reset_cooked_mode(t_control *control, struct termios *cpy);
 
 t_term		*terminfo_init_database(void);
 t_term		*terminfo_init_struct(void);
