@@ -61,7 +61,7 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	{
 		waitpid(pid, &status, 0);
 		control->exit_status = WIFEXITED(status) ? WEXITSTATUS(status) : g_sig;
-		printf("Exit status of the child was %d\n", control->exit_status);
+//		printf("Exit status of the child was %d\n", control->exit_status);
 	}
 	return (1);
 }
@@ -146,6 +146,7 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 	char	*path_to_binary;
 
 	g_sig = 1;
+//	printf("\e[95mThis is a binary !\e[0m\n");
 	path_to_binary = NULL;
 	if ((ret = exe_given_path(&cmd->argv[0], control, &path_to_binary)) == -1)
 		return (ret);

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
-/*   Updated: 2020/06/19 18:59:04 by mli              ###   ########.fr       */
+/*   Updated: 2020/06/22 10:08:43 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int		ft_chdir(char *target_dir, t_list *env)
 
 	if (ft_update_oldpwd(&update_old, &update_pwd, &pwd_env, env) == 0)
 		return (0);
-	printf("Moving to \033[0;1;94m%s\033[0m\n", target_dir);
+//	printf("Moving to \033[0;1;94m%s\033[0m\n", target_dir);
 	if (chdir(target_dir) == -1)
 		return (-1);
 	if (update_pwd && ft_getcwd(pwd_env) == 0)

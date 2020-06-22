@@ -40,7 +40,7 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 		;
 	else if ((builtin = exe_is_builtin(((t_simple_cmd *)token->str)->argv[0])))
 	{
-		printf("\033[35mthis is a builtin\033[0m\n");
+//		printf("\033[35mthis is a builtin\033[0m\n");
 		//check the returned value here;
 		exe_call_builtin(((t_simple_cmd *)token->str), builtin, control);
 	}
@@ -63,7 +63,7 @@ int	exe_prepare_simple_cmd(t_token *token, t_control *control)
 //	debug_tokens_list((t_list *)token->str);
 	if (!list_to_cmd_root(token))
 		return (0);
-	debug_simple_cmd(((t_simple_cmd *)token->str));
+//	debug_simple_cmd(((t_simple_cmd *)token->str));
 	return (1);
 }
 

@@ -31,7 +31,7 @@ int word_expand_root(t_list *tokens, t_control *control)
 {
 	if (!parameter_expansion_loop(&tokens, control))
 		return (0);
-	debug_tokens_list(tokens);
+//	debug_tokens_list(tokens);
 	//HERE
 	//pathname expansion goes here.
 	pathname_expand_root(((t_token *)tokens->content)->str);

@@ -224,7 +224,7 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	if ((dlst = ft_memalloc(sizeof(*dlst))) &&
 		(ast = parser_create_ast(dlst, &tkcpy)))
 	{
-		btree_debug(ast, parser_disp);
+//		btree_debug(ast, parser_disp);
 		ft_lstremove_if(&tklst, NULL, tkcmp_braces, del_token);
 		ft_lstclear(&tklst, NULL);
 		ft_dlstclear(&dlst, NULL);
