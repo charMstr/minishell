@@ -26,6 +26,12 @@ int				exe_call_builtin(t_simple_cmd *cmd, int id, \
 			t_control *control);
 
 int				exe_simple_cmd_root(t_token *token, t_control *control);
+int				exe_prepare_simple_cmd(t_token *token, t_control *control);
+
+int				exe_perform_arrow(t_simple_cmd *cmd, t_control *control);
+int				exe_perform_redirections(t_list *red, t_control *control);
+int				exe_perform_indirections(t_list *ind, t_control *control);
+int				exe_cancel_arrows(t_control *control);
 
 int				list_to_cmd_root(t_token *token_node);
 t_list			*list_to_cmd_skim_redirections(t_list **tokens);

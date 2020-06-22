@@ -24,29 +24,21 @@
 int	exe_simple_cmd_root(t_token *token, t_control *control)
 {
 	int builtin;
-//	printf("\033[34mBEFORE WORD EXPAND:\033[0m\n");
-//	debug_tokens_list((t_list *)token->str);
-	if (!word_expand_root((t_list *)token->str, control))
+
+	if (!exe_prepare_simple_cmd(token, control))
 	{
 		control->quit = 1;
-		//control->exit_status = ...?
+		control->exit_status = 1;
 		return (0);
 	}
-//	printf("\033[34mAFTER WORD EXPAND:\033[0m\n");
-//	debug_tokens_list((t_list *)token->str);
-	if (!list_to_cmd_root(token))
-	{
-		control->quit = 1;
-		//control->exit_status = ...?
+	if (!exe_perform_arrow((t_simple_cmd *)token->str, control))
 		return (0);
-	}
-	debug_simple_cmd(((t_simple_cmd *)token->str));
-	if (!((t_simple_cmd *)token->str)->argv[0])
-		return (1);
 	//HERE function that does all the redirections.
 	//need to operate the redirections list just before executing the simple
 	//command. note: the stdin and stdout, should be saved then restored.
-	if ((builtin = exe_is_builtin(((t_simple_cmd *)token->str)->argv[0])))
+	if (!((t_simple_cmd *)token->str)->argv[0])
+		;
+	else if ((builtin = exe_is_builtin(((t_simple_cmd *)token->str)->argv[0])))
 	{
 		printf("\033[35mthis is a builtin\033[0m\n");
 		//check the returned value here;
@@ -57,7 +49,22 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 	//try execute the non builtin commands here.
 	//always make sure we set the exit status.
 	//always restore the stdion and stdout, to original value.
+	exe_cancel_arrows(control);
 	return (!!control->exit_status);
+}
+
+int	exe_prepare_simple_cmd(t_token *token, t_control *control)
+{
+//	printf("\033[34mBEFORE WORD EXPAND:\033[0m\n");
+//	debug_tokens_list((t_list *)token->str);
+	if (!word_expand_root((t_list *)token->str, control))
+		return (0);
+//	printf("\033[34mAFTER WORD EXPAND:\033[0m\n");
+//	debug_tokens_list((t_list *)token->str);
+	if (!list_to_cmd_root(token))
+		return (0);
+	debug_simple_cmd(((t_simple_cmd *)token->str));
+	return (1);
 }
 
 /*
