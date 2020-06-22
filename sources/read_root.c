@@ -122,7 +122,10 @@ int	read_need_to_stop(t_control *control, char c, int res)
 		ft_putstr_fd("exit", 2);
 	}
 	else if (c == 3)
+	{
+		control->exit_status = 1;
 		control->ctrl_c = 1;
+	}
 	else
 		return (0);
 	return (1);
