@@ -80,7 +80,7 @@ int	termios_reset_cooked_mode(t_control *control, struct termios *saved_copy)
 		ft_perror("tcgetattr can't get", NULL, strerror(errno));
 		return (0);
 	}
-	if (!memcmp(saved_copy, &new, sizeof(struct termios)))
+	if (!ft_memcmp(saved_copy, &new, sizeof(struct termios)))
 		return (1);
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, saved_copy) == -1)
 	{
