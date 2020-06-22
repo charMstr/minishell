@@ -211,8 +211,18 @@ int			tkcmp_braces(t_token *token)
 **			NULL if a malloc failed.
 */
 
-void	parser_btree_reverse_pipe(t_btree **ast, t_btree *lchild)
+void	parser_btree_reverse_pipe(t_btree **ast)
 {
+	int		id;
+	t_btree	*lchild;
+
+	lchild = (*ast)->left;
+	while (btree_id(lchild) == PIPE)
+		lchild = lchild->left;
+	if ((id = btree_id(lchild)) == -1)
+		return ;
+	if (id == LIST)
+		return ;
 	(*ast)->left = lchild->right;
 	lchild->right = *ast;
 	*ast = lchild;
@@ -220,15 +230,12 @@ void	parser_btree_reverse_pipe(t_btree **ast, t_btree *lchild)
 
 void	parser_pipe_priority(t_btree **ast)
 {
-	int id;
-
 	if (!ast || !*ast)
 		return ;
-	id = btree_id((*ast)->left);
-	if (btree_id(*ast) == PIPE && id != -1 && id != PIPE && id != LIST)
-		parser_btree_reverse_pipe(ast, (*ast)->left);
 	parser_pipe_priority(&(*ast)->left);
 	parser_pipe_priority(&(*ast)->right);
+	if (btree_id(*ast) == PIPE)
+		parser_btree_reverse_pipe(ast);
 }
 
 t_btree		*parser_root(t_list *tklst, t_control *control)
