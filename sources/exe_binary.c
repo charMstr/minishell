@@ -50,7 +50,6 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	ft_fork(&pid);
 	if (pid == 0)
 	{
-		termios_reset_cooked_mode(&control->termios_default);
 		if (!(env = build_env2d(control->env, control)) && control->quit)
 			ft_exit("malloc", NULL, strerror(errno), 1);
 		if (execve(prog, argv, env) == -1)
@@ -62,8 +61,6 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	{
 		waitpid(pid, &status, 0);
 		control->exit_status = WIFEXITED(status) ? WEXITSTATUS(status) : g_sig;
-		if (!termios_enable_raw_mode(&control->termios_default))
-			ft_exit("tcsetattr can't set raw mode", NULL, NULL, 1);
 		printf("Exit status of the child was %d\n", control->exit_status);
 	}
 	return (1);

@@ -18,7 +18,11 @@ int	master_loop(t_control *control)
 		return (1);
 	while (!control->quit)
 	{
+		if (!termios_enable_raw_mode(control, &control->termios_default))
+			break ;
 		tokens_list = input_root(control);
+		if (!termios_reset_cooked_mode(control, &control->termios_default))
+			break ;
 		if (control->quit || control->ctrl_c || control->lexer_end.unexpected)
 			continue;
 		ast = parser_root(tokens_list, control);
@@ -38,7 +42,7 @@ int main(void)
 	signal(SIGQUIT, ft_sigquit);
 	signal(SIGINT, ft_sigint);
 	if (!control_init_struct(&control) ||
-		!(termios_enable_raw_mode(&control.termios_default)))
+		!(termios_enable_raw_mode(&control, &control.termios_default)))
 	{
 		ft_perror(NULL, NULL, errno ? strerror(errno) : "Couldn't initialize");
 		control_free_struct(&control);
@@ -47,6 +51,6 @@ int main(void)
 	exit_status = master_loop(&control);
 	control_free_struct(&control);
 	terminfo_reset_terminal();
-	termios_reset_cooked_mode(&control.termios_default);
+	termios_reset_cooked_mode(&control, &control.termios_default);
     return (exit_status);
 }
