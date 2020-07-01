@@ -10,6 +10,7 @@ int		env_builtin(t_list *env, t_control *control);
 t_env	*env_init_struct(void);
 char	*env_get(char *str, size_t len, t_list *env);
 char	**env_get_addr(char *str, size_t len, t_list *env);
+int		env_shlvl_update(t_list **env, t_control *control);
 
 int		is_identifier_valid(char *identifier, char *command);
 

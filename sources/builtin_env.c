@@ -187,3 +187,31 @@ char	**env_get_addr(char *str, size_t len, t_list *env)
 	}
 	return (NULL);
 }
+
+/*
+** note:	this function update the env variable SHLVL by using export
+**			first we seach the current shlvl, then add one and export it
+**
+** RETURN:	1 OK
+**			0 KO
+*/
+
+int		env_shlvl_update(t_list **env, t_control *control)
+{
+	int		shlvl;
+	char	*nbr;
+	char	*argv[3];
+
+	if (!(nbr = env_get("SHLVL", 5, *env)))
+		nbr = "0";
+	shlvl = ft_atoi(nbr) + 1;
+	argv[0] = "export";
+	argv[1] = NULL;
+	argv[2] = NULL;
+	if (!(nbr = ft_itoa(shlvl)) ||
+		!(argv[1] = ft_strjoin_free("SHLVL=", nbr, 2)))
+		return (0);
+	export_builtin(env, argv, control);
+	free(argv[1]);
+	return (1);
+}

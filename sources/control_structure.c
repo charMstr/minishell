@@ -1,5 +1,4 @@
 #include "minishell.h"
-//#include "terminfo.h"
 
 /*
 ** this file is in charge of the control structure that will be carried all
@@ -12,9 +11,14 @@
 
 int		control_init_struct(t_control *control)
 {
+	extern char **environ;
+
 	ft_bzero(control, sizeof(*control));
 	if (!(control->history = history_init_struct()) ||
-		!(control->term = terminfo_init_database()))
+		!(control->term = terminfo_init_database()) ||
+		!(control->env = env_build_linked_list(environ)))
+		return (0);
+	if (!env_shlvl_update(&control->env, control))
 		return (0);
 	if ((control->truefd[STDIN_FILENO] = dup(STDIN_FILENO)) == -1 ||
 		(control->truefd[STDOUT_FILENO] = dup(STDOUT_FILENO)) == -1 ||

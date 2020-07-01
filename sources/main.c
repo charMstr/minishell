@@ -7,15 +7,11 @@
 ** RETURN:	the exit_status, that was stored int the control->exit_status field
 */
 
-extern char **environ;
-
 int	master_loop(t_control *control)
 {
 	t_list	*tokens_list;
 	t_btree	*ast;
 
-	if (!(control->env = env_build_linked_list(environ)))
-		return (1);
 	while (!control->quit)
 	{
 		if (!termios_enable_raw_mode(control, &control->termios_default))
