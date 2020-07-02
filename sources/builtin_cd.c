@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
-/*   Updated: 2020/06/22 10:08:43 by mli              ###   ########.fr       */
+/*   Updated: 2020/07/02 12:11:33 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,15 @@ int		cd_builtin(t_list *env, char **argv, t_control *control)
 	int ret;
 
 	if (!argv[1] || !ft_strcmp("~", argv[1]))
-		ret = cd_special("HOME", env);
+		ret = cd_special("HOME", env, control);
 	else if (!ft_strcmp("-", argv[1]))
-		ret = cd_special("OLDPWD", env);
+		ret = cd_special("OLDPWD", env, control);
 	else
-		ret = ft_chdir(argv[1], env);
+		ret = ft_chdir(argv[1], env, control);
 	if (ret == 0)
 		control->quit = 1;
 	else if (errno)
-	{
 		ft_perror(argv[0], argv[1], strerror(errno));
-		errno = 0;
-	}
 	control->exit_status = (ret == 1 ? 0 : 1);
 	return (ret == 0 ? 0 : 1);
 }
@@ -55,7 +52,7 @@ int		cd_builtin(t_list *env, char **argv, t_control *control)
 **	Prints an error if the env variable is not set
 */
 
-int		cd_special(char *envdir, t_list *env)
+int		cd_special(char *envdir, t_list *env, t_control *control)
 {
 	char *dir;
 
@@ -64,7 +61,7 @@ int		cd_special(char *envdir, t_list *env)
 		ft_perror("cd", envdir, "environment variable not set");
 		return (-1);
 	}
-	return (ft_chdir(dir, env));
+	return (ft_chdir(dir, env, control));
 }
 
 /*
@@ -110,7 +107,7 @@ int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env)
 **			-1 if an error occured (chdir)
 */
 
-int		ft_chdir(char *target_dir, t_list *env)
+int		ft_chdir(char *target_dir, t_list *env, t_control *control)
 {
 	char	**pwd_env;
 	int		update_pwd;
@@ -118,9 +115,10 @@ int		ft_chdir(char *target_dir, t_list *env)
 
 	if (ft_update_oldpwd(&update_old, &update_pwd, &pwd_env, env) == 0)
 		return (0);
-//	printf("Moving to \033[0;1;94m%s\033[0m\n", target_dir);
 	if (chdir(target_dir) == -1)
 		return (-1);
+	if (!(ft_getcwd(&control->cwd)))
+		return (0);
 	if (update_pwd && ft_getcwd(pwd_env) == 0)
 		return (0);
 	return (1);

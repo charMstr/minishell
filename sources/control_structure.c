@@ -20,6 +20,8 @@ int		control_init_struct(t_control *control)
 		return (0);
 	if (!env_shlvl_update(&control->env, control))
 		return (0);
+	if (!(control->cwd = getcwd(NULL, 0)))
+		return (0);
 	if ((control->truefd[STDIN_FILENO] = dup(STDIN_FILENO)) == -1 ||
 		(control->truefd[STDOUT_FILENO] = dup(STDOUT_FILENO)) == -1 ||
 		(control->truefd[STDERR_FILENO] = dup(STDERR_FILENO)) == -1)

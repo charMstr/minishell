@@ -102,6 +102,7 @@ typedef struct		s_control
 	t_lexer_end		lexer_end;
 	int				truefd[3];
 	struct termios	termios_default;
+	char			*cwd;
 }					t_control;
 
 /*

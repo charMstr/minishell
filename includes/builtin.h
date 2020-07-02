@@ -30,8 +30,8 @@ int		cd_builtin(t_list *env, char **argv, t_control *control);
 void	ft_ls(char *directory, int showdot);
 int		ft_getcwd(char **target);
 int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env);
-int		ft_chdir(char *target_dir, t_list *env);
-int		cd_special(char *envdir, t_list *env);
+int		ft_chdir(char *target_dir, t_list *env, t_control *control);
+int		cd_special(char *envdir, t_list *env, t_control *control);
 
 int		exit_builtin(char **argv, t_control *control);
 
