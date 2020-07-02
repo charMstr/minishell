@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 22:29:48 by mli               #+#    #+#             */
-/*   Updated: 2020/07/02 12:11:33 by mli              ###   ########.fr       */
+/*   Updated: 2020/07/02 16:32:59 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,41 +65,10 @@ int		cd_special(char *envdir, t_list *env, t_control *control)
 }
 
 /*
-** note : Here these variables pointers are filled
-**	- update_old == upold
-**	- update_pwd == uppwd
-**	- pwd_env == pwdptr
-**		Then the OLDPWD is updated if needed
-**		Doing a ft_swap in order to avoid a potential allocation
-**
-** RETURN:	1 on success
-**			0 if an error occured
-*/
-
-int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env)
-{
-	char	**oldpwd;
-
-	*pwdptr = env_get_addr("PWD", 3, env);
-	oldpwd = env_get_addr("OLDPWD", 6, env);
-	*uppwd = (*pwdptr != NULL);
-	if ((*upold = (oldpwd != NULL)) == 0)
-		return (1);
-	if (*pwdptr)
-		ft_ptrswap((void **)*pwdptr, (void **)oldpwd);
-	if (ft_getcwd(oldpwd) == 0)
-		return (0);
-	return (1);
-}
-
-/*
 ** note : Here the directory change is performed
-**		It first fills some variables :
-**	- update_old => do we need to update OLDPWD
-**	- update_pwd => do we need to update PWD
-**	- pwd_env => the result of env_get_addr(PWD) [so no need to re-run this fct]
-**		Then the OLDPWD is updated in a sub-funct if needed
-**		The chdir is performed
+**		chdir is performed
+**		OLDPWD is updated if needed,
+**		control->cwd is always updated as it tracks the real cwd
 **		Finally, the PWD is updated if needed
 **
 ** RETURN:	1 on success
@@ -109,17 +78,22 @@ int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env)
 
 int		ft_chdir(char *target_dir, t_list *env, t_control *control)
 {
+	char	**oldpwd;
 	char	**pwd_env;
-	int		update_pwd;
-	int		update_old;
 
-	if (ft_update_oldpwd(&update_old, &update_pwd, &pwd_env, env) == 0)
-		return (0);
+	pwd_env = env_get_addr("PWD", 3, env);
+	oldpwd = env_get_addr("OLDPWD", 6, env);
 	if (chdir(target_dir) == -1)
 		return (-1);
+	if (oldpwd)
+	{
+		free(*oldpwd);
+		if (!(*oldpwd = ft_strdup(control->cwd)))
+			return (0);
+	}
 	if (!(ft_getcwd(&control->cwd)))
 		return (0);
-	if (update_pwd && ft_getcwd(pwd_env) == 0)
+	if (pwd_env && ft_getcwd(pwd_env) == 0)
 		return (0);
 	return (1);
 }

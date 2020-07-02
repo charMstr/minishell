@@ -122,6 +122,7 @@ int		exe_search_path(char *argv0, t_control *control, char **path_to_binary)
 		else
 			ft_free((void **)&path);
 	}
+	errno = 0;
 	ft_array_free(split, ft_array_len(split));
 	return (ret);
 }
