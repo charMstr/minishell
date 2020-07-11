@@ -14,6 +14,7 @@ int		control_init_struct(t_control *control)
 	extern char **environ;
 
 	ft_bzero(control, sizeof(*control));
+	control->parent_pid = getpid();
 	if (!(control->history = history_init_struct()) ||
 		!(control->term = terminfo_init_database()) ||
 		!(control->env = env_build_linked_list(environ)))

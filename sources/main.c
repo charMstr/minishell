@@ -32,7 +32,7 @@ int	master_loop(t_control *control)
 
 int main(void)
 {
-	unsigned char	exit_status;
+	int				exit_status;
 	t_control		control;
 
 	signal(SIGQUIT, ft_sigquit);

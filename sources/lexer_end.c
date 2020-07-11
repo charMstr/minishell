@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/05/26 11:36:32 by mli              ###   ########.fr       */
+/*   Updated: 2020/07/11 16:52:55 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,7 @@ int		lexer_end(t_list *token_head, t_control *control)
 		;
 	else
 		return (1);
+	if (control->lexer_end.unexpected != 0)
+		control->exit_status = 258;
 	return (0);
 }

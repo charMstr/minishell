@@ -95,7 +95,8 @@ typedef struct		s_control
 {
 	unsigned int	quit:1;
 	unsigned int	ctrl_c:1;
-	unsigned char	exit_status;
+	int				exit_status;
+	pid_t			parent_pid;
 	t_history		*history;
 	t_term			*term;
 	t_list 			*env;
