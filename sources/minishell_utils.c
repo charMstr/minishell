@@ -18,6 +18,8 @@ void	ft_pipe(int (*fildes)[2])
 /*
 ** note:	this function will fork and the child will be the process in which
 **			the pid value is equal to zero.
+** note:	this fork raises errno to `22 : Invalid argument`
+**			thus errno = 0 to fix it
 */
 
 void	ft_fork(pid_t *pid)
@@ -25,6 +27,7 @@ void	ft_fork(pid_t *pid)
 	*pid = fork();
 	if (*pid == -1)
 		ft_exit("fork", NULL, strerror(errno), EXIT_FAILURE);
+	errno = 0;
 }
 
 /*
