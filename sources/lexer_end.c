@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/07/11 16:52:55 by mli              ###   ########.fr       */
+/*   Updated: 2020/07/11 23:26:40 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		lexer_end(t_list *token_head, t_control *control)
 	last = (t_token *)(ft_lstlast(token_head)->content);
 	if ((control->lexer_end.unexpected = lexer_forbidden_start(token_head)) ||
 	(control->lexer_end.unexpected = lexer_forbidden_combo(token_head)))
-		return (0);
+		;
 	else if (last->open_quote)
 		control->lexer_end.quote = 1;
 	else if (last->esc_next)
