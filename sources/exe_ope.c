@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern int g_sig;
+
 int		exe_and(t_btree *ast, t_control *control)
 {
 	exe_root(ast->left, control);
@@ -38,13 +40,14 @@ int		exe_subshell(t_btree *ast, t_control *control)
 	ft_fork(&pid);
 	if (pid == 0)
 	{
+		ft_signalhandler_disable();
 		exe_root(ast->left, control);
 		exit(control->exit_status);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		control->exit_status = (WIFEXITED(status) ? WEXITSTATUS(status) : 1);
+		control->exit_status = WIFEXITED(status) ? WEXITSTATUS(status) : g_sig;
 	}
 	return (control->exit_status);
 }

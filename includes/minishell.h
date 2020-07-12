@@ -55,5 +55,7 @@ int			ft_perror(char *cmd, char *param, char *str);
 
 void		ft_sigquit(int sigquit);
 void		ft_sigint(int sigquit);
+void		ft_signalhandler_enable(void);
+void		ft_signalhandler_disable(void);
 
 #endif

@@ -35,8 +35,7 @@ int main(void)
 	int				exit_status;
 	t_control		control;
 
-	signal(SIGQUIT, ft_sigquit);
-	signal(SIGINT, ft_sigint);
+	ft_signalhandler_enable();
 	if (!control_init_struct(&control) ||
 		!(termios_enable_raw_mode(&control, &control.termios_default)))
 	{
