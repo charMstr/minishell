@@ -6,7 +6,7 @@
 #    By: charmstr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 21:40:12 by charmstr          #+#    #+#              #
-#    Updated: 2020/06/20 22:07:34 by mli              ###   ########.fr        #
+#    Updated: 2020/07/17 15:58:49 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,6 @@ FILES = atoi\
 	lstrev\
 	lstfind\
 	itoa_base\
-	size_num_base_signed\
 	strrev\
 	strichr\
 	putbits_fd\

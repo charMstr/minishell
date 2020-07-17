@@ -24,6 +24,8 @@ int pathname_expand_root(char *str)
 	int res;
 
 	res = match_no_star(ref, str, 0, 0);
-//	printf("for [%s] & [%s], res is %d\n", ref, str, res);
+	(void)res;
 	return (1);
 }
+
+//	printf("for [%s] & [%s], res is %d\n", ref, str, res);

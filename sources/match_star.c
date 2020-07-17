@@ -85,12 +85,13 @@ void	match_within_quote_escape_met(int *j, char *str, int *esc_next)
 **			recursion, keep on compararing strings
 */
 
+/*	printf("entering match_within_quote with:\nref[0] = %c\n"\
+**		"str[0] == %c\n", ref[0], str[0]);
+*/
 int	match_within_quote(char *ref, char *str, char quote)
 {
 	int i;
 
-	//printf("entering match_within_quote with:\nref[0] = %c\n"\
-	//		"str[0] == %c\n", ref[0], str[0]);
 	i = 0;
 	if (quote == '\"')
 		return (match_until_double_quote(ref, str, 0));

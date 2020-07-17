@@ -14,12 +14,13 @@
 
 int	terminfo_load_array_esc_seq(t_term *term)
 {
-	const char *array[] = (const char *[]){KEY_ESC_, KEY_UP_, KEY_RIGHT_,
+	char	**array;
+	int		i;
+
+	array = (char *[]){KEY_ESC_, KEY_UP_, KEY_RIGHT_,
 		KEY_LEFT_, KEY_DOWN_, KEY_HOME_, KEY_DELETE_, KEY_END_, KEY_PAGE_UP_,
 		KEY_PAGE_DOWN_, KEY_UP_CTRL_, KEY_DOWN_CTRL_, KEY_RIGHT_CTRL_,
 		KEY_LEFT_CTRL_ , NULL};
-	int i;
-
 	i = 0;
 	if (!(term->array_esc_seq = (char **)malloc(sizeof(char *) * (1 + \
 						NUMBER_SPECIAL_KEYS))))

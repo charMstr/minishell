@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 22:33:24 by mli               #+#    #+#             */
-/*   Updated: 2020/05/14 22:36:03 by mli              ###   ########.fr       */
+/*   Updated: 2020/07/17 15:59:43 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 void	ft_dlstadd_back(t_dlist **alst, t_dlist *new)
 {
 	t_dlist *tmp;
-	t_dlist *previous;
 
 	if (!alst || !new)
 		return ;
@@ -33,10 +32,7 @@ void	ft_dlstadd_back(t_dlist **alst, t_dlist *new)
 	}
 	tmp = *alst;
 	while (tmp->next)
-	{
-		previous = tmp;
 		tmp = tmp->next;
-	}
 	tmp->next = new;
 	new->previous = tmp;
 }

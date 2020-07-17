@@ -16,9 +16,7 @@
 void	terminfo_cursor_move_up(t_control *control, t_int_pair *cursor)
 {
 	t_int_pair	previous_end;
-	int			current_len;
 
-	current_len = terminfo_predict_current_line_len(control);
 	if (cursor->y <= control->term->cursor_start.y)
 		return ;
 	previous_end = terminfo_predict_previous_line_cursor_end(control);
