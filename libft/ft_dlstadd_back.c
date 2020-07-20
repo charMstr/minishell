@@ -1,4 +1,3 @@
-/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_dlstadd_back.c                                  :+:      :+:    :+:   */
@@ -22,7 +21,6 @@
 void	ft_dlstadd_back(t_dlist **alst, t_dlist *new)
 {
 	t_dlist *tmp;
-	t_dlist *previous;
 
 	if (!alst || !new)
 		return ;
@@ -33,10 +31,7 @@ void	ft_dlstadd_back(t_dlist **alst, t_dlist *new)
 	}
 	tmp = *alst;
 	while (tmp->next)
-	{
-		previous = tmp;
 		tmp = tmp->next;
-	}
 	tmp->next = new;
 	new->previous = tmp;
 }
