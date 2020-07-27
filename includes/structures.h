@@ -80,9 +80,10 @@ typedef struct		s_lexer_end
 typedef struct		s_token
 {
 	char			*str;
+	int				id;
+	int				is_filename;
 	unsigned int	open_quote:1;
 	unsigned int	esc_next:1;
-	int				id;
 	int				unquote_protected;
 	int				protect_s;
 	int				protect_e;
@@ -153,7 +154,7 @@ typedef struct	s_expansion
 	int			start;
 	int			end;
 	char		quoted;
-	int			field_splitting;
+	int			is_filename;
 	char		*ifs;
 }				t_expansion;
 

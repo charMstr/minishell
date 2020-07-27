@@ -118,7 +118,7 @@ int		quote_removal_eat_char(char *str, int *i, t_no_unquote *no)
 ** note:	the token->unquote_start and end have been created so that we can
 **			protect some sections againt unquoting. especially the section
 **			originating from parameter expansion.
-**			token->unquote_end is put to -1 if it si not used
+**			token->unquote_end is put to -1 if it is not used
 */
 
 void quote_removal(t_token *token)

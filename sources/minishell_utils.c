@@ -83,3 +83,20 @@ int		ft_perror(char *cmd, char *param, char *str)
 	ft_putstr_fd("\033[0m", fd);
 	return (-1);
 }
+
+/*
+** note:	this function will simply display a messae when there is an
+**			ambiguous redirection attempted in a single command:
+**			redirection in a $VAR that happens to be empty.
+**			redirection in a filename that becomes mutliple tokens after either
+**			field splitting, or pathname expansion(kleen star operator).
+*/
+
+void ft_ambiguous_redirect(char *str, int fd)
+{
+	ft_putstr_fd("\033[0;91m", fd);
+	ft_putstr_fd("minishell: ", fd);
+	ft_putstr_fd(str, fd);
+	ft_putstr_fd(": ambiguous redirect\n", fd);
+	ft_putstr_fd("\033[0m", fd);
+}

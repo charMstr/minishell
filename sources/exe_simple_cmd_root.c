@@ -17,20 +17,22 @@
 ** note:	control->quit will be raised in case of failure in mallocs
 **			exit_status should alway be set here.
 **
-** RETURN:	1 OK
-**			0 KO, need to exit.
+** RETURN:	1, OK, process to next command to execute.
+**			0, KO, need to exit program.
 */
 
 int	exe_simple_cmd_root(t_token *token, t_control *control)
 {
 	int builtin;
+	int res;
 
-	if (!exe_prepare_simple_cmd(token, control))
-	{
-		control->quit = 1;
-		control->exit_status = 1;
+	res = exe_prepare_simple_cmd(token, control);
+	if (res == 1)
+		return (1);
+	//check the exit status is working the same way as the last Return here.
+	else if (res == 2)
 		return (0);
-	}
+	//need to make sure the control->quit is raised inside this function..
 	if (!exe_perform_arrow((t_simple_cmd *)token->str, control))
 		return (0);
 	//HERE function that does all the redirections.
@@ -53,18 +55,41 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 	return (!!control->exit_status);
 }
 
+/*
+** note:	this function will call the subfunction that operates teh word
+**			expansions and reassort the tokens into a CMD instead of LIST
+**			structure type. (redirections are separated from the basic words).
+**
+** Return:	0, OK, normal execution
+**			1, do not execute this simple command any further, a message like
+**			"ambiguous redirect" already got displayed.
+**			2, control->quit was raised, need to quit the program.
+*/
+
 int	exe_prepare_simple_cmd(t_token *token, t_control *control)
 {
+	int res;
+
 //	printf("\033[34mBEFORE WORD EXPAND:\033[0m\n");
 //	debug_tokens_list((t_list *)token->str);
-	if (!word_expand_root((t_list *)token->str, control))
-		return (0);
+	res = word_expand_root(((t_list **)&token->str), control);
+	if (res)
+	{
+		control->exit_status = 1;
+		if (res == 2)
+			control->quit = 1;
+		return (res);
+	}
 //	printf("\033[34mAFTER WORD EXPAND:\033[0m\n");
 //	debug_tokens_list((t_list *)token->str);
 	if (!list_to_cmd_root(token))
-		return (0);
+	{
+		control->exit_status = 1;
+		control->quit = 1;
+		return (2);
+	}
 //	debug_simple_cmd(((t_simple_cmd *)token->str));
-	return (1);
+	return (0);
 }
 
 /*

@@ -34,11 +34,7 @@ void	read_process_del_char(t_control *control)
 {
 	if (control->term->inline_position == -1)
 		return ;
-	if (!ft_strcdel(&(control->term->line), control->term->inline_position))
-	{
-		control->quit = 1;
-		return ;
-	}
+	ft_strcdel(control->term->line, control->term->inline_position);
 	if (!terminfo_del_char(control))
 		return ;
 	control->term->inline_position--;

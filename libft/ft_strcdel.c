@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcadd.c                                       :+:      :+:    :+:   */
+/*   ft_strcdel.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,34 +14,23 @@
 
 /*
 ** note:	this function will delete a char in a given postion within a string
-** note:	if the string is empty its okay. if the index is too big, nothing
-**			is changed in the current string.
-**			in case of failuer the str is set to null.
+** note:	if the string is empty or null we just exit.
+**			if the index is too big, nothing is changed in the current string.
+**			otherwise the string is collapsed onto itself at the position of
+**			the char with a memmove.
 **
 ** input:	- str
 **			- the index of the char to be deleted
-**
-** RETURN:	1 ok
-**			0 failure (malloc failed or str was NULL)
 */
 
-int	ft_strcdel(char **str, size_t i)
+void 	ft_strcdel(char *str, size_t i)
 {
-	char	*new;
 	size_t	len;
 
-	if (!str || !(*str))
-		return (0);
-	len = ft_strlen(*str);
+	if (!str || !ft_strlen(str))
+		return ;
+	len = ft_strlen(str);
 	if (i >= len)
-		i = len;
-	str[0][i] = '\0';
-	if (!(new = ft_strjoin(*str, *str + i + 1)))
-	{
-		ft_free((void**)str);
-		return (0);
-	}
-	ft_free((void**)str);
-	*str = new;
-	return (1);
+		return ;
+	ft_memmove(str + i, str + i + 1, len - i);
 }

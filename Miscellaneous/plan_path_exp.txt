@@ -1,0 +1,67 @@
+
+struct
+	int	root
+on a un token quon appel root.
+-root->str il faut la modifier pour pouvoir l'utiliser
+ 	on enleve les quotes cat on doit avoir une string la plus clean possible
+	pour la comparaison avec les noms de dossiers et fichiers.
+
+- on doit reperer au moment de la dequotation, les etoiles qui sont valides
+ de celles qui etaient entre quotes ou escaped par un backslash.
+ 	-> le seul moyen c'est d'avoir une liste chainee qui contient des ints, qui
+	 seraient la position des etoiles valides dans la grande string.
+	 tout ca juste au cas ou un gogole decide de mettre une asterix dans un nom	
+	 de fichier.
+
+- il faut decouper la string avec les '//' comme separateur, bon vieux split
+ 	whitespaces.
+	si le premiere string est vide c'est que on part de root, et on en est sur
+	car si une chaine etait seulement vide au debut, on ne serait jamais rentre
+	dans ce bout de code, (au niveau de fonction pathname_is_expandable())
+	donc -> creer un boolean pour root.
+	toutes les autres string de ce split whitespace ne peuvent pas etre vides, 
+	y compris la derniere. donc le tester.
+
+	chaque string appelle path_bit, va aller dans une liste chainee qui
+	contient des structures.
+	avec:
+	struct
+		char *path_bit;
+		int	root;
+		is_filename, si on le met la, ca permettra de tres vite detecter une
+			erreur de ambiguous redirect, ne pas attendre de tout parcourir!
+		int number_of_success, si il depasse 1 et que is_filename est a 1...
+			->ambiguous redirect.
+		t_list *une liste chainee de ints qui doit specialement rentrer
+			dans chaque maillon de cette liste chaine contenant les morceaux de
+			paths a analyser. si elle vaut NULL, on sait que il n'y a pas de
+			pathname expansion a intenter sur un bout de string. sinon chaque
+			int determine la position d'une etoile valide.
+		t_list ***tokens la vrai liste chainee de tokens, on va venir y inserer
+			un nouveau token en lieu et place et update le pointeur de pointeur 
+			pour la fonction appelante. si number_of_success vaut zero (au
+			passage on va detruire le token sous notre "curseur", sinon on
+			ajoute juste apres pour toutes les autres fois.
+
+
+- il faut comparer chaque bout de path avec ce qu'on peut ouvrir comme dossier.	
+	toujours en utilisant les etoiles.
+	on sait que si la liste chainee de ints est NULL, on a rien a faire a part
+	un simple string comp.
+	la toute premiere string est la seul qui peut etre vide et valide, cela
+	veut dire que c'est root qu'il faudra parcourir. identifier grace au boolen
+	la on a carrement rien a faire a part essayer d'ouvrir root.
+
+-	si on valide un nom a chaque fois on entre dans une recursion. au passage
+	on doit ajouter la string valide dans un buffer de taille size_name_max
+	en mettant un petit '//' a la fin.
+		donc dans le cas de root, on met un '/' au tout debut et c'est BON.
+	le buffer sera toujours passe en argument par copie -> recursion fonctionne
+	dans cette recursion on a en argument, le buffer, la structure.
+
+	si on va au bout de la validation, on ajoute le nom valide dans la liste
+	chainee de tokens en lieu et place et on return 0
+	si on a le conflit ambiguous redirect (is_filename et number_of_success qui
+	est > a 1) il faut return 2 et le faire remonter direct.
+	il faudra faire la distinction entre fatal_error, ambiguous redirect
+	et success. donc un return de 0, 1, 2 comme d'habitude.

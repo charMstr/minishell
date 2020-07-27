@@ -133,10 +133,11 @@ SRC_FILES =	main\
 			exe_simple_cmd_root\
 			exe_perform_arrow\
 			exe_binary\
-			word_expand_root\
-			parameter_expansion\
+			word_expand_root_v2\
+			parameter_expansion_root\
 			parameter_expansion2\
-			field_splitting\
+			field_splitting_root\
+			pathname_expansion_root\
 			pathname_expand_root\
 			match_star\
 			quote_removal\

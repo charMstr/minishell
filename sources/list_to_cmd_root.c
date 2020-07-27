@@ -12,7 +12,7 @@
 **			linked lists of redirections.
 **
 ** INPUT:	Token with a LIST id. (token->str contains a list of tokens of
-**			type: WORD, GREAT, DGREAT or LESS.)
+**			type: TOKEN, GREAT, DGREAT or LESS.)
 **
 ** RETURN:	1 OK
 **			0 KO
