@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_insert_character.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:37:18 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:38:31 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -12,7 +24,7 @@
 **			0 failure
 */
 
-int	terminfo_insert_char(t_control *control, char c)
+int		terminfo_insert_char(t_control *control, char c)
 {
 	int cur_line_len;
 	int	saved_inline_position;
@@ -43,7 +55,7 @@ int	terminfo_insert_char(t_control *control, char c)
 **			0 failure
 */
 
-int terminfo_insert_in_place(t_control *control, char c)
+int		terminfo_insert_in_place(t_control *control, char c)
 {
 	char *caps;
 
@@ -68,10 +80,10 @@ int terminfo_insert_in_place(t_control *control, char c)
 **			0 failure
 */
 
-int terminfo_insert_newline(t_control *control)
+int		terminfo_insert_newline(t_control *control)
 {
-	char *caps;
-	t_int_pair cursor_end;
+	char		*caps;
+	t_int_pair	cursor_end;
 
 	cursor_end = terminfo_cursor_get_endl(control);
 	if (cursor_end.y >= control->term->size_window.y)
@@ -106,7 +118,7 @@ int terminfo_insert_newline(t_control *control)
 **			0 failure
 */
 
-int	terminfo_insert_char_cascade(t_control *control)
+int		terminfo_insert_char_cascade(t_control *control)
 {
 	char	cascade_me;
 	char	*str;
@@ -126,7 +138,7 @@ int	terminfo_insert_char_cascade(t_control *control)
 			return (0);
 		control->term->inline_position += offset;
 		if (control->term->inline_position >= control->term->line_len)
-			break;
+			break ;
 	}
 	return (1);
 }

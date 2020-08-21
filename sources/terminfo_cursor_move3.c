@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_cursor_move3.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:52:46 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:53:58 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -14,7 +26,7 @@
 **			0 failure (the control->quit flag is raised byt the subfunctions)
 */
 
-int	terminfo_cursor_move_next_word(t_control *control)
+int		terminfo_cursor_move_next_word(t_control *control)
 {
 	int index;
 	int	right_motion;
@@ -49,10 +61,10 @@ int	terminfo_cursor_move_next_word(t_control *control)
 **			else: the index
 */
 
-int	terminfo_cursor_find_next_word_start(t_control *control)
+int		terminfo_cursor_find_next_word_start(t_control *control)
 {
-	int	i;
-	char *str;
+	int		i;
+	char	*str;
 
 	str = control->term->line;
 	i = control->term->inline_position + 1;
@@ -81,7 +93,7 @@ int	terminfo_cursor_find_next_word_start(t_control *control)
 **			0 failure (the control->quit flag is raised byt the subfunctions)
 */
 
-int	terminfo_cursor_move_previous_word(t_control *control)
+int		terminfo_cursor_move_previous_word(t_control *control)
 {
 	int index;
 	int	left_motion;
@@ -110,13 +122,12 @@ int	terminfo_cursor_move_previous_word(t_control *control)
 ** RETURN:	-	index if ok.
 **			-	-1 not possible (exemple, we are in whitespace and there is no
 **				characters to the left).
-**
 */
 
-int	terminfo_cursor_find_previous_word_start(t_control *control)
+int		terminfo_cursor_find_previous_word_start(t_control *control)
 {
-	int	i;
-	char *str;
+	int		i;
+	char	*str;
 
 	str = control->term->line;
 	i = control->term->inline_position;

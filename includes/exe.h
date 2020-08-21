@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 09:56:15 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXE_H
 # define EXE_H
 
@@ -46,11 +58,11 @@ int				list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, \
 t_arrow			*init_t_arrow(void);
 void			free_t_arrow(void *void_arrow);
 
-int		word_expand_root(t_list **tokens, t_control *control);
-int		word_expand_and_replace(t_list ***tokens, t_control *control);
-int		word_expand_stage1(t_list **tokens, t_control *control);
-void	word_expand_replace(t_list ***tokens, t_list *expanded);
-t_list	*dup_token(const t_token *token);
+int				word_expand_root(t_list **tokens, t_control *control);
+int				word_expand_and_replace(t_list ***tokens, t_control *control);
+int				word_expand_stage1(t_list **tokens, t_control *control);
+void			word_expand_replace(t_list ***tokens, t_list *expanded);
+t_list			*dup_token(const t_token *token);
 
 int				parameter_expansion_root(t_list *token, t_control *control, \
 			int filename);
@@ -77,11 +89,9 @@ int				field_splitting(t_list **token, t_expansion *exp, \
 			char **array, char *str2);
 int				field_splitting_assist(t_list **tok, char *str);
 
-
-int 			pathname_expansion_root(t_list **tokens, int is_filename);
+int				pathname_expansion_root(t_list **tokens, int is_filename);
 int				pathname_is_expandable(char *str);
 int				pathname_expansion(t_list ***token, int is_filename);
-
 
 void			quote_removal(t_token *token);
 void			quote_removal_unquoted_part(char *str, int i, \

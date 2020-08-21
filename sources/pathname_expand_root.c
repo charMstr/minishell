@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pathname_expand_root.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:22:31 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:22:42 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -9,7 +21,6 @@
 ** if the quoting had already been removed.
 */
 
-
 /*
 ** root func for the pathname expansion
 
@@ -18,10 +29,10 @@
 **			0 KO
 */
 
-int pathname_expand_root(char *str)
+int		pathname_expand_root(char *str)
 {
-	char ref[] = "salut";
-	int res;
+	char	ref[] = "salut";
+	int		res;
 
 	res = match_no_star(ref, str, 0, 0);
 	(void)res;

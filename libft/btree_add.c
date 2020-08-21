@@ -6,13 +6,13 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 23:42:20 by mli               #+#    #+#             */
-/*   Updated: 2020/05/14 23:58:52 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:36:06 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void btree_add(t_btree **root, t_btree *new, int (*cmpf)(void *, void *))
+void	btree_add(t_btree **root, t_btree *new, int (*cmpf)(void *, void *))
 {
 	t_btree *parent;
 	t_btree *node;

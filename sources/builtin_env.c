@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:08:14 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:10:29 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -11,7 +23,7 @@
 ** RETURN:	always 1. and therefore the exit_status is always 0
 */
 
-int env_builtin(t_list *env, t_control *control)
+int		env_builtin(t_list *env, t_control *control)
 {
 	while (env)
 	{
@@ -59,6 +71,7 @@ t_list	*env_build_linked_list(char **env)
 	}
 	return (lst_head);
 }
+
 /*
 	//debug_env_list(lst_head);
 	char *argv[] = {"MAIL", "PS1", "PS2", "CLICOLOR", NULL };

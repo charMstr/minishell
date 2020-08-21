@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parameter_expansion2.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:30:40 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:30:41 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -36,7 +48,7 @@ int	parameter_expansion2(t_list **token, char **var, t_expansion *exp)
 	if (!field_split)
 	{
 		if (!param_exp_no_fsplit(*token, *var, exp))
-				return (2);
+			return (2);
 	}
 	else
 	{

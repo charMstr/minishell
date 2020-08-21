@@ -6,16 +6,16 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 22:47:50 by mli               #+#    #+#             */
-/*   Updated: 2020/05/14 22:49:01 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:41:37 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- ** note:	this function will delete the last link of the double linked list.
- **			see ft_dlstpop_front as well.
- */
+** note:	this function will delete the last link of the double linked list.
+**			see ft_dlstpop_front as well.
+*/
 
 void	ft_dlstpop_back(t_dlist **head, void (*del)(void*))
 {
@@ -27,7 +27,6 @@ void	ft_dlstpop_back(t_dlist **head, void (*del)(void*))
 	current = head;
 	while (*current)
 	{
-
 		then = (*current)->next;
 		if (!then)
 		{

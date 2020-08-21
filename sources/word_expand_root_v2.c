@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   word_expand_root_v2.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:25:06 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:27:38 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -61,7 +73,7 @@
 **			2, fatal error, raise control->quit.
 */
 
-int word_expand_root(t_list **tokens, t_control *control)
+int		word_expand_root(t_list **tokens, t_control *control)
 {
 	int id;
 	int res;
@@ -100,10 +112,10 @@ int word_expand_root(t_list **tokens, t_control *control)
 **			2, fatal error.
 */
 
-int	word_expand_and_replace(t_list ***tokens, t_control *control)
+int		word_expand_and_replace(t_list ***tokens, t_control *control)
 {
-	t_list *expanded_word;
-	int res;
+	t_list	*expanded_word;
+	int		res;
 
 	if (!(expanded_word = dup_token((**tokens)->content)))
 		return (2);
@@ -112,7 +124,7 @@ int	word_expand_and_replace(t_list ***tokens, t_control *control)
 		if (res == 1)
 			ft_ambiguous_redirect(((t_token *)(**tokens)->content)->str, 2);
 		del_token(expanded_word);
-		return(res);
+		return (res);
 	}
 //	debug_tokens_list(expanded_word);
 	word_expand_replace(tokens, expanded_word);
@@ -129,10 +141,10 @@ int	word_expand_and_replace(t_list ***tokens, t_control *control)
 **			NULL, KO
 */
 
-t_list *dup_token(const t_token *token)
+t_list	*dup_token(const t_token *token)
 {
-	t_list *new_list;
-	t_token *new_token;
+	t_list	*new_list;
+	t_token	*new_token;
 
 	if (!(new_token = malloc(sizeof(t_token))))
 		return (NULL);
@@ -171,7 +183,7 @@ t_list *dup_token(const t_token *token)
 **			2, fatal error.
 */
 
-int	word_expand_stage1(t_list **tokens, t_control *control)
+int		word_expand_stage1(t_list **tokens, t_control *control)
 {
 	int res;
 	int is_filename;

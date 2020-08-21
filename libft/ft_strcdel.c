@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:14:46 by charmstr          #+#    #+#             */
-/*   Updated: 2019/10/08 16:31:17 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/08/21 09:40:06 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 **			- the index of the char to be deleted
 */
 
-void 	ft_strcdel(char *str, size_t i)
+void	ft_strcdel(char *str, size_t i)
 {
 	size_t	len;
 

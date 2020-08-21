@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:33:21 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:34:04 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -7,7 +19,7 @@
 ** RETURN:	the exit_status, that was stored int the control->exit_status field
 */
 
-int	master_loop(t_control *control)
+int		master_loop(t_control *control)
 {
 	t_list	*tokens_list;
 	t_btree	*ast;
@@ -23,14 +35,14 @@ int	master_loop(t_control *control)
 			continue;
 		ast = parser_root(tokens_list, control);
 		if (control->quit)
-			break;
+			break ;
 		exe_root(ast, control);
 		btree_clear(&ast, del_token);
 	}
 	return (control->exit_status);
 }
 
-int main(void)
+int		main(void)
 {
 	int				exit_status;
 	t_control		control;
@@ -47,5 +59,5 @@ int main(void)
 	control_free_struct(&control);
 	terminfo_reset_terminal();
 	termios_reset_cooked_mode(&control, &control.termios_default);
-    return (exit_status);
+	return (exit_status);
 }

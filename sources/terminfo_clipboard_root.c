@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_clipboard_root.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:03:47 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:03:48 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -18,7 +30,7 @@
 **			0 malloc failed, control->quit is raised.
 */
 
-int terminfo_clipboard_copy_start(t_control *control, t_clipboard *clipboard)
+int	terminfo_clipboard_copy_start(t_control *control, t_clipboard *clipboard)
 {
 	char *caps;
 

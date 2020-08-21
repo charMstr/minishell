@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:03:44 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:06:53 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -24,8 +36,7 @@
 **			0 if malloc failed.
 */
 
-
-int export_builtin(t_list **head, char **argv, t_control *control)
+int		export_builtin(t_list **head, char **argv, t_control *control)
 {
 	if (!export_builtin2(head, argv, control))
 	{
@@ -36,11 +47,11 @@ int export_builtin(t_list **head, char **argv, t_control *control)
 	return (1);
 }
 
-int export_builtin2(t_list **head, char **argv, t_control *control)
+int		export_builtin2(t_list **head, char **argv, t_control *control)
 {
-	int i;
-	char **str_addr;
-	char *sep2;
+	int		i;
+	char	**str_addr;
+	char	*sep2;
 
 	i = 1;
 	control->exit_status = 0;
@@ -81,7 +92,7 @@ int export_builtin2(t_list **head, char **argv, t_control *control)
 **			NULL: no '=' found, or wrong first char, so process with next argv.
 */
 
-char *export_builtin_check_label(char *str, t_control *control)
+char	*export_builtin_check_label(char *str, t_control *control)
 {
 	int i;
 
@@ -104,10 +115,10 @@ char *export_builtin_check_label(char *str, t_control *control)
 **			- str2: the value (second part of argv[1])
 */
 
-int export_builtin_new_env(char *str, char *str2, t_list **head)
+int		export_builtin_new_env(char *str, char *str2, t_list **head)
 {
-	t_env *env;
-	t_list *new_link;
+	t_env	*env;
+	t_list	*new_link;
 
 	if (!(env = ft_memalloc(sizeof(t_env))))
 		return (0);

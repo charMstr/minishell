@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:07:47 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:07:48 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -18,7 +30,7 @@
 ** RETURN:	1 always. because no fatal error possible.
 */
 
-int	unset_builtin(t_list **env_head, char **argv, t_control *control)
+int		unset_builtin(t_list **env_head, char **argv, t_control *control)
 {
 	int i;
 
@@ -80,7 +92,7 @@ void	unset_in_env_list(t_list **env_head, char *str)
 **			control->exit_status variable.
 */
 
-int	is_identifier_valid(char *identifier, char *command)
+int		is_identifier_valid(char *identifier, char *command)
 {
 	if (ft_stristr(identifier, "@~%^*+=\\/?,.") == 0)
 	{

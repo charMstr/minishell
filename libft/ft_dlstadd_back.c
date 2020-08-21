@@ -6,18 +6,18 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 22:33:24 by mli               #+#    #+#             */
-/*   Updated: 2020/07/17 15:59:43 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:37:42 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- ** input:	- arg1: head of list, (ex: &head)
- **			- arg2: new link to be added
- **
- ** note2:	if *alst is NULL, it means the list was empty. new list is created
- */
+** input:	- arg1: head of list, (ex: &head)
+**			- arg2: new link to be added
+**
+** note2:	if *alst is NULL, it means the list was empty. new list is created
+*/
 
 void	ft_dlstadd_back(t_dlist **alst, t_dlist *new)
 {

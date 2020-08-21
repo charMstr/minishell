@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_removal.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:18:24 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:18:26 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -121,7 +133,7 @@ int		quote_removal_eat_char(char *str, int *i, t_no_unquote *no)
 **			token->unquote_end is put to -1 if it is not used
 */
 
-void quote_removal(t_token *token)
+void	quote_removal(t_token *token)
 {
 	t_no_unquote no;
 

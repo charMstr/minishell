@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/06/20 22:27:15 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:41:04 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,10 @@ t_list				*ft_lstfind(t_list *begin_list, void *data_ref, \
 void				ft_lstremove_if(t_list **begin_list, void *data_ref, \
 		int (*cmp)(), void (*free_fct)(void *));
 
+/*
+** double linked list
+*/
 
-/*  double linked list */
 typedef struct		s_dlist
 {
 	void			*content;

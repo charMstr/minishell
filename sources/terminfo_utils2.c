@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_utils2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:29:30 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:30:19 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -12,7 +24,7 @@
 **			0 if failure
 */
 
-int	terminfo_load_array_esc_seq(t_term *term)
+int		terminfo_load_array_esc_seq(t_term *term)
 {
 	char	**array;
 	int		i;
@@ -20,7 +32,7 @@ int	terminfo_load_array_esc_seq(t_term *term)
 	array = (char *[]){KEY_ESC_, KEY_UP_, KEY_RIGHT_,
 		KEY_LEFT_, KEY_DOWN_, KEY_HOME_, KEY_DELETE_, KEY_END_, KEY_PAGE_UP_,
 		KEY_PAGE_DOWN_, KEY_UP_CTRL_, KEY_DOWN_CTRL_, KEY_RIGHT_CTRL_,
-		KEY_LEFT_CTRL_ , NULL};
+		KEY_LEFT_CTRL_, NULL};
 	i = 0;
 	if (!(term->array_esc_seq = (char **)malloc(sizeof(char *) * (1 + \
 						NUMBER_SPECIAL_KEYS))))
@@ -51,7 +63,7 @@ int	terminfo_load_array_esc_seq(t_term *term)
 **			NULL;
 */
 
-char *terminfo_edit_caps(t_control *control, char *caps_id, int param)
+char	*terminfo_edit_caps(t_control *control, char *caps_id, int param)
 {
 	char *caps;
 
@@ -81,7 +93,7 @@ char *terminfo_edit_caps(t_control *control, char *caps_id, int param)
 **			NULL
 */
 
-char *terminfo_get_caps(char *caps_id, t_control *control)
+char	*terminfo_get_caps(char *caps_id, t_control *control)
 {
 	char *caps;
 
@@ -107,7 +119,7 @@ char *terminfo_get_caps(char *caps_id, t_control *control)
 **			1 ok
 */
 
-int terminfo_refresh_screen_from_start(t_control *control)
+int		terminfo_refresh_screen_from_start(t_control *control)
 {
 	char *caps;
 
@@ -138,10 +150,10 @@ int terminfo_refresh_screen_from_start(t_control *control)
 **			0 failure
 */
 
-int	terminfo_update_bottom_screen_and_cursor(t_control *control)
+int		terminfo_update_bottom_screen_and_cursor(t_control *control)
 {
-	t_int_pair cursor_end;
-	char *caps;
+	t_int_pair	cursor_end;
+	char		*caps;
 
 	cursor_end = terminfo_cursor_get_endl(control);
 	if (!(caps = terminfo_get_caps("ind", control)))

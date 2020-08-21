@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_root.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:52:22 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:52:23 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -13,7 +25,7 @@
 ** and handles ||, &&, ;
 */
 
-const t_exe *g_exec = (const t_exe []){{AND_IF, exe_and}, {OR_IF, exe_or},
+const t_exe *g_exec = (const t_exe	[]){{AND_IF, exe_and}, {OR_IF, exe_or},
 	{PIPE, exe_pipe}, {LIST, exe_cmd}, {SEMI, exe_semi}, {-1, exe_semi},
 	{SUBSHELL, exe_subshell},
 	{0, NULL}};

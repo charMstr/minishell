@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 17:25:00 by mli               #+#    #+#             */
-/*   Updated: 2020/05/14 23:58:59 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:36:58 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static int	btree_do_bfs(t_btree *root, int lv[2], int *not_first,
 	if (!root)
 		return (1);
 	if (!btree_do_bfs(root->left,
-			(int [2]){lv[0] + 1, lv[1]}, not_first, applyf))
+			(int	[2]){lv[0] + 1, lv[1]}, not_first, applyf))
 		return (0);
 	if (lv[0] == lv[1])
 		if (applyf(root->item, lv[1], !(*not_first)++) == 0)
 			return (0);
 	if (!btree_do_bfs(root->right,
-			(int [2]){lv[0] + 1, lv[1]}, not_first, applyf))
+			(int	[2]){lv[0] + 1, lv[1]}, not_first, applyf))
 		return (0);
 	return (1);
 }
@@ -43,7 +43,7 @@ int			btree_apply_bfs(t_btree *root,
 	while (++i < depth)
 	{
 		first = 0;
-		if (!btree_do_bfs(root, (int [2]){0, i}, &first, applyf))
+		if (!btree_do_bfs(root, (int	[2]){0, i}, &first, applyf))
 			return (0);
 	}
 	return (1);

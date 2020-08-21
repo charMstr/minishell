@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_root.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:35:35 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:35:36 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -14,6 +26,7 @@
 */
 
 //The <backslash> and <newline> shall be removed before splitting the input into tokens.
+
 t_list	*lexer_root(char *input, t_control *control)
 {
 	t_list	*tokens_head;

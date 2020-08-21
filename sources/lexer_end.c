@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/07/11 23:26:40 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 11:44:09 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,19 @@ int		lexer_braces_equal(t_list *tk_head, t_control *control, t_token *last)
 	return (0);
 }
 
-/* It detects wheter a forbidden token is beside a brace or not*/
+/*
+** It detects wheter a forbidden token is beside a brace or not
+*/
 
-int 	lexer_signs_near_braces(t_list *tk_head, t_control *control)
+int		lexer_signs_near_braces(t_list *tk_head, t_control *control)
 {
 	t_token		*prev_tk;
 	t_token		*curr_tk;
 	t_token		*next_tk;
-	const int	*signs = (int	[]){LESS, DLESS, GREAT, DGREAT,
-		AND, AND_IF, PIPE, OR_IF, SEMI, -1};
+	int			*signs;
 
+	signs = (int	[]){LESS, DLESS, GREAT, DGREAT, AND, AND_IF, \
+		PIPE, OR_IF, SEMI, -1};
 	prev_tk = NULL;
 	while (tk_head && !control->lexer_end.unexpected)
 	{

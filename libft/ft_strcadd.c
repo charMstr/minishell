@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:14:46 by charmstr          #+#    #+#             */
-/*   Updated: 2019/10/08 16:31:17 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/08/21 09:42:11 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 **			0 failure (the string is set to NULL).
 */
 
-int ft_strcadd(char **str, char c, size_t index)
+int	ft_strcadd(char **str, char c, size_t index)
 {
 	size_t	tt_len;
-	char *new;
+	char	*new;
 	size_t	j;
 
 	tt_len = ft_strlen(*str) + 1;

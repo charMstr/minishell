@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   historic_search.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:47:34 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:47:34 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -38,7 +50,7 @@ void	history_search(t_control *control, int direction)
 **			0 do not
 */
 
-int	history_swap_line_in_term_struct(t_control *control, int up)
+int		history_swap_line_in_term_struct(t_control *control, int up)
 {
 	t_dlist	*new_link;
 	char	*old_str;

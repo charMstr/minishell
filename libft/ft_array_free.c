@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/01/30 15:58:34 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/08/21 09:37:08 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_array_free(char **ptr, int k)
 		return (NULL);
 	while (--k >= 0)
 	{
-		free (ptr[k]);
+		free(ptr[k]);
 		ptr[k] = NULL;
 	}
 	free(ptr);

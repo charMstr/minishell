@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   field_splitting_root.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:46:26 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:46:27 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -69,7 +81,7 @@ int	field_splitting_root_assist(t_list **token, t_expansion *exp, char *var,\
 			return (0);
 	}
 	else if (!(array = ft_split_whitespaces(var, exp->ifs)))
-			return (0);
+		return (0);
 	((t_token *)(*token)->content)->protect_e = exp->start + \
 				ft_strlen(array[0]);
 	//debug_array(array);
@@ -107,8 +119,8 @@ int	field_splitting_root_assist(t_list **token, t_expansion *exp, char *var,\
 
 int	field_splitting(t_list **tok, t_expansion *exp, char **array, char *str2)
 {
-	char **str;
-	int	i;
+	char	**str;
+	int		i;
 
 	i = 1;
 	str = &((t_token*)(*tok)->content)->str;
@@ -139,8 +151,8 @@ int	field_splitting(t_list **tok, t_expansion *exp, char **array, char *str2)
 
 int	field_splitting_assist(t_list **tok, char *str)
 {
-	t_list *new_link;
-	t_token *new_token;
+	t_list	*new_link;
+	t_token	*new_token;
 
 	if (!(new_token = lexer_init_token()))
 		return (0);

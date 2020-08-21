@@ -6,19 +6,19 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 22:31:53 by mli               #+#    #+#             */
-/*   Updated: 2020/05/14 22:32:32 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:38:55 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- ** note: next = NULL, previous = NULL, content = the argument
- ** note: if content is NULL it doesnt mather it is still created as is.
- **
- ** RETURN:	new link that was malloced
- **			NULL pointer if failure
- */
+** note: next = NULL, previous = NULL, content = the argument
+** note: if content is NULL it doesnt mather it is still created as is.
+**
+** RETURN:	new link that was malloced
+**			NULL pointer if failure
+*/
 
 t_dlist	*ft_dlstnew(void *content)
 {

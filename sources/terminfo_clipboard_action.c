@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_clipboard_action.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:04:19 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:04:20 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -102,9 +114,9 @@ int	terminfo_clipboard_cut(t_control *control, t_clipboard *clipboard)
 
 int	terminfo_clipboard_paste(t_control *control, t_clipboard *clipboard)
 {
-	int len_paste_me;
-	int	i;
-	t_int_pair cursor_end;
+	int			len_paste_me;
+	int			i;
+	t_int_pair	cursor_end;
 
 	if (!clipboard->paste_me)
 		return (1);

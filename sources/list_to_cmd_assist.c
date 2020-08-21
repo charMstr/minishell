@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_to_cmd_assist.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:34:33 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:34:59 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -16,16 +28,17 @@
 **			1 OK
 */
 
-int	list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
+int		list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
 {
 	int id;
+
 	while (tokens)
 	{
 		id = tklst_id(tokens);
 		if (id == GREAT || id == DGREAT || id == LESS)
 		{
 			if (!list_to_cmd_fill_redirections_fields2(cmd, id, tokens))
-					return (0);
+				return (0);
 			tokens = tokens->next;
 		}
 		tokens = tokens->next;
@@ -43,7 +56,7 @@ int	list_to_cmd_fill_redirections_fields(t_simple_cmd *cmd, t_list *tokens)
 ** 			0 KO
 */
 
-int	list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, int id, \
+int		list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, int id, \
 		t_list *tokens)
 {
 	t_arrow	*arrow;
@@ -73,7 +86,7 @@ int	list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, int id, \
 ** note:	this function creates and bzero a t_arrow pointer.
 */
 
-t_arrow		*init_t_arrow(void)
+t_arrow	*init_t_arrow(void)
 {
 	t_arrow *arrow;
 

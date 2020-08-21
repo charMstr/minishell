@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_root.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:45:40 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:45:41 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -12,7 +24,7 @@
 **			NULL
 */
 
-t_list *input_root(t_control *control)
+t_list	*input_root(t_control *control)
 {
 	t_list *tokens_lst;
 
@@ -38,7 +50,7 @@ t_list *input_root(t_control *control)
 **			NULL
 */
 
-t_list *input_root_assist_and_prompt(t_control *control)
+t_list	*input_root_assist_and_prompt(t_control *control)
 {
 	t_list *tokens_lst;
 
@@ -47,7 +59,7 @@ t_list *input_root_assist_and_prompt(t_control *control)
 			&& !control->lexer_end.unexpected)
 	{
 		if (!terminfo_load_win_size(control->term) && (control->quit = 1))
-			break;
+			break ;
 		control->term->clipboard.highlight = 0;
 		if (control->term->prompt_ps1)
 			ft_putstr_fd(control->term->ps1, 2);
@@ -74,7 +86,7 @@ t_list *input_root_assist_and_prompt(t_control *control)
 **			0 failure
 */
 
-int	input_reset_term_struct(t_control *control)
+int		input_reset_term_struct(t_control *control)
 {
 	if (!terminfo_cursor_get_pos(control, &(control->term->cursor_start)))
 		return (0);
@@ -98,7 +110,7 @@ int	input_reset_term_struct(t_control *control)
 **			NULL
 */
 
-t_list *input_reading_and_lexing(t_control *control)
+t_list	*input_reading_and_lexing(t_control *control)
 {
 	t_list *token_lst;
 
@@ -139,7 +151,7 @@ void	input_synthax_error(t_control *control, unsigned int unexpected)
 		ft_putchar_fd('(', 2);
 	else if (unexpected == RBRACE)
 		ft_putchar_fd(')', 2);
-	else if (unexpected == LESS || unexpected == DLESS || unexpected ==  GREAT \
+	else if (unexpected == LESS || unexpected == DLESS || unexpected == GREAT \
 			|| unexpected == DGREAT)
 		ft_putstr_fd("newline", 2);
 	ft_putstr_fd("'\n", 2);

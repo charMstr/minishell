@@ -6,18 +6,18 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 22:41:07 by mli               #+#    #+#             */
-/*   Updated: 2020/05/22 23:11:19 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:38:35 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- ** note:	deletes element and all following ones: different from ft_lstdelone
- **
- ** note:	if you want to delete from the middle of the list:
- **			it will go up and down the stream (using previous and next).
- */
+** note:	deletes element and all following ones: different from ft_lstdelone
+**
+** note:	if you want to delete from the middle of the list:
+**			it will go up and down the stream (using previous and next).
+*/
 
 void	ft_dlstclear(t_dlist **lst, void (*del)(void *))
 {

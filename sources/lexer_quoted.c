@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_quoted.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:36:05 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:36:06 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -45,7 +57,7 @@ int	lexer_quoted(const char *input, int *j, t_token *token)
 **			0 if malloc failed
 */
 
-int lexer_quoted_double(const char *input, char c, int *j, t_token *token)
+int	lexer_quoted_double(const char *input, char c, int *j, t_token *token)
 {
 	while (input[*j])
 	{

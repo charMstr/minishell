@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_predict_size.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:30:43 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:37:06 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -15,11 +27,11 @@
 **			display.
 */
 
-int terminfo_predict_current_line_len(t_control *control)
+int			terminfo_predict_current_line_len(t_control *control)
 {
-	int	i;
-	int	j;
-	char *str;
+	int		i;
+	int		j;
+	char	*str;
 
 	i = control->term->cursor.x;
 	j = control->term->inline_position + 1;
@@ -46,11 +58,11 @@ int terminfo_predict_current_line_len(t_control *control)
 **			column of the screen.
 */
 
-int terminfo_predict_current_line_end_index(t_control *control)
+int			terminfo_predict_current_line_end_index(t_control *control)
 {
-	int	i;
-	int	j;
-	char *str;
+	int		i;
+	int		j;
+	char	*str;
 
 	i = control->term->cursor.x;
 	j = control->term->inline_position + 1;
@@ -72,11 +84,11 @@ int terminfo_predict_current_line_end_index(t_control *control)
 **			left column of the screen.
 */
 
-int terminfo_predict_current_line_start_index(t_control *control)
+int			terminfo_predict_current_line_start_index(t_control *control)
 {
-	int	i;
-	int	j;
-	char *str;
+	int		i;
+	int		j;
+	char	*str;
 
 	i = control->term->cursor.x;
 	j = control->term->inline_position + 1;
@@ -104,10 +116,10 @@ int terminfo_predict_current_line_start_index(t_control *control)
 
 t_int_pair	terminfo_predict_previous_line_cursor_end(t_control *control)
 {
-	t_int_pair end_previous;
-	int		end_index_prev;
-	int		i;
-	char	*str;
+	t_int_pair	end_previous;
+	int			end_index_prev;
+	int			i;
+	char		*str;
 
 	i = 0;
 	end_previous = control->term->cursor_start;
@@ -116,7 +128,7 @@ t_int_pair	terminfo_predict_previous_line_cursor_end(t_control *control)
 	while (i < end_index_prev)
 	{
 		if (str[i] == '\n' \
-				|| end_previous.x  + 1 == control->term->size_window.x)
+				|| end_previous.x + 1 == control->term->size_window.x)
 		{
 			end_previous.x = 0;
 			end_previous.y++;
@@ -132,12 +144,13 @@ t_int_pair	terminfo_predict_previous_line_cursor_end(t_control *control)
 ** note:	this function preditcs the length of the next line on the display.
 */
 
-//not used unused for now...
-int terminfo_predict_next_line_len(t_control *control) //OK 100%
+//not used unused for now...  //OK 100%
+
+int			terminfo_predict_next_line_len(t_control *control)
 {
-	int i;
-	int	j;
-	char *str;
+	int		i;
+	int		j;
+	char	*str;
 
 	i = 0;
 	j = terminfo_predict_current_line_end_index(control);

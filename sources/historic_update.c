@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   historic_update.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:47:13 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:47:14 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -48,7 +60,7 @@ int	history_update_line(t_control *control, t_history *history)
 **			0 fialure, control->quit is raised
 */
 
-int history_update_line_insert_sep(t_control *control, t_history *history)
+int	history_update_line_insert_sep(t_control *control, t_history *history)
 {
 	char *str;
 	char c;
@@ -87,9 +99,9 @@ int history_update_line_insert_sep(t_control *control, t_history *history)
 
 int	history_decide_discard_new_link(t_control *control)
 {
-	char *str;
-	int i;
-	int len;
+	char	*str;
+	int		i;
+	int		len;
 
 	str = (char *)(control->history->head->content);
 	if (!str || !(len = ft_strlen(str)) || control->ctrl_c)

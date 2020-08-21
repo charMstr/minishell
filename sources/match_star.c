@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   match_star.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:30:01 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:30:16 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -25,7 +37,7 @@
 **			0 no match or NULL inputs.
 */
 
-int	match_star(char *ref, char *yes_star, int quoted, int offset)
+int		match_star(char *ref, char *yes_star, int quoted, int offset)
 {
 	int i;
 	int j;
@@ -85,10 +97,12 @@ void	match_within_quote_escape_met(int *j, char *str, int *esc_next)
 **			recursion, keep on compararing strings
 */
 
-/*	printf("entering match_within_quote with:\nref[0] = %c\n"\
+/*
+**	printf("entering match_within_quote with:\nref[0] = %c\n"\
 **		"str[0] == %c\n", ref[0], str[0]);
 */
-int	match_within_quote(char *ref, char *str, char quote)
+
+int		match_within_quote(char *ref, char *str, char quote)
 {
 	int i;
 
@@ -116,7 +130,7 @@ int	match_within_quote(char *ref, char *str, char quote)
 **			recursion result for further comparison elsewise.
 */
 
-int	match_until_double_quote(char *ref, char *str, int esc_next)
+int		match_until_double_quote(char *ref, char *str, int esc_next)
 {
 	int	i;
 	int j;
@@ -130,7 +144,7 @@ int	match_until_double_quote(char *ref, char *str, int esc_next)
 		else
 			esc_next = 0;
 		if (str[j] == '\"' && !esc_next)
-			break;
+			break ;
 		if (ref[i] != str[j])
 			return (0);
 		i++;
@@ -138,7 +152,7 @@ int	match_until_double_quote(char *ref, char *str, int esc_next)
 	}
 	if (!ref[i] && !str[j])
 		return (1);
-	if (!esc_next && str[j] &&  str[j] == '\"')
+	if (!esc_next && str[j] && str[j] == '\"')
 		return (match_no_star(ref + i, str + j + 1, 0, 0));
 	return (0);
 }

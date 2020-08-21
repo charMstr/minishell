@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_operator.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:36:31 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:36:38 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -16,7 +28,7 @@
 **			0 if malloc failed
 */
 
-int	lexer_operator(const char *input, int *j, t_token *token)
+int		lexer_operator(const char *input, int *j, t_token *token)
 {
 	if (token->str)
 		return (1);
@@ -24,7 +36,7 @@ int	lexer_operator(const char *input, int *j, t_token *token)
 	if (ft_strchr("();", input[*j]))
 	{
 		(*j)++;
-		if (!(token->str = ft_strdup((char [2]){input[*j - 1], '\0'})))
+		if (!(token->str = ft_strdup((char	[2]){input[*j - 1], '\0'})))
 			return (0);
 		return (1);
 	}
@@ -42,7 +54,7 @@ int	lexer_operator(const char *input, int *j, t_token *token)
 **			0 if malloc failed
 */
 
-int	lexer_operator2(const char *input, int *j, t_token *token)
+int		lexer_operator2(const char *input, int *j, t_token *token)
 {
 	char c;
 
@@ -65,7 +77,7 @@ void	lexer_set_operator_id(t_token *token, char c)
 	int			i;
 	char		(*op_ids)[2];
 
-	op_ids = (char [][2]){{'(', LBRACE}, {')', RBRACE},
+	op_ids = (char	[][2]){{'(', LBRACE}, {')', RBRACE},
 	{'|', PIPE}, {'&', AND}, {';', SEMI}, {'<', LESS}, {'>', GREAT}, {0, 0}};
 	i = -1;
 	while (op_ids[++i][0])

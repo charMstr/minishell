@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parameter_expansion_root.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:25:39 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:26:43 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -19,10 +31,11 @@
 **			2, fatal error.
 */
 
-int	parameter_expansion_root(t_list *token, t_control *control, int filename)
+int		parameter_expansion_root(t_list *token, \
+		t_control *control, int filename)
 {
-	t_expansion exp;
-	int res;
+	t_expansion	exp;
+	int			res;
 
 	res = 0;
 	reset_t_expansion(&exp, filename, control);
@@ -43,7 +56,7 @@ int	parameter_expansion_root(t_list *token, t_control *control, int filename)
 **			2, fatal error.
 */
 
-int	parameter_exp(t_list *token, t_control *ctrl, t_expansion exp, int res)
+int		parameter_exp(t_list *token, t_control *ctrl, t_expansion exp, int res)
 {
 	char *insert;
 	char *str;
@@ -59,7 +72,7 @@ int	parameter_exp(t_list *token, t_control *ctrl, t_expansion exp, int res)
 		}
 		if (!(insert = param_exp_get_env(ctrl, str + exp.start + 1, \
 				exp.end - exp.start)))
-				return (2);
+			return (2);
 		//printf("expanded variable = [%s]\n", insert);
 		ft_memmove(str + exp.start, str + exp.end + 1, \
 				ft_strlen(str + exp.end));
@@ -96,10 +109,10 @@ void	reset_t_expansion(t_expansion *exp, int is_filename, \
 **			-1 elsewise
 */
 
-int	param_exp_find_start(t_list *token, int start, char *quot)
+int		param_exp_find_start(t_list *token, int start, char *quot)
 {
-	int esc_next;
-	char *str;
+	int		esc_next;
+	char	*str;
 
 	str = ((t_token*)token->content)->str;
 	*quot = 0;
@@ -142,8 +155,8 @@ int	param_exp_find_start(t_list *token, int start, char *quot)
 
 int		param_exp_find_end(t_list *token, int start)
 {
-	int end;
-	char *str;
+	int		end;
+	char	*str;
 
 	str = ((t_token*)token->content)->str;
 	end = start + 1;
@@ -152,7 +165,7 @@ int		param_exp_find_end(t_list *token, int start)
 		if (str[start + 1] == '?')
 			return (start + 1);
 		if (!ft_isalnum(str[end]) && str[end] != '_')
-			break;
+			break ;
 		end++;
 	}
 	return (end - 1);
@@ -171,7 +184,7 @@ int		param_exp_find_end(t_list *token, int start)
 **			NULL if failure
 */
 
-char *param_exp_get_env(t_control *control, char *str, int len)
+char	*param_exp_get_env(t_control *control, char *str, int len)
 {
 	char *value;
 	char **addr_value;
