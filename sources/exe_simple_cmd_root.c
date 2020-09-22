@@ -24,7 +24,7 @@
 **			we also change the current token's id from LIST to CMD.
 **
 ** note:	the the execution can be done. first the redirections are operated
-**			then we try to execute a builin, then a binary.
+**			then we try to execute a builtin, then a binary.
 **
 ** note:	control->quit will be raised in case of failure in mallocs
 **			exit_status should alway be set here.
@@ -68,7 +68,7 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 }
 
 /*
-** note:	this function will call the subfunction that operates teh word
+** note:	this function will call the subfunction that operates the word
 **			expansions and reassort the tokens into a CMD instead of LIST
 **			structure type. (redirections are separated from the basic words).
 **

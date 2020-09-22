@@ -171,6 +171,22 @@ typedef struct	s_expansion
 }				t_expansion;
 
 /*
+** note:	this structure will be used to break the path in path_parts while
+**			in the process of pathname expansion (executing simple command)
+**
+** path:	the string we obtain after spliting the path with the '/' chars.
+** star_index: a linked list of the index of the star operators that are valid
+** quoted:	helps us knowing if the begining of the string is in a quoted
+**			section	and the kind of quotes.
+*/
+
+typedef struct	s_path_part
+{
+	char		*path_part;
+	t_list		*star_index;
+	char		quoted;
+}				t_path_part;
+/*
 ** note:	this structure will only help us with the norm and clarity.
 **			it is used while unquoting strings. If the string is not protected
 **			the  values are set to -1.

@@ -92,6 +92,20 @@ int				field_splitting_assist(t_list **tok, char *str);
 int				pathname_expansion_root(t_list **tokens, int is_filename);
 int				pathname_is_expandable(char *str);
 int				pathname_expansion(t_list ***token, int is_filename);
+void 			collapse_fwd_slashes(char *str, int esc_next, int i, int k);
+
+int	split_path(char *path_to_cut, t_list **path_parts);
+int	find_path_end(char *str, int i, char *quoted);
+void path_set_quoted(char c, char *quoted);
+int	split_path(char *str, t_list **paths);
+int	add_path_part(char *str, t_list **path_parts, char quoted);
+void path_unquoting_assist(char c, char *quoted, char *str, int *index);
+void	path_unquoting_special_escape_char(char *str, int *i, char quoted);
+int	unquote_path_part(t_path_part *new, char *str);
+int	add_index_valid_kleen_star_to_lst(t_path_part *new, int index);
+t_path_part *init_path_part_link(char *str, char quoted);
+void	delete_path_part_link(void *content);
+int	split_path_root(char *path_to_split);
 
 void			quote_removal(t_token *token);
 void			quote_removal_unquoted_part(char *str, int i, \
@@ -102,7 +116,6 @@ int				quote_removal_skip_protected_part(char *str, int *i, \
 			t_no_unquote *no);
 int				quote_removal_eat_char(char *str, int *i, t_no_unquote *no);
 
-int				pathname_expand_root(char *str);
 
 int				match_star(char *str, char *star, int quoted, int offset);
 void			match_within_quote_escape_met(int *j, char *str, \

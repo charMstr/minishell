@@ -49,8 +49,11 @@
 **		3)	pathname expansion
 **				example: ls -> salut salop salt samy
 **						 echo sal* -> salut salop salt
-**		note:	it only apply if the '*' is unquoted (unescaped etc).
-**				also note that some quote removal is temporarily done before
+**		note:	it only applies if the '*' is unquoted (unescaped etc).
+**				basically it only applies if the function
+**				is_pathname_expandable() will return true, otherwise we jump to
+**				to step 4.
+**				also note that some quote removal is done before
 **				this action occurs.
 **
 **		4)	quote removal (not on the protected strings parts resulting
@@ -61,6 +64,11 @@
 ** note:	this function is the root function for the word_expansion. it loops
 **			over the tokens list, and calls a subfunction that will try to
 **			expand every token independently(its char*).
+**			We basically isolate one token and aplly to it all the expansion
+**			stages, creating a separate linked list (multiple tokens can be
+**			created during this process). When all the expansions are done,
+**			the newly created linked list replaces the initial token, and we
+**			can move on to the next token.
 **
 ** note:	the tokens that are redirection operators are skipped, but we know
 **			the very next one to be the redirection name: is_filename is set.
@@ -100,7 +108,7 @@ int		word_expand_root(t_list **tokens, t_control *control)
 **			expansions, returning either a linked list, or NULL.
 **
 **	note:	if not successfull:
-**			an error message "ambiguous redirect" is written out withe the
+**			an error message "ambiguous redirect" is written out with the
 **			original char *.
 **			or a fatal error can be detected also.
 **
@@ -135,7 +143,9 @@ int		word_expand_and_replace(t_list ***tokens, t_control *control)
 ** note:	This function will simply duplicate a token containing an initial
 **			word and create a new linked list.
 **			It will get modified and grow according to the expansion of the
-**			initial word.
+**			initial word. This process is in place so that we can keep the
+**			original word all the way long in the case we need to display an
+**			error message with that specific original word, untouched.
 **
 ** RETURN:	linked list with one token, OK
 **			NULL, KO
@@ -173,7 +183,7 @@ t_list	*dup_token(const t_token *token)
 **			steps (pathname expansion).
 **
 ** note:	at this stage, each time something goes wrong, the complete linked
-**			list shoudl be freed.
+**			list should be freed and we exit.
 **
 ** note:	if the parameter expansion resulted in an empty filename, ambiguous
 **			redirect.

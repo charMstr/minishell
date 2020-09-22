@@ -138,7 +138,7 @@ SRC_FILES =	main\
 			parameter_expansion2\
 			field_splitting_root\
 			pathname_expansion_root\
-			pathname_expand_root\
+			split_path_root\
 			match_star\
 			quote_removal\
 			list_to_cmd_root\
