@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/06/21 17:50:01 by mli              ###   ########.fr        #
+#    Updated: 2020/09/24 20:44:43 by charmstr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -142,7 +142,8 @@ SRC_FILES =	main\
 			split_path2\
 			split_path3\
 			pathname_matching_root\
-			match_star\
+			pathname_matched_add_to_list\
+			match_path_parts_root\
 			quote_removal\
 			list_to_cmd_root\
 			list_to_cmd_assist\

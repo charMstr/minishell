@@ -31,9 +31,9 @@
 int	pathname_matching_root(t_path_exp *tool, t_list *path_parts)
 {
 	if (!ft_strlen(((t_path_part *)path_parts->content)->path_part))
-		return (pathname_matching(tool, path_parts->next, "", "/");
+		return (pathname_matching(tool, path_parts->next, "", "/"));
 	else
-		return (pathname_matching_relative(tool, path_parts->next);
+		return (pathname_matching_relative(tool, path_parts->next));
 }
 
 /*
@@ -57,11 +57,12 @@ int pathname_matching_relative(t_path_exp *tool, t_list *path_parts)
 		return (0);
 	while ((entry = readdir(dir_p)) != NULL)
 	{
-		if (match_paths(path_parts, entry->d_name))
+		if (match_path_part_root(path_parts, entry->d_name))
 		{
 			if (!(path_start = ft_strdup(entry->d_name)))
 				return (2);
-			res = pathname_matching(tool, path_parts->next, path_start);
+			res = pathname_matching(tool, path_parts->next, path_start, \
+					path_start);
 			free(path_start);
 			if (res)
 				return (res);
@@ -91,22 +92,23 @@ int pathname_matching_relative(t_path_exp *tool, t_list *path_parts)
 **			2, fatal error.
 */
 
-int pathname_matching(t_path_exp *tool, t_list *path_parts, char *path_start)
+int pathname_matching(t_path_exp *tool, t_list *path_parts, char *path_start, \
+		char *open_me)
 {
 	int		res;
 	char	*path_fuller;
 
 	if (!path_parts)
-		return (add_path_part_to_list(tool, path_start));
+		return (pathname_matched_add_to_list(tool, path_start));
 	if (!ft_strlen(((t_path_part *)path_parts->content)->path_part))
 	{
 		if (!(path_fuller = ft_strjoin(path_start, "/")))
 			return (2);
-		res = add_path_part_to_list(tool, path_start);
+		res = pathname_matched_add_to_list(tool, path_start);
 		free(path_fuller);
 		return (res);
 	}
-	return (pathname_matching_assist(tool, path_parts, path_start);
+	return (pathname_matching_assist(tool, path_parts, path_start, open_me));
 }
 
 /*
@@ -114,18 +116,18 @@ int pathname_matching(t_path_exp *tool, t_list *path_parts, char *path_start)
 */
 
 int pathname_matching_assist(t_path_exp *tool, t_list *path_parts, \
-		char *path_start)
+		char *path_start, char *open_me)
 {
 	DIR		*dir_p;
 	struct	dirent *entry;
 	int		res;
 	char	*path_fuller;
 
-	if (!(dir_p = opendir(path_start)))
+	if (!(dir_p = opendir(open_me)))
 		return (0);
 	while ((entry = readdir(dir_p)) != NULL)
 	{
-		if (match_paths(path_parts, entry->d_name))
+		if (match_path_part_root(path_parts, entry->d_name))
 		{
 			if (!(path_fuller = path_join(path_start, entry->d_name)))
 				return (2);
@@ -141,39 +143,24 @@ int pathname_matching_assist(t_path_exp *tool, t_list *path_parts, \
 }
 
 /*
-** note:	This function will be called when we finished validating all the
-**			path parts. we can now creat a new token containing this string and
-**			add it into the temporary linked list matched_paths.
-**
-** note:	we also need to check and update the flags first_match and
-**			is_filename
-**
-** RETURN:	0, OK.
-**			1, ambiguous redirect.
-**			2, fatal error.
-*/
-
-int	add_path_part_to_list(t_path_exp *tool, char *path);
-
-/*
-**	note:	this function will try to find an answer to a possible match
-**			between the two strings. the string from the path_parts linked list
-**			is accompanied with a linked list stating which kleen star operator
-**			is valid and not just a character.
-**
-** RETURN:	1, match!
-**			0, no match.
-*/
-
-int	match_paths(t_list *path_parts, char *str);
-
-/*
 ** note:	this function will concatenate the already validated path_start,
 **			with a '/' character and with an entry from the directory_stream
 **			that just matched another path part.
 **
-** RETURN:	1, OK
-**			0, KO
+** RETURN:	char *, OK
+**			NULL, KO
 */
 
-char	*path_join(char *str, char *str2);
+char	*path_join(char *str, char *str2)
+{
+	char *intermediate;
+	char *final;
+
+	if (!str || !str2)
+		return (NULL);
+	if (!(intermediate = ft_strjoin(str, "/")))
+		return (NULL);
+	if (!(final = ft_strjoin_free(intermediate, str2, 1)))
+		return (NULL);
+	return (final);
+}

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:56:15 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/24 20:45:29 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int				exe_call_builtin(t_simple_cmd *cmd, int id, \
 int				exe_simple_cmd_root(t_token *token, t_control *control);
 int				exe_prepare_simple_cmd(t_token *token, t_control *control);
 
-int				exe_perform_arrow(t_simple_cmd *cmd, t_control *control);
-int				exe_perform_redirections(t_list *red, t_control *control);
-int				exe_perform_indirections(t_list *ind, t_control *control);
+int				exe_perform_arrow(t_simple_cmd *cmd, t_control *control); int				exe_perform_redirections(t_list *red, t_control *control); int				exe_perform_indirections(t_list *ind, t_control *control);
 int				exe_cancel_arrows(t_control *control);
 
 int				list_to_cmd_root(t_token *token_node);
@@ -110,6 +108,23 @@ int				path_part_unquoting(t_path_part *new, char *str);
 void			path_part_unquoting_assist(char c, char *quoted, char *str, int *index);
 void			path_part_unquoting_escape_char(char *str, int *i, char quoted);
 int				add_index_valid_kleen_star_to_lst(t_path_part *new, int index);
+
+
+int				pathname_matching_root(t_path_exp *tool, t_list *path_parts);
+int 			pathname_matching_relative(t_path_exp *tool, \
+			t_list *path_parts);
+int 			pathname_matching(t_path_exp *tool, t_list *path_parts, \
+			char *path_start, char *open_me);
+int 			pathname_matching_assist(t_path_exp *tool, t_list *path_parts,\
+			char *path_start, char *open_me);
+char			*path_join(char *str, char *str2);
+
+int				pathname_matched_add_to_list(t_path_exp *tool, char *path);
+
+int				match_path_check_valid_star(t_list *wild_cards, int index);
+int				match_path_part(t_strings strs, t_list *wild_cards, int i, \
+			int j);
+int				match_path_part_root(t_list *path_parts, char *ref);
 
 void			quote_removal(t_token *token);
 void			quote_removal_unquoted_part(char *str, int i, \

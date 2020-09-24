@@ -126,11 +126,13 @@ int	pathname_expansion(t_list ***token, int is_filename)
 	if (!(path_parts = split_path_root(((t_token*)((**token)->content))->str)))
 		return (2);
 	init_path_expansion_struct(path_parts, &tool, is_filename);
-	if (res = pathname_matching_root(*tool, path_parts))
+	if ((res = pathname_matching_root(&tool, path_parts)))
 	{
 		delete_path_exp_struct(&tool);
 		return (res);
 	}
+	printf("--->> we matched some pathnames!!!!!!\n");
+	debug_tokens_list(tool.matched_paths);
 	//substitute the linked list from tool->matched_paths in the token.
 	//if the linked list was empty, it we just send the token for unquoting.
 	// something like quote_removal((t_token*)(*tokens)->content);

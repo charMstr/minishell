@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:56:29 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:59:00 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/24 20:43:49 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,17 @@ typedef struct	s_no_unquote
 	int	start;
 	int	end;
 }				t_no_unquote;
+
+/*
+** note:	this structure is used in the pathname expansion section.
+**			it only contains the two trings to be compared.
+*/
+
+typedef struct	s_strings
+{
+	char	*str;
+	char	*ref;
+}				t_strings;
 
 /*
 ** note:	A global variable to know which function have to be executed
