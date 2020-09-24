@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_perform_arrow.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:51:46 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:51:47 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -21,7 +33,7 @@ int	exe_perform_redirections(t_list *redirections, t_control *control)
 	int			src;
 	int			options;
 	const int	signals = S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR;
-	t_arrow 	*arrow;
+	t_arrow		*arrow;
 
 	while (redirections && (arrow = redirections->content))
 	{

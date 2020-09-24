@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 09:56:15 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXE_H
 # define EXE_H
 
@@ -46,31 +58,58 @@ int				list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, \
 t_arrow			*init_t_arrow(void);
 void			free_t_arrow(void *void_arrow);
 
-int				word_expand_root(t_list *tokens, t_control *control);
-int				parameter_expansion_loop(t_list **tokens, t_control *control);
-void			quote_removal_loop(t_list **tokens);
+int				word_expand_root(t_list **tokens, t_control *control);
+int				word_expand_and_replace(t_list ***tokens, t_control *control);
+int				word_expand_stage1(t_list **tokens, t_control *control);
+void			word_expand_replace(t_list ***tokens, t_list *expanded);
+t_list			*dup_token(const t_token *token);
 
-int				parameter_expansion(t_list **token, t_control *control, \
-			int field_split);
-int				param_exp_find_start(t_list **token, int start, char *quot);
-int				param_exp_find_end(t_list **token, int start);
-char			*param_exp_get_env(t_control *control, char *str, int len);
-void			reset_t_expanssion(t_expansion *exp, int field_splitting);
-
-int				param_exp2(t_list ***token, t_control *control, char *var, \
-			t_expansion *exp);
-int				param_exp_field_split(t_list ***token, t_expansion *exp, \
-			char *var, char *str2);
-int				param_exp_no_fsplit(char **str, char *var, char *str2, \
-			t_expansion *exp);
-int				param_exp_field_split2(t_list **token, t_expansion *exp, \
-			char **array, char *str2);
-char			**param_exp2_assist(t_expansion *x, t_list *token, \
+int				parameter_expansion_root(t_list *token, t_control *control, \
+			int filename);
+int				parameter_exp(t_list *token, t_control *ctrl, \
+			t_expansion exp, int res);
+void			reset_t_expansion(t_expansion *exp, int is_filename, \
 			t_control *control);
+int				param_exp_find_start(t_list *token, int start, char *quot);
+int				param_exp_find_end(t_list *token, int start);
+char			*param_exp_get_env(t_control *control, char *str, int len);
 
-int				field_splitting(t_list ***token, t_expansion *exp, \
+int				parameter_expansion2(t_list **token, char **var, \
+			t_expansion *exp);
+int				need_to_field_split1(char **str, t_expansion *exp);
+int				need_to_field_split2(char **str, t_expansion *exp);
+int				param_exp_no_fsplit(t_list *token, char *var, \
+			t_expansion *exp);
+
+int				field_splitting_root(t_list **token, char *var, \
+			t_expansion *exp);
+int				field_splitting_root_assist(t_list **token, t_expansion *exp, \
+			char *var, char *str2);
+int				field_splitting(t_list **token, t_expansion *exp, \
 			char **array, char *str2);
 int				field_splitting_assist(t_list **tok, char *str);
+
+int				pathname_expansion_root(t_list **tokens, int is_filename);
+int				pathname_is_expandable(char *str);
+int				pathname_expansion(t_list ***token, int is_filename);
+void			delete_path_exp_struct(void *content);
+void			init_path_expansion_struct(t_list *path_parts, \
+			t_path_exp *tool, int is_filename);
+
+t_list			*split_path_root(char *path_to_split);
+void 			collapse_fwd_slashes(char *str, int esc_next, int i, int k);
+int				split_path(char *path_to_cut, t_list **path_parts);
+int				find_path_end(char *str, int i, char *quoted);
+void			path_set_quoted(char c, char *quoted);
+
+int				add_path_part(char *str, t_list **path_parts, char quoted);
+t_path_part		*init_path_part_link(char *str, char quoted);
+void			delete_path_part_link(void *content);
+
+int				path_part_unquoting(t_path_part *new, char *str);
+void			path_part_unquoting_assist(char c, char *quoted, char *str, int *index);
+void			path_part_unquoting_escape_char(char *str, int *i, char quoted);
+int				add_index_valid_kleen_star_to_lst(t_path_part *new, int index);
 
 void			quote_removal(t_token *token);
 void			quote_removal_unquoted_part(char *str, int i, \
@@ -81,7 +120,6 @@ int				quote_removal_skip_protected_part(char *str, int *i, \
 			t_no_unquote *no);
 int				quote_removal_eat_char(char *str, int *i, t_no_unquote *no);
 
-int				pathname_expand_root(char *str);
 
 int				match_star(char *str, char *star, int quoted, int offset);
 void			match_within_quote_escape_met(int *j, char *str, \

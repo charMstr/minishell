@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_binary.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:49:44 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:49:45 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int g_sig;
@@ -23,7 +35,7 @@ char	**build_env2d(t_list *env, t_control *control)
 	while (env)
 	{
 		tmp = env->content;
-		if (!(res[++i] = ft_strjoin_free(tmp->label, (char [2]){'=', '\0'}, 0))
+		if (!(res[++i] = ft_strjoin_free(tmp->label, (char	[2]){'=', '\0'}, 0))
 		|| !(res[i] = ft_strjoin_free(res[i], tmp->value, 1)))
 		{
 			control->quit = 1;
@@ -61,7 +73,7 @@ int		exe_binary_fork(char *prog, char **argv, t_control *control)
 	{
 		waitpid(pid, &status, 0);
 		control->exit_status = WIFEXITED(status) ? WEXITSTATUS(status) : g_sig;
-		printf("Exit status of the child was %d\n", control->exit_status);
+//		printf("Exit status of the child was %d\n", control->exit_status);
 	}
 	return (1);
 }
@@ -122,6 +134,7 @@ int		exe_search_path(char *argv0, t_control *control, char **path_to_binary)
 		else
 			ft_free((void **)&path);
 	}
+	errno = 0;
 	ft_array_free(split, ft_array_len(split));
 	return (ret);
 }
@@ -146,12 +159,13 @@ int		exe_binary(t_simple_cmd *cmd, t_control *control)
 	char	*path_to_binary;
 
 	g_sig = 1;
+//	printf("\e[95mThis is a binary !\e[0m\n");
 	path_to_binary = NULL;
 	if ((ret = exe_given_path(&cmd->argv[0], control, &path_to_binary)) == -1)
 		return (ret);
 	else if (ret == 0)
 	{
-		if (!(argv0 = ft_strjoin((char []){'/', '\0'}, cmd->argv[0])) ||
+		if (!(argv0 = ft_strjoin((char	[]){'/', '\0'}, cmd->argv[0])) ||
 			((ret = exe_search_path(argv0, control, &path_to_binary)) == -1))
 			control->quit = 1;
 		else if (ret == 0 && (control->exit_status = 127))

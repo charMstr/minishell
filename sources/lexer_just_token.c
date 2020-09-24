@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_just_token.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:37:18 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:37:19 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -16,7 +28,7 @@
 **			0 if malloc failed.
 */
 
-int lexer_just_token(const char *input, int *j, t_token *token)
+int	lexer_just_token(const char *input, int *j, t_token *token)
 {
 	while (input[*j] && (token->esc_next || input[*j] != ' '))
 	{

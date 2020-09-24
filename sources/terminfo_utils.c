@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:39:15 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:43:46 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+#include <sys/ioctl.h>
 
 /*
 ** note:	this function is the root func to inititate the terminfo databse.
@@ -7,14 +20,14 @@
 **			pointeur if OK
 */
 
-t_term *terminfo_init_database(void)
+t_term	*terminfo_init_database(void)
 {
-	int res;
-	t_term *term;
+	int		res;
+	t_term	*term;
 
 	res = setupterm(NULL, STDOUT_FILENO, NULL);
-	if (res == ERR) //note: ERR is defined to 1 in the library.
-		return (NULL);
+	if (res == ERR)
+		return (NULL); //note: ERR is defined to 1 in the library. {mli norm 🤔}
 	if (!(term = terminfo_init_struct()))
 		return (NULL);
 	if (!terminfo_load_win_size(term))
@@ -68,7 +81,7 @@ t_term	*terminfo_init_struct(void)
 ** RETURN:	NULL always for conveyance.
 */
 
-void 	*terminfo_free_struct(t_term *term)
+void	*terminfo_free_struct(t_term *term)
 {
 	free(term->line);
 	free(term->ps1);
@@ -90,9 +103,7 @@ void 	*terminfo_free_struct(t_term *term)
 **			1 OK
 */
 
-#include <sys/ioctl.h>
-
-int	terminfo_load_win_size(t_term *term)
+int		terminfo_load_win_size(t_term *term)
 {
 	struct winsize ws;
 
@@ -120,7 +131,7 @@ int	terminfo_load_win_size(t_term *term)
 **			exemple: stop writing in a weird color.
 */
 
-void terminfo_reset_terminal(void)
+void	terminfo_reset_terminal(void)
 {
 	char *str;
 

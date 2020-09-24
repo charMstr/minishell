@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_root.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:11:29 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:11:57 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -26,7 +38,7 @@ void	read_root(t_control *control, int read_res, char c)
 		if (!read_res)
 			continue;
 		if (c == '\n')
-			break;
+			break ;
 		if (read_need_to_stop(control, c, read_res))
 			return ;
 		read_dispatch_for_processing(control, c);
@@ -45,7 +57,7 @@ void	read_root(t_control *control, int read_res, char c)
 ** return: a remap value starting from 128.
 */
 
-int	read_remap_esc_sequence_from_128(t_control *control, int c)
+int		read_remap_esc_sequence_from_128(t_control *control, int c)
 {
 	c = read_get_esc_seq_id(control->term, c) + 128;
 	if (c == -1)
@@ -69,7 +81,7 @@ int	read_remap_esc_sequence_from_128(t_control *control, int c)
 void	read_dispatch_for_processing(t_control *control, int c)
 {
 	if (c == 27 && !(c = read_remap_esc_sequence_from_128(control, c)))
-			return ;
+		return ;
 	if (control->term->clipboard.highlight)
 	{
 		if (c != KEY_LEFT_ID && c != KEY_RIGHT_ID && c != CTRL_K_COMBO \
@@ -106,7 +118,7 @@ void	read_dispatch_for_processing(t_control *control, int c)
 **			1 stop reading
 */
 
-int	read_need_to_stop(t_control *control, char c, int res)
+int		read_need_to_stop(t_control *control, char c, int res)
 {
 	if (control->quit)
 		;
@@ -122,7 +134,10 @@ int	read_need_to_stop(t_control *control, char c, int res)
 		ft_putstr_fd("exit", 2);
 	}
 	else if (c == 3)
+	{
+		control->exit_status = 1;
 		control->ctrl_c = 1;
+	}
 	else
 		return (0);
 	return (1);
@@ -138,11 +153,11 @@ int	read_need_to_stop(t_control *control, char c, int res)
 **			-1 if failure
 */
 
-int	read_get_esc_seq_id(t_term *term, int c)
+int		read_get_esc_seq_id(t_term *term, int c)
 {
-	int res_read;
-	char *str;
-	int i;
+	int		res_read;
+	char	*str;
+	int		i;
 
 	str = NULL;
 	if (!ft_strappend(&str, c))

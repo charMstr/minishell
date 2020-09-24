@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:31:06 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:31:07 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -18,6 +30,8 @@ void	ft_pipe(int (*fildes)[2])
 /*
 ** note:	this function will fork and the child will be the process in which
 **			the pid value is equal to zero.
+** note:	this fork raises errno to `22 : Invalid argument`
+**			thus errno = 0 to fix it
 */
 
 void	ft_fork(pid_t *pid)
@@ -25,6 +39,7 @@ void	ft_fork(pid_t *pid)
 	*pid = fork();
 	if (*pid == -1)
 		ft_exit("fork", NULL, strerror(errno), EXIT_FAILURE);
+	errno = 0;
 }
 
 /*
@@ -79,4 +94,21 @@ int		ft_perror(char *cmd, char *param, char *str)
 	}
 	ft_putstr_fd("\033[0m", fd);
 	return (-1);
+}
+
+/*
+** note:	this function will simply display a messae when there is an
+**			ambiguous redirection attempted in a single command:
+**			redirection in a $VAR that happens to be empty.
+**			redirection in a filename that becomes mutliple tokens after either
+**			field splitting, or pathname expansion(kleen star operator).
+*/
+
+void	ft_ambiguous_redirect(char *str, int fd)
+{
+	ft_putstr_fd("\033[0;91m", fd);
+	ft_putstr_fd("minishell: ", fd);
+	ft_putstr_fd(str, fd);
+	ft_putstr_fd(": ambiguous redirect\n", fd);
+	ft_putstr_fd("\033[0m", fd);
 }

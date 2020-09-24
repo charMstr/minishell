@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control_structure.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:08:04 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:08:07 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-//#include "terminfo.h"
 
 /*
 ** this file is in charge of the control structure that will be carried all
@@ -12,9 +23,17 @@
 
 int		control_init_struct(t_control *control)
 {
+	extern char **environ;
+
 	ft_bzero(control, sizeof(*control));
+	control->parent_pid = getpid();
 	if (!(control->history = history_init_struct()) ||
-		!(control->term = terminfo_init_database()))
+		!(control->term = terminfo_init_database()) ||
+		!(control->env = env_build_linked_list(environ)))
+		return (0);
+	if (!env_shlvl_update(&control->env, control))
+		return (0);
+	if (!(control->cwd = getcwd(NULL, 0)))
 		return (0);
 	if ((control->truefd[STDIN_FILENO] = dup(STDIN_FILENO)) == -1 ||
 		(control->truefd[STDOUT_FILENO] = dup(STDOUT_FILENO)) == -1 ||
@@ -35,5 +54,6 @@ void	control_free_struct(t_control *control)
 	terminfo_free_struct(control->term);
 	ft_dlstclear(&(control->history->head), history_del_content);
 	ft_free((void **)&control->history);
+	ft_free((void **)&control->cwd);
 	ft_lstclear(&control->env, env_del_struct);
 }

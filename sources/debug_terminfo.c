@@ -25,31 +25,31 @@ void	debug_term_size(t_term *term)
 //debugs the escacped sequence returned from tigetstr()
 void debug_escape_sequence(char *str)
 {
-        int i = 0;
-		int len;
+	int i = 0;
+	int len;
 
-		debug_start();
-		if (!str)
-		{
-			printf("the caps string == NULL\r\n");
-			return ;
-		}
-		len = ft_strlen(str);
-		if (!len)
-			printf("DEBUG(1/2): the sequence is empty\n");
+	debug_start();
+	if (!str)
+	{
+		printf("the caps string == NULL\r\n");
+		return ;
+	}
+	len = ft_strlen(str);
+	if (!len)
+		printf("DEBUG(1/2): the sequence is empty\n");
+	else
+		printf("DEBUG(1/2): the sequence is [%d] long\n", len);
+	ft_putstr_fd("\nDEBUG(2/2): the escape sequence is: \"", 1);
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\x1b')
+			ft_putstr_fd("ESC", 1);
 		else
-			printf("DEBUG(1/2): the sequence is [%d] long\n", len);
-		ft_putstr_fd("\nDEBUG(2/2): the escape sequence is: \"", 1);
-		while (str[i] != '\0')
-		{
-			if (str[i] == '\x1b')
-				ft_putstr_fd("ESC", 1);
-			else
-				ft_putchar_fd(str[i], 1);
-			++i;
-		}
-		ft_putstr_fd("\"\n", 1);
-		debug_end();
+			ft_putchar_fd(str[i], 1);
+		++i;
+	}
+	ft_putstr_fd("\"\n", 1);
+	debug_end();
 }
 
 

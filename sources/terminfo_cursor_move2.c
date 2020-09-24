@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_cursor_move2.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:03:00 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:03:12 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -16,9 +28,7 @@
 void	terminfo_cursor_move_up(t_control *control, t_int_pair *cursor)
 {
 	t_int_pair	previous_end;
-	int			current_len;
 
-	current_len = terminfo_predict_current_line_len(control);
 	if (cursor->y <= control->term->cursor_start.y)
 		return ;
 	previous_end = terminfo_predict_previous_line_cursor_end(control);
@@ -92,7 +102,7 @@ void	terminfo_cursor_move_down(t_control *control, t_int_pair *cursor)
 **			0 failed.
 */
 
-int	terminfo_cursor_track_position(t_control *control, int add)
+int		terminfo_cursor_track_position(t_control *control, int add)
 {
 	if (add)
 	{
@@ -127,13 +137,13 @@ int	terminfo_cursor_track_position(t_control *control, int add)
 **			0 failure
 */
 
-int			terminfo_cursor_move_endl(t_control *control, int start)
+int		terminfo_cursor_move_endl(t_control *control, int start)
 {
 	t_int_pair cursor_end;
 
 	if (start)
 	{
-		if(!terminfo_cursor_move(control, control->term->cursor_start.x, \
+		if (!terminfo_cursor_move(control, control->term->cursor_start.x, \
 					control->term->cursor_start.y))
 			return (0);
 		control->term->cursor = control->term->cursor_start;

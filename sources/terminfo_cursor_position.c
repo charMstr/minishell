@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_cursor_position.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:54:39 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:58:27 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
 ** this file take scare of the cursor related functions using the terminfo
 ** utility.
 */
-
 
 /*
 ** note:	this function will set the cursor's curent position in the
@@ -17,9 +28,9 @@
 **			0 failure
 */
 
-int		terminfo_cursor_get_pos(t_control *control, t_int_pair *curs)
+int			terminfo_cursor_get_pos(t_control *control, t_int_pair *curs)
 {
-	char *caps;
+	char	*caps;
 
 	if (!(caps = terminfo_get_caps("u7", control)))
 		return (0);
@@ -39,7 +50,7 @@ int		terminfo_cursor_get_pos(t_control *control, t_int_pair *curs)
 **			-cursor (x anf y field will be filled).
 */
 
-void	terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
+void		terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
 {
 	int		first_coord;
 	char	c;
@@ -62,10 +73,10 @@ void	terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
 		if (ft_isdigit(c))
 		{
 			cursor->x *= 10;
-			cursor->x += c -48;
+			cursor->x += c - 48;
 		}
 		if (c == 'R')
-			break;
+			break ;
 	}
 }
 
@@ -76,10 +87,10 @@ void	terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
 **			0 failure
 */
 
-int		terminfo_cursor_saved_reset(t_control *control)
+int			terminfo_cursor_saved_reset(t_control *control)
 {
 	control->term->cursor = control->term->cursor_saved;
-	if(!terminfo_cursor_move(control, control->term->cursor.x, \
+	if (!terminfo_cursor_move(control, control->term->cursor.x, \
 				control->term->cursor.y))
 		return (0);
 	return (1);
@@ -94,7 +105,7 @@ t_int_pair	terminfo_cursor_get_endl(t_control *control)
 {
 	t_int_pair	cursor_end;
 	char		*str;
-	int i;
+	int			i;
 
 	cursor_end = control->term->cursor_start;
 	str = control->term->line;
@@ -105,7 +116,7 @@ t_int_pair	terminfo_cursor_get_endl(t_control *control)
 	{
 		if (str[i] == '\n' || cursor_end.x == control->term->size_window.x - 1)
 		{
-			cursor_end.x= -1;
+			cursor_end.x = -1;
 			cursor_end.y++;
 		}
 		i++;

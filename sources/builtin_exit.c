@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/20 22:22:22 by mli               #+#    #+#             */
-/*   Updated: 2020/06/20 22:48:27 by mli              ###   ########.fr       */
+/*   Updated: 2020/07/11 17:52:50 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int		exit_builtin(char **argv, t_control *control)
 	int is_negative;
 
 	control->quit = 1;
-	ft_putendl_fd("exit", 2);
+	if (control->parent_pid == getpid())
+		ft_putendl_fd("exit", 2);
 	if (!argv || !argv[1])
 		return (1);
 	is_negative = (argv[1][0] == '-' ? 1 : 0);
@@ -33,6 +34,6 @@ int		exit_builtin(char **argv, t_control *control)
 		control->exit_status = 1;
 	}
 	else
-		control->exit_status = ft_atoi(argv[1]);
+		control->exit_status = (unsigned char)ft_atoi(argv[1]);
 	return (1);
 }

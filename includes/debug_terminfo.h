@@ -1,5 +1,17 @@
-#ifndef DEBUG_H
-# define DEBUG_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug_terminfo.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 09:43:54 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 09:43:55 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef DEBUG_TERMINFO_H
+# define DEBUG_TERMINFO_H
 
 void	debug_start(void);
 void	debug_end(void);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_root.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:05:01 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:06:08 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void		del_ast(t_btree **node)
@@ -84,11 +96,10 @@ int			parser_be_subshell(t_btree **new)
 **			-1 : Allocation failure
 */
 
-int		parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
+int			parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 {
 //	printf("ENTER WITH : [%d]\t'%s'\n",
 //		token_id((*tklst)->content), ((t_token *)(*tklst)->content)->str);
-
 	if (parser_is_cmd_start(tklst_id(*tklst)))
 		return (parser_cmd(tklst, new));
 	if (parser_do_subtree(token_id((*tklst)->content)))
@@ -211,6 +222,33 @@ int			tkcmp_braces(t_token *token)
 **			NULL if a malloc failed.
 */
 
+void		parser_btree_reverse_pipe(t_btree **ast)
+{
+	int		id;
+	t_btree	*lchild;
+
+	lchild = (*ast)->left;
+	while (btree_id(lchild) == PIPE)
+		lchild = lchild->left;
+	if ((id = btree_id(lchild)) == -1)
+		return ;
+	if (id == LIST)
+		return ;
+	(*ast)->left = lchild->right;
+	lchild->right = *ast;
+	*ast = lchild;
+}
+
+void		parser_pipe_priority(t_btree **ast)
+{
+	if (!ast || !*ast)
+		return ;
+	parser_pipe_priority(&(*ast)->left);
+	parser_pipe_priority(&(*ast)->right);
+	if (btree_id(*ast) == PIPE)
+		parser_btree_reverse_pipe(ast);
+}
+
 t_btree		*parser_root(t_list *tklst, t_control *control)
 {
 	t_dlist		*dlst;
@@ -224,10 +262,12 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	if ((dlst = ft_memalloc(sizeof(*dlst))) &&
 		(ast = parser_create_ast(dlst, &tkcpy)))
 	{
-		btree_debug(ast, parser_disp);
+//		btree_debug(ast, parser_disp);
 		ft_lstremove_if(&tklst, NULL, tkcmp_braces, del_token);
 		ft_lstclear(&tklst, NULL);
 		ft_dlstclear(&dlst, NULL);
+		parser_pipe_priority(&ast);
+//		btree_debug(ast, parser_disp);
 	}
 	else
 	{

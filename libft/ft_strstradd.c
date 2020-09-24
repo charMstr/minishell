@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 13:06:58 by charmstr          #+#    #+#             */
-/*   Updated: 2020/04/12 00:08:07 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/08/21 09:40:29 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 **			1 ok
 */
 
-static int ft_strstradd_assist(char **dst, int start, char *src)
+static int	ft_strstradd_assist(char **dst, int start, char *src)
 {
 	char *new;
 
@@ -40,7 +40,7 @@ static int ft_strstradd_assist(char **dst, int start, char *src)
 	return (1);
 }
 
-int	ft_strstradd(char **dst, int start, char *src)
+int			ft_strstradd(char **dst, int start, char *src)
 {
 	int len;
 

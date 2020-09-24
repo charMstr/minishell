@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:08:14 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:10:29 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -11,7 +23,7 @@
 ** RETURN:	always 1. and therefore the exit_status is always 0
 */
 
-int env_builtin(t_list *env, t_control *control)
+int		env_builtin(t_list *env, t_control *control)
 {
 	while (env)
 	{
@@ -59,6 +71,7 @@ t_list	*env_build_linked_list(char **env)
 	}
 	return (lst_head);
 }
+
 /*
 	//debug_env_list(lst_head);
 	char *argv[] = {"MAIL", "PS1", "PS2", "CLICOLOR", NULL };
@@ -186,4 +199,32 @@ char	**env_get_addr(char *str, size_t len, t_list *env)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+/*
+** note:	this function update the env variable SHLVL by using export
+**			first we seach the current shlvl, then add one and export it
+**
+** RETURN:	1 OK
+**			0 KO
+*/
+
+int		env_shlvl_update(t_list **env, t_control *control)
+{
+	int		shlvl;
+	char	*nbr;
+	char	*argv[3];
+
+	if (!(nbr = env_get("SHLVL", 5, *env)))
+		nbr = "0";
+	shlvl = ft_atoi(nbr) + 1;
+	argv[0] = "export";
+	argv[1] = NULL;
+	argv[2] = NULL;
+	if (!(nbr = ft_itoa(shlvl)) ||
+		!(argv[1] = ft_strjoin_free("SHLVL=", nbr, 2)))
+		return (0);
+	export_builtin(env, argv, control);
+	free(argv[1]);
+	return (1);
 }

@@ -40,7 +40,7 @@ int	ft_size_num_base_signed(void *num, int base, int signed_, int absolute)
 	}
 	else
 	{
-		if (base == 10 && u_num < 0 && !absolute)
+		if (base == 10 && !absolute)
 			i++;
 		while (u_num && ++i)
 			u_num = u_num / base;

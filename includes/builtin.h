@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 09:42:58 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 09:43:00 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
@@ -10,6 +22,7 @@ int		env_builtin(t_list *env, t_control *control);
 t_env	*env_init_struct(void);
 char	*env_get(char *str, size_t len, t_list *env);
 char	**env_get_addr(char *str, size_t len, t_list *env);
+int		env_shlvl_update(t_list **env, t_control *control);
 
 int		is_identifier_valid(char *identifier, char *command);
 
@@ -28,9 +41,8 @@ int		pwd_builtin(t_control *control);
 int		cd_builtin(t_list *env, char **argv, t_control *control);
 void	ft_ls(char *directory, int showdot);
 int		ft_getcwd(char **target);
-int		ft_update_oldpwd(int *upold, int *uppwd, char ***pwdptr, t_list *env);
-int		ft_chdir(char *target_dir, t_list *env);
-int		cd_special(char *envdir, t_list *env);
+int		ft_chdir(char *target_dir, t_list *env, t_control *control);
+int		cd_special(char *envdir, t_list *env, t_control *control);
 
 int		exit_builtin(char **argv, t_control *control);
 

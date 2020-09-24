@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 09:52:33 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 09:52:35 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -52,8 +64,11 @@ void		ft_fork(pid_t *pid);
 void		ft_fork_pipe(t_pipe *pipe);
 void		ft_exit(char *cmd, char *param, char *str, int status);
 int			ft_perror(char *cmd, char *param, char *str);
+void		ft_ambiguous_redirect(char *str, int fd);
 
 void		ft_sigquit(int sigquit);
 void		ft_sigint(int sigquit);
+void		ft_signalhandler_enable(void);
+void		ft_signalhandler_disable(void);
 
 #endif

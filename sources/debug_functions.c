@@ -9,7 +9,7 @@ typedef struct		s_tokendb
 char	*debug_id_to_str(int id)
 {
 	int i = 0;
-	const t_tokendb token_type[] = (const t_tokendb []){{"SEMI", SEMI},
+	t_tokendb *token_type = (t_tokendb []){{"SEMI", SEMI},
 	{"LBRACE", LBRACE}, {"RBRACE", RBRACE}, {"PIPE", PIPE}, {"OR_IF", OR_IF},
 	{"AND", AND}, {"AND_IF", AND_IF}, {"S_QUOTE", S_QUOTE}, {"D_QUOTE", D_QUOTE},
 	{"GREAT", GREAT}, {"DGREAT", DGREAT}, {"LESS", LESS}, {"DLESS", DLESS},
@@ -93,7 +93,7 @@ void	debug_history_list(t_history *hist)
 	while(tmp)
 	{
 		printf("[%d] -- ADDRESS:[%p] -- STRING:[%s]\n"\
-				, i, tmp, tmp->content);
+				, i, tmp, (char *)tmp->content);
 		tmp = tmp->next;
 		i++;
 	}

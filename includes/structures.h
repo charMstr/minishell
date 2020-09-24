@@ -1,34 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structures.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 09:56:29 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 09:59:00 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
 /*
 ** structure for the position of the cursror
 */
-typedef struct		s_int_pair
+typedef struct	s_int_pair
 {
 	int				x;
 	int				y;
-}					t_int_pair;
+}				t_int_pair;
 
 /*
 ** structure for the clipboard (copy, cut, paste)
 ** highlight: activated with ctrl_k for visual select mode.
 ** note: the index start and end are inclusive.
 */
-typedef struct		s_clipboard
+typedef struct	s_clipboard
 {
 	int				highlight;
 	int				start;
 	int				end;
 	int				swaped_end;
 	char			*paste_me;
-}					t_clipboard;
+}				t_clipboard;
 
 /*
 ** structure that contains dataregardig the terminal, helpful for the termcaps.
 ** line: the current line we will update after prompt.
 */
-typedef struct		s_term
+typedef struct	s_term
 {
 	char			*line;
 	int				line_len;
@@ -44,7 +56,7 @@ typedef struct		s_term
 	char			**array_esc_seq;
 	t_dlist			*current_history_link;
 	t_clipboard		clipboard;
-}					t_term;
+}				t_term;
 
 /*
 ** structure that handles the history of commands. modified with up and down
@@ -52,14 +64,14 @@ typedef struct		s_term
 ** head: the first link contains the current history string. We append to it
 ** control->term->line again and again if we have to prompt PS2.
 */
-typedef struct		s_history
+typedef struct	s_history
 {
 	int				size;
 	t_dlist			*head;
 	int				max_size;
-}					t_history;
+}				t_history;
 
-typedef struct		s_lexer_end
+typedef struct	s_lexer_end
 {
 	unsigned int other:1;       // Pour '|', '||', '&&'    => PS2 simple
 	unsigned int quote:1;       // Pour '\'' , '\"'        => PS2
@@ -67,7 +79,7 @@ typedef struct		s_lexer_end
 	unsigned int brace:1;       // Pour '(''               => PS2
 	unsigned int add_semi:1;    // Pour '(''               => PS2 + Append ';'
 	unsigned int unexpected;    // Pour ')', '>>', '>' ... => Génère une erreur
-}					t_lexer_end;
+}				t_lexer_end;
 
 /*
 ** see lexing.h for the defined values of the id.
@@ -77,32 +89,35 @@ typedef struct		s_lexer_end
 ** Within that token, the start and end of the protection are marked by the
 ** unquote_start  and unquote_end
 */
-typedef struct		s_token
+typedef struct	s_token
 {
 	char			*str;
+	int				id;
+	int				is_filename;
 	unsigned int	open_quote:1;
 	unsigned int	esc_next:1;
-	int				id;
 	int				unquote_protected;
 	int				protect_s;
 	int				protect_e;
-}					t_token;
+}				t_token;
 
 /*
 ** structure for controling the whole minishell.
 */
-typedef struct		s_control
+typedef struct	s_control
 {
 	unsigned int	quit:1;
 	unsigned int	ctrl_c:1;
-	unsigned char	exit_status;
+	int				exit_status;
+	pid_t			parent_pid;
 	t_history		*history;
 	t_term			*term;
-	t_list 			*env;
+	t_list			*env;
 	t_lexer_end		lexer_end;
 	int				truefd[3];
 	struct termios	termios_default;
-}					t_control;
+	char			*cwd;
+}				t_control;
 
 /*
 ** This structure contains everything required by a simple command to be run.
@@ -112,9 +127,9 @@ typedef struct		s_control
 */
 typedef struct	s_simple_cmd
 {
-		t_list	*indirections;
-		t_list	*redirections;
-		char	**argv;
+	t_list	*indirections;
+	t_list	*redirections;
+	char	**argv;
 }				t_simple_cmd;
 
 /*
@@ -151,9 +166,43 @@ typedef struct	s_expansion
 	int			start;
 	int			end;
 	char		quoted;
-	int			field_splitting;
+	int			is_filename;
 	char		*ifs;
 }				t_expansion;
+
+/*
+** note:	this structure will be used to break the path in path_parts while
+**			in the process of pathname expansion (executing simple command)
+**
+** path:	the string we obtain after spliting the path with the '/' chars.
+** star_index: a linked list of the index of the star operators that are valid
+** quoted:	helps us knowing if the begining of the string is in a quoted
+**			section	and the kind of quotes.
+*/
+
+typedef struct	s_path_part
+{
+	char		*path_part;
+	t_list		*star_index;
+	char		quoted;
+}				t_path_part;
+
+/*
+**	note:	this structure will be used while trying to match a token
+**			containing a valid kleen star operator, with possible path names.
+**			path_parts: contains a linked list of t_path_part structures.
+**			first_match: will let us if we have at least one match already,
+**			is_filename: with first_match will help abort in the case of an
+**			ambiguous redirect.
+*/
+
+typedef	struct	s_path_exp
+{
+	t_list		*path_parts;
+	int			is_filename;
+	int			first_match;
+	t_list		*matched_paths;
+}				t_path_exp;
 
 /*
 ** note:	this structure will only help us with the norm and clarity.

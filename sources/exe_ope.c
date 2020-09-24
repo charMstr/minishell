@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_ope.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 10:11:48 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 10:11:51 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+extern int g_sig;
 
 int		exe_and(t_btree *ast, t_control *control)
 {
@@ -38,13 +52,14 @@ int		exe_subshell(t_btree *ast, t_control *control)
 	ft_fork(&pid);
 	if (pid == 0)
 	{
+		ft_signalhandler_disable();
 		exe_root(ast->left, control);
 		exit(control->exit_status);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		control->exit_status = (WIFEXITED(status) ? WEXITSTATUS(status) : 1);
+		control->exit_status = WIFEXITED(status) ? WEXITSTATUS(status) : g_sig;
 	}
 	return (control->exit_status);
 }

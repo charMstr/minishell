@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminfo_clipboard_root.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:03:47 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:03:48 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -18,9 +30,8 @@
 **			0 malloc failed, control->quit is raised.
 */
 
-int terminfo_clipboard_copy_start(t_control *control, t_clipboard *clipboard)
+int	terminfo_clipboard_copy_start(t_control *control, t_clipboard *clipboard)
 {
-	char c;
 	char *caps;
 
 	if (!control->term->line)
@@ -28,7 +39,6 @@ int terminfo_clipboard_copy_start(t_control *control, t_clipboard *clipboard)
 	if (control->term->inline_position + 1 == control->term->line_len)
 		return (1);
 	ft_free((void**)&clipboard->paste_me);
-	c = control->term->line[control->term->inline_position + 1];
 	if (!(caps = terminfo_get_caps("smso", control)))
 		return (0);
 	tputs(caps, 1, ft_putchar);

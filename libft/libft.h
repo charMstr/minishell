@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/06/20 22:27:15 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:41:04 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void				ft_putnbr(int n);
 void				ft_putstr(char *s);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strcadd(char **str, char c, size_t index);
-int					ft_strcdel(char **str, size_t i);
+void				ft_strcdel(char *str, size_t i);
 int					ft_strstradd(char **dst, int start, char *src);
 
 char				*ft_strjoin_free(char const *s1, char const *s2, \
@@ -116,8 +116,10 @@ t_list				*ft_lstfind(t_list *begin_list, void *data_ref, \
 void				ft_lstremove_if(t_list **begin_list, void *data_ref, \
 		int (*cmp)(), void (*free_fct)(void *));
 
+/*
+** double linked list
+*/
 
-/*  double linked list */
 typedef struct		s_dlist
 {
 	void			*content;

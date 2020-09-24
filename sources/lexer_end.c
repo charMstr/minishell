@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/05/26 11:36:32 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 11:44:09 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,19 @@ int		lexer_braces_equal(t_list *tk_head, t_control *control, t_token *last)
 	return (0);
 }
 
-/* It detects wheter a forbidden token is beside a brace or not*/
+/*
+** It detects wheter a forbidden token is beside a brace or not
+*/
 
-int 	lexer_signs_near_braces(t_list *tk_head, t_control *control)
+int		lexer_signs_near_braces(t_list *tk_head, t_control *control)
 {
 	t_token		*prev_tk;
 	t_token		*curr_tk;
 	t_token		*next_tk;
-	const int	*signs = (int	[]){LESS, DLESS, GREAT, DGREAT,
-		AND, AND_IF, PIPE, OR_IF, SEMI, -1};
+	int			*signs;
 
+	signs = (int	[]){LESS, DLESS, GREAT, DGREAT, AND, AND_IF, \
+		PIPE, OR_IF, SEMI, -1};
 	prev_tk = NULL;
 	while (tk_head && !control->lexer_end.unexpected)
 	{
@@ -95,7 +98,7 @@ int		lexer_end(t_list *token_head, t_control *control)
 	last = (t_token *)(ft_lstlast(token_head)->content);
 	if ((control->lexer_end.unexpected = lexer_forbidden_start(token_head)) ||
 	(control->lexer_end.unexpected = lexer_forbidden_combo(token_head)))
-		return (0);
+		;
 	else if (last->open_quote)
 		control->lexer_end.quote = 1;
 	else if (last->esc_next)
@@ -110,5 +113,7 @@ int		lexer_end(t_list *token_head, t_control *control)
 		;
 	else
 		return (1);
+	if (control->lexer_end.unexpected != 0)
+		control->exit_status = 258;
 	return (0);
 }

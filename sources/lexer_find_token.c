@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_find_token.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:44:29 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:44:30 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -26,7 +38,6 @@ int	lexer_find_token(const char *input, int *j, t_token *token)
 {
 	if (!input[*j])
 		return (1);
-
 	if (input[*j] == '\\')
 		return (lexer_just_token(input, j, token));
 	else if (ft_strchr("\"\'", input[*j]))

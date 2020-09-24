@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 21:26:50 by charmstr          #+#    #+#             */
-/*   Updated: 2020/04/13 17:04:00 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:39:42 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_strappend(char **str, char c)
 {
 	char *char_str;
 
-	char_str = (char [2]){c, '\0'};
+	char_str = (char	[2]){c, '\0'};
 	if (!*str)
 	{
 		if (!(*str = ft_strdup(char_str)))

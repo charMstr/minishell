@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   historic_root.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:49:09 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:49:10 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -18,7 +30,7 @@
 **			0 stop
 */
 
-int		history_root(t_control *control, t_history *history)
+int			history_root(t_control *control, t_history *history)
 {
 	if (!control->term->line)
 	{
@@ -43,7 +55,7 @@ int		history_root(t_control *control, t_history *history)
 **			NULL if failure
 */
 
-t_history *history_init_struct(void)
+t_history	*history_init_struct(void)
 {
 	t_history *hist;
 
@@ -59,7 +71,7 @@ t_history *history_init_struct(void)
 ** note:	this function will clean a link from the linked list history->head
 */
 
-void	history_del_content(void *content)
+void		history_del_content(void *content)
 {
 	char *str;
 
@@ -77,11 +89,10 @@ void	history_del_content(void *content)
 **			1 ok
 */
 
-int history_add_new_link(t_control *control)
+int			history_add_new_link(t_control *control)
 {
-	t_dlist *history_new;
-
-	char *str;
+	t_dlist	*history_new;
+	char	*str;
 
 	if (!(str = ft_strdup("")))
 	{

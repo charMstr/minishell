@@ -6,16 +6,16 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 22:40:27 by mli               #+#    #+#             */
-/*   Updated: 2020/05/14 22:40:48 by mli              ###   ########.fr       */
+/*   Updated: 2020/08/21 09:38:47 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- ** RETURN:	pointer to very first link
- **			NULL if the head of list pointer was NULL
- */
+** RETURN:	pointer to very first link
+**			NULL if the head of list pointer was NULL
+*/
 
 t_dlist	*ft_dlstfirst(t_dlist *lst)
 {

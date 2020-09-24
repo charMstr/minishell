@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 09:45:11 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 09:52:03 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -11,10 +23,10 @@
 **			according to shell grammar. BUT we should start easy.
 */
 
-typedef struct		s_pipe_sequence
+typedef struct	s_pipe_sequence
 {
-	t_list *simple_command;
-}					t_pipe_sequence;
+	t_list		*simple_command;
+}				t_pipe_sequence;
 
 /*
 ** note:	the name of the type should be "list" according to shell grammar so
@@ -30,27 +42,26 @@ typedef struct		s_pipe_sequence
 **			ran, we would keep processing the t_and_or list elements or not
 */
 
-typedef struct		t_list_sh
+typedef struct	s_list_sh
 {
-	t_list			*t_pipe_sequence;
-}					t_list_sh;
+	t_list		*pipe_sequence;
+}				t_list_sh;
 
+t_btree			*parser_root(t_list *tokens, t_control *control);
 
-t_btree				*parser_root(t_list *tokens, t_control *control);
+void			del_ast(t_btree **node);
+void			ast_add(t_btree **ast, t_btree *add);
+int				parser_next_child(t_dlist **lst, t_list **tklst, t_btree **new);
+t_btree			*parser_create_ast(t_dlist *dlst, t_list **tklst);
 
-void		del_ast(t_btree **node);
-void		ast_add(t_btree **ast, t_btree *add);
-int			parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new);
-t_btree		*parser_create_ast(t_dlist *dlst, t_list **tklst);
+int				parser_cmd_state(t_btree *new, t_list **tklst);
+int				parser_is_cmd_param(int tkid);
+int				parser_is_cmd_start(int tkid);
+int				parser_cmd(t_list **tklst, t_btree **new);
 
-int			parser_cmd_state(t_btree *new, t_list **tklst);
-int			parser_is_cmd_param(int tkid);
-int			parser_is_cmd_start(int tkid);
-int			parser_cmd(t_list **tklst, t_btree **new);
-
-int			token_id(t_token *token);
-int			tklst_id(t_list *tklst);
-int			btree_id(t_btree *node);
-void		parser_disp(t_token *node, t_btree *parent);
+int				token_id(t_token *token);
+int				tklst_id(t_list *tklst);
+int				btree_id(t_btree *node);
+void			parser_disp(t_token *node, t_btree *parent);
 
 #endif

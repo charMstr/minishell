@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_to_cmd_root.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/21 11:33:05 by mli               #+#    #+#             */
+/*   Updated: 2020/08/21 11:33:06 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 /*
 ** note:	This function will replace the token contained in an ast node, from
@@ -12,17 +23,17 @@
 **			linked lists of redirections.
 **
 ** INPUT:	Token with a LIST id. (token->str contains a list of tokens of
-**			type: WORD, GREAT, DGREAT or LESS.)
+**			type: TOKEN, GREAT, DGREAT or LESS.)
 **
 ** RETURN:	1 OK
 **			0 KO
 */
 
-int	list_to_cmd_root(t_token *token_node)
+int				list_to_cmd_root(t_token *token_node)
 {
-	t_simple_cmd *cmd;
-	t_list *tokens_list;
-	t_list *redirections;
+	t_simple_cmd	*cmd;
+	t_list			*tokens_list;
+	t_list			*redirections;
 
 	tokens_list = (t_list *)(token_node->str);
 	if (!(cmd = init_t_simple_cmd()))
@@ -62,7 +73,7 @@ int	list_to_cmd_root(t_token *token_node)
 ** RETURN:	a linked list containing only the the redirections related tokens.
 */
 
-t_list *list_to_cmd_skim_redirections(t_list **tokens)
+t_list			*list_to_cmd_skim_redirections(t_list **tokens)
 {
 	t_list *redirections;
 	t_list *couple;
@@ -105,7 +116,7 @@ t_simple_cmd	*init_t_simple_cmd(void)
 ** note:	this function will free the memory taken by a struct of this type.
 */
 
-void	free_t_simple_cmd(void *void_cmd)
+void			free_t_simple_cmd(void *void_cmd)
 {
 	t_simple_cmd *cmd;
 
@@ -126,11 +137,11 @@ void	free_t_simple_cmd(void *void_cmd)
 **			0 OK
 */
 
-int	list_to_cmd_fill_argv_array(t_simple_cmd *cmd, t_list *tokens)
+int				list_to_cmd_fill_argv_array(t_simple_cmd *cmd, t_list *tokens)
 {
-	int size;
-	int index;
-	t_list *copy;
+	int		size;
+	int		index;
+	t_list	*copy;
 
 	copy = tokens;
 	size = 0;
