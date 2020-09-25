@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:56:15 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/25 16:01:05 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int				exe_simple_cmd_root(t_token *token, t_control *control);
 int				exe_prepare_simple_cmd(t_token *token, t_control *control);
 
 int				exe_perform_arrow(t_simple_cmd *cmd, t_control *control);
-int				exe_perform_redirections(t_list *red, t_control *control);
-int				exe_perform_indirections(t_list *ind, t_control *control);
+int				exe_perform_redirections(t_arrow *arrow, t_control *control);
+int				exe_perform_indirections(t_arrow *arrow, t_control *control);
 int				exe_cancel_arrows(t_control *control);
 
 int				list_to_cmd_root(t_token *token_node);

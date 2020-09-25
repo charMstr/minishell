@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:51:13 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:51:14 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/25 16:18:35 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 		return (0);
 	//need to make sure the control->quit is raised inside this function..
 	if (!exe_perform_arrow((t_simple_cmd *)token->str, control))
+	{
+		exe_cancel_arrows(control);
 		return (0);
+	}
 	//HERE function that does all the redirections.
 	//need to operate the redirections list just before executing the simple
 	//command. note: the stdin and stdout, should be saved then restored.

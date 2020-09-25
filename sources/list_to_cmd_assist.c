@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:34:33 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:34:59 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/25 15:51:55 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,7 @@ int		list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, int id, \
 		free_t_arrow(arrow);
 		return (0);
 	}
-	if (id == LESS)
-		ft_lstadd_back(&cmd->indirections, new);
-	else
-		ft_lstadd_back(&cmd->redirections, new);
+	ft_lstadd_back(&cmd->arrows, new);
 	return (1);
 }
 

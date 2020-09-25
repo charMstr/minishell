@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:33:05 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:33:06 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/25 15:52:23 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,7 @@ void			free_t_simple_cmd(void *void_cmd)
 
 	cmd = (t_simple_cmd*)void_cmd;
 	ft_array_free(cmd->argv, ft_array_len(cmd->argv));
-	ft_lstclear(&cmd->redirections, free_t_arrow);
-	ft_lstclear(&cmd->indirections, free_t_arrow);
+	ft_lstclear(&cmd->arrows, free_t_arrow);
 	free(cmd);
 }
 

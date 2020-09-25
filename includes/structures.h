@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:56:29 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:59:00 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/25 15:51:44 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,7 @@ typedef struct	s_control
 */
 typedef struct	s_simple_cmd
 {
-	t_list	*indirections;
-	t_list	*redirections;
+	t_list	*arrows;
 	char	**argv;
 }				t_simple_cmd;
 

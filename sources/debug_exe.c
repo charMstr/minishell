@@ -84,15 +84,8 @@ void	debug_simple_cmd(t_simple_cmd *cmd)
 		printf("\tcmd->argv[%d]: [%s]\n", i, cmd->argv[i]);
 		i++;
 	}
-	printf("redirections:\n");
-	tmp = cmd->redirections;
-	while (tmp)
-	{
-		debug_arrow_struct((t_arrow*)tmp->content);
-		tmp = tmp->next;
-	}
-	printf("indirections:\n");
-	tmp = cmd->indirections;
+	printf("arrows:\n");
+	tmp = cmd->arrows;
 	while (tmp)
 	{
 		debug_arrow_struct((t_arrow*)tmp->content);
