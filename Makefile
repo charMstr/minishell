@@ -142,7 +142,7 @@ SRC_FILES =	main\
 			split_path2\
 			split_path3\
 			pathname_matching_root\
-			pathname_matched_add_to_list\
+			pathname_matching_utils\
 			match_path_parts_root\
 			quote_removal\
 			list_to_cmd_root\

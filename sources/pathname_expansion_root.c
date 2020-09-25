@@ -48,7 +48,7 @@ int	pathname_expansion_root(t_list **tokens, int is_filename)
 			if ((res = pathname_expansion(&tokens, is_filename)))
 				return (res);
 		}
-		tokens = &(*tokens)->next;
+		tokens = &((*tokens)->next);
 	}
 	return (0);
 }
@@ -125,33 +125,23 @@ int	pathname_expansion(t_list ***token, int is_filename)
 	if (!(path_parts = split_path_root(((t_token*)((**token)->content))->str)))
 		return (2);
 	init_path_expansion_struct(path_parts, &tool, is_filename);
-	printf("in pathname_expansion: str: [%s]\n", ((t_path_part *)(path_parts->content))->path_part);
 	if ((res = pathname_matching_root(&tool, path_parts)))
 	{
-		delete_path_exp_struct(&tool);
+		ft_lstclear(&(tool.path_parts), delete_path_part_link);
+		ft_lstclear(&(tool.matched_paths), del_token);
 		return (res);
 	}
+	//debug_path_parts(tool.path_parts);
+	ft_lstclear(&(tool.path_parts), delete_path_part_link);
 	if (!tool.matched_paths)
 		quote_removal((t_token*)(**token)->content);
 	else
-		;
-	//substitute the linked list from tool->matched_paths in the token.
-	delete_path_exp_struct(&tool);
+	{
+		//debug_tokens_list(**token);
+		word_expand_replace(token, tool.matched_paths);
+		ft_lstclear(&(tool.path_parts), delete_path_part_link);
+	}
 	return (0);
-}
-
-/*
-** note:	this function will erase the structure t_path_exp containing all
-**			the necessary informations to look for path matches while expanding
-*/
-
-void	delete_path_exp_struct(void *content)
-{
-	t_path_exp *tool;
-
-	tool = (t_path_exp *)content;
-	ft_lstclear(&(tool->path_parts), delete_path_part_link);
-	ft_lstclear(&tool->matched_paths, del_token);
 }
 
 /*

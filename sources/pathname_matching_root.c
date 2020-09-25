@@ -34,11 +34,7 @@ int	pathname_matching_root(t_path_exp *tool, t_list *path_parts)
 
 	first_path_part = ((t_path_part *)(path_parts->content))->path_part;
 	if (!ft_strlen(first_path_part))
-	{
-		printf("detected it starts at root\n");
-		printf("and next str is: [%s]\n", ((t_path_part*)(path_parts->next->content))->path_part);
 		return (pathname_matching(tool, path_parts->next, "", "/"));
-	}
 	else if (!ft_strcmp(first_path_part, "."))
 		return (pathname_matching(tool, path_parts->next, ".", "./"));
 	else if (!ft_strcmp(first_path_part, ".."))
@@ -68,6 +64,8 @@ int pathname_matching_relative(t_path_exp *tool, t_list *path_parts)
 		return (0);
 	while ((entry = readdir(dir_p)) != NULL)
 	{
+		if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, ".."))
+			continue ;
 		if (match_path_part_root(path_parts, entry->d_name))
 		{
 			if (!(path_start = ft_strdup(entry->d_name)))
@@ -145,12 +143,12 @@ int pathname_matching_assist(t_path_exp *tool, t_list *path_parts, \
 		if (match_path_part_root(path_parts, entry->d_name))
 		{
 			if (!(path_fuller = path_join(path_start, entry->d_name)))
-				return (2);
+				pathname_matching_closedir_return(dir_p, 2);
 			res = pathname_matching(tool, path_parts->next, path_fuller, \
-					entry->d_name);
+					path_fuller);
 			free(path_fuller);
 			if (res)
-				return (res);
+				pathname_matching_closedir_return(dir_p, res);
 		}
 	}
 	closedir(dir_p);

@@ -134,7 +134,6 @@ int		word_expand_and_replace(t_list ***tokens, t_control *control)
 		del_token(expanded_word);
 		return (res);
 	}
-//	debug_tokens_list(expanded_word);
 	word_expand_replace(tokens, expanded_word);
 	return (0);
 }
@@ -198,19 +197,16 @@ int		word_expand_stage1(t_list **tokens, t_control *control)
 	int res;
 	int is_filename;
 
-	//del printf and debug
-	printf("word_exp_stage1: BEFORE: token list is:\n");
-	debug_tokens_list(*tokens);
+	//printf("word_exp_stage1: BEFORE: token list is:\n");
+	//debug_tokens_list(*tokens);
 	is_filename = ((t_token *)((*tokens)->content))->is_filename;
 	if ((res = parameter_expansion_root(*tokens, control, is_filename)))
 		return (res);
 	if (is_filename && ft_strlen(((t_token*)(*tokens)->content)->str) == 0)
 		return (1);
-	//go to stage two. HERE
 	res = pathname_expansion_root(tokens, is_filename);
-	//del printf and debug
-	printf("word_exp_stage1: AFTER: token list is:\n");
-	debug_tokens_list(*tokens);
+	//printf("word_exp_stage1: AFTER: token list is:\n");
+	//debug_tokens_list(*tokens);
 	return (res);
 }
 

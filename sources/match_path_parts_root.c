@@ -47,12 +47,18 @@ int	match_path_part_root(t_list *path_parts, char *ref)
 	wild_cards = ((t_path_part *)(path_parts->content))->star_index;
 	if (!strings.str || !strings.ref)
 		return (0);
-	if (!wild_cards)
+	if (!(strings.str[0] == '.'))
 	{
-		if (!ft_strcmp(strings.str, strings.ref))
-			return (1);
-		return (0);
+		if (strings.ref[0] == '.')
+			return (0);
 	}
+	else if (strings.str[0] == '.')
+	{
+		if (!(strings.ref[0] == '.'))
+			return (0);
+	}
+	if (!wild_cards)
+		return (!ft_strcmp(strings.str, strings.ref));
 	else
 		return (match_path_part(strings, wild_cards, 0, 0));
 }

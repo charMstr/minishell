@@ -90,7 +90,6 @@ int				field_splitting_assist(t_list **tok, char *str);
 int				pathname_expansion_root(t_list **tokens, int is_filename);
 int				pathname_is_expandable(char *str);
 int				pathname_expansion(t_list ***token, int is_filename);
-void			delete_path_exp_struct(void *content);
 void			init_path_expansion_struct(t_list *path_parts, \
 			t_path_exp *tool, int is_filename);
 
@@ -118,8 +117,10 @@ int 			pathname_matching(t_path_exp *tool, t_list *path_parts, \
 int 			pathname_matching_assist(t_path_exp *tool, t_list *path_parts,\
 			char *path_start, char *open_me);
 char			*path_join(char *str, char *str2);
+int				pathname_matching_closedir_return(DIR *dir_p, int ret);
 
 int				pathname_matched_add_to_list(t_path_exp *tool, char *path);
+int				pathname_matching_closedir_return(DIR *dir_p, int ret);
 
 int				match_path_check_valid_star(t_list *wild_cards, int index);
 int				match_path_part(t_strings strs, t_list *wild_cards, int i, \
@@ -134,14 +135,6 @@ void			quote_removal_doubly_quoted_part(char *str, int i, \
 int				quote_removal_skip_protected_part(char *str, int *i, \
 			t_no_unquote *no);
 int				quote_removal_eat_char(char *str, int *i, t_no_unquote *no);
-
-
-int				match_star(char *str, char *star, int quoted, int offset);
-void			match_within_quote_escape_met(int *j, char *str, \
-			int *esc_next);
-int				match_no_star(char *ref, char *no_star, int esc_next, int j);
-int				match_until_double_quote(char *ref, char *str, int esc_next);
-int				match_within_quote(char *ref, char *str, char quote);
 
 void			ft_errno_exit(void);
 

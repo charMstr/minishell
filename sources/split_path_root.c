@@ -42,7 +42,7 @@ t_list	*split_path_root(char *path_to_dup_and_split)
 	}
 	free(dup_path);
 	//del me
-	debug_path_parts(path_parts);
+	//debug_path_parts(path_parts);
 	return (path_parts);
 }
 

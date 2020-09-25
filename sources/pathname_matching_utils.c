@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pathname_matched_add_to_list.c                     :+:      :+:    :+:   */
+/*   pathname_matching_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,6 +16,8 @@
 /*
 ** this file takes care of creating a new token for a pathname that got
 ** validated. the token is inserted in a temporary linked list.
+**
+** it also calls a useless function. created for the norm.
 */
 
 /*
@@ -57,3 +59,15 @@ int	pathname_matched_add_to_list(t_path_exp *tool, char *path)
 	return (0);
 }
 
+/*
+** note:	this function exists only because of the 42 norm.
+**			it returns the right int and closes the dir.
+**
+** RETURN:	arg passed on.
+*/
+
+int	pathname_matching_closedir_return(DIR *dir_p, int ret)
+{
+	closedir(dir_p);
+	return (ret);
+}
