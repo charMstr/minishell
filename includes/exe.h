@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
-/*   Updated: 2020/09/25 16:01:05 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/24 20:45:29 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,42 @@ int				field_splitting_assist(t_list **tok, char *str);
 int				pathname_expansion_root(t_list **tokens, int is_filename);
 int				pathname_is_expandable(char *str);
 int				pathname_expansion(t_list ***token, int is_filename);
+void			init_path_expansion_struct(t_list *path_parts, \
+			t_path_exp *tool, int is_filename);
+
+t_list			*split_path_root(char *path_to_split);
+void 			collapse_fwd_slashes(char *str, int esc_next, int i, int k);
+int				split_path(char *path_to_cut, t_list **path_parts, int i);
+int				find_path_end(char *str, int i, char *quoted);
+void			path_set_quoted(char c, char *quoted);
+
+int				add_path_part(char *str, t_list **path_parts, char quoted);
+t_path_part		*init_path_part_link(char *str, char quoted);
+void			delete_path_part_link(void *content);
+
+int				path_part_unquoting(t_path_part *new, char *str);
+void			path_part_unquoting_assist(char c, char *quoted, char *str, int *index);
+void			path_part_unquoting_escape_char(char *str, int *i, char quoted);
+int				add_index_valid_kleen_star_to_lst(t_path_part *new, int index);
+
+
+int				pathname_matching_root(t_path_exp *tool, t_list *path_parts);
+int 			pathname_matching_relative(t_path_exp *tool, \
+			t_list *path_parts);
+int 			pathname_matching(t_path_exp *tool, t_list *path_parts, \
+			char *path_start, char *open_me);
+int 			pathname_matching_assist(t_path_exp *tool, t_list *path_parts,\
+			char *path_start, char *open_me);
+char			*path_join(char *str, char *str2);
+int				pathname_matching_closedir_return(DIR *dir_p, int ret);
+
+int				pathname_matched_add_to_list(t_path_exp *tool, char *path);
+int				pathname_matching_closedir_return(DIR *dir_p, int ret);
+
+int				match_path_check_valid_star(t_list *wild_cards, int index);
+int				match_path_part(t_strings strs, t_list *wild_cards, int i, \
+			int j);
+int				match_path_part_root(t_list *path_parts, char *ref);
 
 void			quote_removal(t_token *token);
 void			quote_removal_unquoted_part(char *str, int i, \
@@ -101,15 +137,6 @@ void			quote_removal_doubly_quoted_part(char *str, int i, \
 int				quote_removal_skip_protected_part(char *str, int *i, \
 			t_no_unquote *no);
 int				quote_removal_eat_char(char *str, int *i, t_no_unquote *no);
-
-int				pathname_expand_root(char *str);
-
-int				match_star(char *str, char *star, int quoted, int offset);
-void			match_within_quote_escape_met(int *j, char *str, \
-			int *esc_next);
-int				match_no_star(char *ref, char *no_star, int esc_next, int j);
-int				match_until_double_quote(char *ref, char *str, int esc_next);
-int				match_within_quote(char *ref, char *str, char quote);
 
 void			ft_errno_exit(void);
 

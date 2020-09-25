@@ -32,6 +32,8 @@ void	debug_node_id(t_btree *node);
 void	debug_arrow_struct(t_arrow *arrow);
 void	debug_array(char **array);
 void	debug_unquote(t_token *token);
+void	debug_path_part(t_path_part *path_part);
+void	debug_path_parts(t_list *path_parts);
 
 # define SIZE_LEAF 6
 

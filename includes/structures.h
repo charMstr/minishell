@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:56:29 by mli               #+#    #+#             */
-/*   Updated: 2020/09/25 15:51:44 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/24 20:43:49 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,40 @@ typedef struct	s_expansion
 }				t_expansion;
 
 /*
+** note:	this structure will be used to break the path in path_parts while
+**			in the process of pathname expansion (executing simple command)
+**
+** path:	the string we obtain after spliting the path with the '/' chars.
+** star_index: a linked list of the index of the star operators that are valid
+** quoted:	helps us knowing if the begining of the string is in a quoted
+**			section	and the kind of quotes.
+*/
+
+typedef struct	s_path_part
+{
+	char		*path_part;
+	t_list		*star_index;
+	char		quoted;
+}				t_path_part;
+
+/*
+**	note:	this structure will be used while trying to match a token
+**			containing a valid kleen star operator, with possible path names.
+**			path_parts: contains a linked list of t_path_part structures.
+**			first_match: will let us if we have at least one match already,
+**			is_filename: with first_match will help abort in the case of an
+**			ambiguous redirect.
+*/
+
+typedef	struct	s_path_exp
+{
+	t_list		*path_parts;
+	int			is_filename;
+	int			first_match;
+	t_list		*matched_paths;
+}				t_path_exp;
+
+/*
 ** note:	this structure will only help us with the norm and clarity.
 **			it is used while unquoting strings. If the string is not protected
 **			the  values are set to -1.
@@ -182,6 +216,17 @@ typedef struct	s_no_unquote
 	int	start;
 	int	end;
 }				t_no_unquote;
+
+/*
+** note:	this structure is used in the pathname expansion section.
+**			it only contains the two trings to be compared.
+*/
+
+typedef struct	s_strings
+{
+	char	*str;
+	char	*ref;
+}				t_strings;
 
 /*
 ** note:	A global variable to know which function have to be executed

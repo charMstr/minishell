@@ -129,3 +129,37 @@ void	debug_unquote(t_token *token)
 	printf("end: %d\n", token->protect_e);
 	printf("======================= END DEBUG UNQUOTE ====================\n");
 }
+
+void	debug_path_parts(t_list *path_parts)
+{
+	int i;
+
+	i = 0;
+	printf("\n==============================================================\n");
+	printf("============================= DEBUG PATH_PARTS ===============\n");
+	while (path_parts)
+	{
+		printf("[%d] str is: [%s]\n", i++, ((t_path_part *)(path_parts->content))->path_part);
+		path_parts = path_parts->next;
+	}
+	printf("==================== END DEBUG PATH_PARTS ====================\n");
+}
+
+void	debug_path_part(t_path_part *path_part)
+{
+	t_list *stars;
+
+	printf("\n==============================================================\n");
+	printf("============================= DEBUG PATH_PART ================\n");
+	printf("the string is: [%s]\n", path_part->path_part);
+	printf("quoted at the start of the string was: %d\n", path_part->quoted);
+	printf("the ints linked list:\n");
+
+	stars = path_part->star_index;
+	while (stars)
+	{
+		printf("valid star a index: [%d]\n", *((int*)stars->content));
+		stars = stars->next;
+	}
+	printf("===================== END DEBUG PATH_PART ====================\n");
+}
