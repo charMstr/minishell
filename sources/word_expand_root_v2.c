@@ -234,5 +234,6 @@ void	word_expand_replace(t_list ***tokens, t_list *expanded)
 	del_me = **tokens;
 	**tokens = expanded;
 	*tokens = &last;
-	del_token(del_me);
+	del_token(del_me->content);
+	free(del_me);
 }
