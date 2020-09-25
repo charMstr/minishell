@@ -96,7 +96,7 @@ void			init_path_expansion_struct(t_list *path_parts, \
 
 t_list			*split_path_root(char *path_to_split);
 void 			collapse_fwd_slashes(char *str, int esc_next, int i, int k);
-int				split_path(char *path_to_cut, t_list **path_parts);
+int				split_path(char *path_to_cut, t_list **path_parts, int i);
 int				find_path_end(char *str, int i, char *quoted);
 void			path_set_quoted(char c, char *quoted);
 

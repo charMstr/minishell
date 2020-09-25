@@ -34,13 +34,15 @@ t_list	*split_path_root(char *path_to_dup_and_split)
 	//printf("str is: %s\n", dup_path);
 	collapse_fwd_slashes(dup_path, 0, -1, 0);
 	//printf("str2 is: %s\n", dup_path);
-	if (!split_path(dup_path, &path_parts))
+	if (!split_path(dup_path, &path_parts, 0))
 	{
 		free(dup_path);
 		ft_lstclear(&path_parts, delete_path_part_link);
 		return (NULL);
 	}
 	free(dup_path);
+	//del me
+	debug_path_parts(path_parts);
 	return (path_parts);
 }
 
@@ -90,15 +92,13 @@ void collapse_fwd_slashes(char *str, int esc_next, int i, int k)
 **			0 KO
 */
 
-int	split_path(char *str, t_list **paths)
+int	split_path(char *str, t_list **paths, int start)
 {
 	int		end;
-	int 	start;
 	char	*path_part;
 	char	quoted;
 	char	start_quoted_at_next_path_part;
 
-	start = 0;
 	quoted = 0;
 	while (str[start])
 	{
@@ -106,7 +106,8 @@ int	split_path(char *str, t_list **paths)
 		end = find_path_end(str, start, &quoted);
 		if (!(path_part = ft_substr(str, start, end - start)))
 			return (0);
-		//printf("full_path was:	[%s]\n", str);
+		//printf("\nend char: [%c]\n", str[end]);
+	//	printf("full_path was:	[%s]\n", str);
 		//printf("path_part = [%s]\n", path_part);
 		if (!add_path_part(path_part, paths, start_quoted_at_next_path_part))
 			return (0);
@@ -114,7 +115,9 @@ int	split_path(char *str, t_list **paths)
 			return (1);
 		start = end + 1;
 	}
-	return (1);
+	if (!(path_part = ft_strdup("")))
+		return (0);
+	return (add_path_part(path_part, paths, start_quoted_at_next_path_part));
 }
 
 /*

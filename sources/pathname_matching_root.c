@@ -30,10 +30,21 @@
 
 int	pathname_matching_root(t_path_exp *tool, t_list *path_parts)
 {
-	if (!ft_strlen(((t_path_part *)path_parts->content)->path_part))
+	char *first_path_part;
+
+	first_path_part = ((t_path_part *)(path_parts->content))->path_part;
+	if (!ft_strlen(first_path_part))
+	{
+		printf("detected it starts at root\n");
+		printf("and next str is: [%s]\n", ((t_path_part*)(path_parts->next->content))->path_part);
 		return (pathname_matching(tool, path_parts->next, "", "/"));
+	}
+	else if (!ft_strcmp(first_path_part, "."))
+		return (pathname_matching(tool, path_parts->next, ".", "./"));
+	else if (!ft_strcmp(first_path_part, ".."))
+		return (pathname_matching(tool, path_parts->next, "..", "../"));
 	else
-		return (pathname_matching_relative(tool, path_parts->next));
+		return (pathname_matching_relative(tool, path_parts));
 }
 
 /*
@@ -97,15 +108,19 @@ int pathname_matching(t_path_exp *tool, t_list *path_parts, char *path_start, \
 {
 	int		res;
 	char	*path_fuller;
+	DIR		*dir_p;
 
 	if (!path_parts)
 		return (pathname_matched_add_to_list(tool, path_start));
 	if (!ft_strlen(((t_path_part *)path_parts->content)->path_part))
 	{
+		if (!(dir_p = opendir(open_me)))
+			return (0);
 		if (!(path_fuller = ft_strjoin(path_start, "/")))
 			return (2);
-		res = pathname_matched_add_to_list(tool, path_start);
+		res = pathname_matched_add_to_list(tool, path_fuller);
 		free(path_fuller);
+		closedir(dir_p);
 		return (res);
 	}
 	return (pathname_matching_assist(tool, path_parts, path_start, open_me));

@@ -137,6 +137,21 @@ void	debug_unquote(t_token *token)
 	printf("======================= END DEBUG UNQUOTE ====================\n");
 }
 
+void	debug_path_parts(t_list *path_parts)
+{
+	int i;
+
+	i = 0;
+	printf("\n==============================================================\n");
+	printf("============================= DEBUG PATH_PARTS ===============\n");
+	while (path_parts)
+	{
+		printf("[%d] str is: [%s]\n", i++, ((t_path_part *)(path_parts->content))->path_part);
+		path_parts = path_parts->next;
+	}
+	printf("==================== END DEBUG PATH_PARTS ====================\n");
+}
+
 void	debug_path_part(t_path_part *path_part)
 {
 	t_list *stars;

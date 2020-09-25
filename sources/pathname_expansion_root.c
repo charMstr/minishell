@@ -7,8 +7,7 @@
 ** we initially had a simple command. we choose one token and started expansion
 ** which resulted in a temporary linked list (multiple tokens could have
 ** resulted from  word expansion with field splitting).
-** We will loop over this linked list and for each token assess if it contains
-** at least one unquoted kleen star operator (it means pathname is expandable).
+** We will loop over this linked list and for each token assess if it contains ** at least one unquoted kleen star operator (it means pathname is expandable).
 ** If not we just call the quote removal function.
 ** If yes, the string is unquoted somehow, then either:
 **			- no matches with filenames. the unquoted version of the token is
@@ -126,16 +125,17 @@ int	pathname_expansion(t_list ***token, int is_filename)
 	if (!(path_parts = split_path_root(((t_token*)((**token)->content))->str)))
 		return (2);
 	init_path_expansion_struct(path_parts, &tool, is_filename);
+	printf("in pathname_expansion: str: [%s]\n", ((t_path_part *)(path_parts->content))->path_part);
 	if ((res = pathname_matching_root(&tool, path_parts)))
 	{
 		delete_path_exp_struct(&tool);
 		return (res);
 	}
-	printf("--->> we matched some pathnames!!!!!!\n");
-	debug_tokens_list(tool.matched_paths);
+	if (!tool.matched_paths)
+		quote_removal((t_token*)(**token)->content);
+	else
+		;
 	//substitute the linked list from tool->matched_paths in the token.
-	//if the linked list was empty, it we just send the token for unquoting.
-	// something like quote_removal((t_token*)(*tokens)->content);
 	delete_path_exp_struct(&tool);
 	return (0);
 }
@@ -151,7 +151,7 @@ void	delete_path_exp_struct(void *content)
 
 	tool = (t_path_exp *)content;
 	ft_lstclear(&(tool->path_parts), delete_path_part_link);
-	//ft_lstclear(&del_me->matched_paths, delete_tokens?)
+	ft_lstclear(&tool->matched_paths, del_token);
 }
 
 /*

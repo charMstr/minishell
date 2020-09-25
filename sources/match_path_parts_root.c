@@ -45,7 +45,6 @@ int	match_path_part_root(t_list *path_parts, char *ref)
 	strings.str = ((t_path_part *)(path_parts->content))->path_part;
 	strings.ref = ref;
 	wild_cards = ((t_path_part *)(path_parts->content))->star_index;
-
 	if (!strings.str || !strings.ref)
 		return (0);
 	if (!wild_cards)
