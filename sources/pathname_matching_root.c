@@ -64,8 +64,6 @@ int pathname_matching_relative(t_path_exp *tool, t_list *path_parts)
 		return (0);
 	while ((entry = readdir(dir_p)) != NULL)
 	{
-		if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, ".."))
-			continue ;
 		if (match_path_part_root(path_parts, entry->d_name))
 		{
 			if (!(path_start = ft_strdup(entry->d_name)))
