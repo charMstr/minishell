@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:34:33 by mli               #+#    #+#             */
-/*   Updated: 2020/09/25 15:51:55 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 16:56:32 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,16 @@ int		list_to_cmd_fill_redirections_fields2(t_simple_cmd *cmd, int id, \
 {
 	t_arrow	*arrow;
 	t_list	*new;
-	char	**dest;
+	char	**tmp;
 
 	if (!(arrow = init_t_arrow()))
 		return (0);
-	dest = &((t_token *)tokens->next->content)->str;
-	arrow->dest = *dest;
-	*dest = NULL;
-	arrow->src = ((t_token *)tokens->content)->str;
+	tmp = &((t_token *)tokens->next->content)->str;
+	arrow->dest = *tmp;
+	*tmp = NULL;
+	tmp = &((t_token *)tokens->content)->str;
+	arrow->src = *tmp;
+	*tmp = NULL;
 	arrow->id = id;
 	if (!(new = ft_lstnew(arrow)))
 	{
@@ -97,7 +99,9 @@ void	free_t_arrow(void *void_arrow)
 {
 	t_arrow *arrow;
 
-	arrow = (t_arrow*)void_arrow;
+	if ((arrow = (t_arrow *)void_arrow) == NULL)
+		return ;
 	free(arrow->dest);
+	free(arrow->src);
 	free(arrow);
 }
