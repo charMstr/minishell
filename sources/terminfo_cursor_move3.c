@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:52:46 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 10:53:58 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 23:58:55 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int		terminfo_cursor_find_next_word_start(t_control *control)
 	int		i;
 	char	*str;
 
-	str = control->term->line;
+	if ((str = control->term->line) == NULL)
+		return (-1);
 	i = control->term->inline_position + 1;
 	while (str[i])
 	{
