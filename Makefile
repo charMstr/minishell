@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/09/24 20:44:43 by charmstr         ###   ########.fr        #
+#    Updated: 2020/09/26 13:12:37 by charmstr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,6 +106,7 @@ SRC_FILES =	main\
 			builtin_pwd\
 			builtin_exit\
 			input_root\
+			reset_prompts\
 			termios_utils\
 			terminfo_utils\
 			terminfo_utils2\

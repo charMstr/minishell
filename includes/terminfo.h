@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:59:26 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:59:32 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 14:16:03 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int			master_loop(t_control *control);
 
 int			control_init_struct(t_control *control);
 void		control_free_struct(t_control *control);
+int			control_load_start_prompts(t_list **env, char *ps1, char *ps2);
 
 t_list		*input_root(t_control *control);
 t_list		*input_root_assist_and_prompt(t_control *control);

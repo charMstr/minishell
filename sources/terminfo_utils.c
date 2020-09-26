@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:39:15 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 10:43:46 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 14:05:38 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ t_term	*terminfo_init_database(void)
 	if (!terminfo_load_win_size(term))
 		return (terminfo_free_struct(term));
 	if (!terminfo_load_array_esc_seq(term))
-		return (terminfo_free_struct(term));
-	if (!(term->ps1 = ft_strdup("⚡️ \033[38;5;118mmli_&_charmstr ⚡️ \033[0m")))
-		return (terminfo_free_struct(term));
-	if (!(term->ps2 = ft_strdup("🍝 > ")))
 		return (terminfo_free_struct(term));
 	return (term);
 }

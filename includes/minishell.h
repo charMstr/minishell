@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:52:33 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:52:35 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 13:14:26 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,6 @@ void		ft_sigint(int sigquit);
 void		ft_signalhandler_enable(void);
 void		ft_signalhandler_disable(void);
 
+int			reset_prompt(char **ref_from_env, char **term_ps);
+int			reset_prompts(t_list *env, t_term *term);
 #endif

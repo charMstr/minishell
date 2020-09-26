@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:45:40 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:45:41 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 14:22:23 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,16 @@ t_list	*input_root(t_control *control)
 
 	control->ctrl_c = 0;
 	control->term->prompt_ps1 = 1;
-	//here we can recheck the values of ps1 and ps2 in case they have been
-	//changed with export, and update that in the control->term struct
-	if (!history_add_new_link(control))
+	if (!reset_prompts(control->env, control->term))
+	{
+		control->quit = 1;
 		return (NULL);
+	}
+	if (!history_add_new_link(control))
+	{
+		control->quit = 1;
+		return (NULL);
+	}
 	tokens_lst = input_root_assist_and_prompt(control);
 	return (tokens_lst);
 }

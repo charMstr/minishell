@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:08:04 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 10:08:07 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 14:15:47 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ int		control_init_struct(t_control *control)
 		!(control->term = terminfo_init_database()) ||
 		!(control->env = env_build_linked_list(environ)))
 		return (0);
+	if (!control_load_start_prompts(&control->env, \
+				"⚡️ \033[38;5;118mmli_&_charmstr ⚡️ \033[0m", \
+				"🍝 > "))
+		return (0);
 	if (!env_shlvl_update(&control->env, control))
 		return (0);
 	if (!(control->cwd = getcwd(NULL, 0)))
@@ -41,6 +45,25 @@ int		control_init_struct(t_control *control)
 		return (0);
 	if (tcgetattr(STDIN_FILENO, &control->termios_default) == -1)
 		return (0);
+	return (1);
+}
+
+/*
+** note:	this function will load our special classy PS1 and PS2 into the
+**			env variables.
+**
+** RETURN:	1, OK
+**			0, KO. malloc failure.
+*/
+
+int	control_load_start_prompts(t_list **env, char *ps1, char *ps2)
+{
+	unset_in_env_list(env, "PS1");
+	unset_in_env_list(env, "PS2");
+	 if (!export_builtin_new_env("PS1", ps1, env))
+			return (0);
+	 if (!export_builtin_new_env("PS2", ps2, env))
+			return (0);
 	return (1);
 }
 
