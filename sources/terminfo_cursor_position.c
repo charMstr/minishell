@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:54:39 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 10:58:27 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:11:34 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int			terminfo_cursor_get_pos(t_control *control, t_int_pair *curs)
 	if (!(caps = terminfo_get_caps("u7", control)))
 		return (0);
 	terminfo_cursor_get_pos_assist(caps, curs);
-	//we add this here so that we dont have to do it all the time
 	curs->x--;
 	curs->y--;
 	return (1);
@@ -56,8 +55,7 @@ void		terminfo_cursor_get_pos_assist(char *caps, t_int_pair *cursor)
 	char	c;
 
 	first_coord = 1;
-	cursor->x = 0;
-	cursor->y = 0;
+	ft_bzero(cursor, sizeof(*cursor));
 	tputs(caps, 1, ft_putchar);
 	while (read(STDIN_FILENO, &c, 1) == 1)
 	{

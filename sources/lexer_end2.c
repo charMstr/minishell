@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 19:23:03 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:41:14 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:03:44 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ int		lexer_forbidden_start(t_list *tk_head)
 
 int		lexer_forbidden_combo(t_list *tk_head)
 {
-	const int	*forbidden = (int	[]){SEMI, PIPE, OR_IF, AND, AND_IF, RBRACE,
-		LBRACE, LESS, DLESS, GREAT, DGREAT, -1};
-	const int	*matter = (int	[]){LESS, DLESS, GREAT, DGREAT, -1};
+	const int			*forbidden;
+	const int *const	matter = (int	[]){LESS, DLESS, GREAT, DGREAT, -1};
 
+	forbidden = (int	[]){SEMI, PIPE, OR_IF, AND, AND_IF, \
+		RBRACE, LBRACE, LESS, DLESS, GREAT, DGREAT, -1};
 	while (tk_head)
 	{
 		if (lexer_tk_id_chr(matter, tk_head->content))

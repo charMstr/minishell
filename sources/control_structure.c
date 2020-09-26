@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:08:04 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 17:35:47 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:33:59 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ int		control_init_struct(t_control *control)
 **			0, KO. malloc failure.
 */
 
-int	control_load_start_prompts(t_list **env, char *ps1, char *ps2)
+int		control_load_start_prompts(t_list **env, char *ps1, char *ps2)
 {
 	unset_in_env_list(env, "PS1");
 	unset_in_env_list(env, "PS2");
-	 if (!export_builtin_new_env("PS1", ps1, env))
-			return (0);
-	 if (!export_builtin_new_env("PS2", ps2, env))
-			return (0);
+	if (!export_builtin_new_env("PS1", ps1, env))
+		return (0);
+	if (!export_builtin_new_env("PS2", ps2, env))
+		return (0);
 	return (1);
 }
 

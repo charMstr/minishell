@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:25:39 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:26:43 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:13:10 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int		parameter_exp(t_list *token, t_control *ctrl, t_expansion exp, int res)
 		if (!(insert = param_exp_get_env(ctrl, str + exp.start + 1, \
 				exp.end - exp.start)))
 			return (2);
-		//printf("expanded variable = [%s]\n", insert);
 		ft_memmove(str + exp.start, str + exp.end + 1, \
 				ft_strlen(str + exp.end));
 		if ((res = parameter_expansion2(&token, &insert, &exp)))
@@ -192,8 +191,6 @@ char	*param_exp_get_env(t_control *control, char *str, int len)
 	if (!ft_strncmp(str, "?", len))
 		return (ft_itoa(control->exit_status));
 	addr_value = env_get_addr(str, len, control->env);
-	//printf("str: [%s], len: %d\n", str,  len);
-	//printf("value: %s\n", value);
 	if (!addr_value)
 		value = ft_strdup("");
 	else

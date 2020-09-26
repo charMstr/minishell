@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_path3.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/26 19:32:30 by mli               #+#    #+#             */
+/*   Updated: 2020/09/26 20:05:13 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -17,7 +29,7 @@
 **			0 KO
 */
 
-int	path_part_unquoting(t_path_part *new, char *str)
+int		path_part_unquoting(t_path_part *new, char *str)
 {
 	int i;
 	int esc_next;
@@ -52,26 +64,25 @@ int	path_part_unquoting(t_path_part *new, char *str)
 **			end of the quoted section, we eat the char and actualise the index.
 */
 
-void path_part_unquoting_assist(char c, char *quoted, char *str, int *index)
+void	path_part_unquoting_assist(char c, char *quoted, char *str, int *index)
 {
 	if (!*quoted)
 	{
 		*quoted = c;
 		ft_strcdel(str, *index);
 		(*index)--;
-		//eat the char.
 		return ;
 	}
 	else if (c == quoted[0])
 	{
-		//eat the char.
 		ft_strcdel(str, *index);
 		(*index)--;
 		quoted[0] = 0;
 	}
 }
 
-/*	note:	this function is called when we met an escape character. depending
+/*
+**	note:	this function is called when we met an escape character. depending
 **			if we are in a quoted section or not, the behavior is slighly
 **			different. inside quotes, we only eat the current char if the
 **			next character is also a '\\' character, otherwise it is considered
@@ -103,10 +114,10 @@ void	path_part_unquoting_escape_char(char *str, int *i, char quoted)
 **			0 KO
 */
 
-int	add_index_valid_kleen_star_to_lst(t_path_part *new, int index)
+int		add_index_valid_kleen_star_to_lst(t_path_part *new, int index)
 {
-	int	*i;
-	t_list *new_star_index;
+	int		*i;
+	t_list	*new_star_index;
 
 	if (!(i = malloc(sizeof(int))))
 		return (0);

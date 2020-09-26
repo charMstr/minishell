@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pathname_expansion_root.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/26 19:21:18 by mli               #+#    #+#             */
+/*   Updated: 2020/09/26 19:31:26 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -7,7 +19,8 @@
 ** we initially had a simple command. we choose one token and started expansion
 ** which resulted in a temporary linked list (multiple tokens could have
 ** resulted from  word expansion with field splitting).
-** We will loop over this linked list and for each token assess if it contains ** at least one unquoted kleen star operator (it means pathname is expandable).
+** We will loop over this linked list and for each token assess if it contains
+** at least one unquoted kleen star operator (it means pathname is expandable).
 ** If not we just call the quote removal function.
 ** If yes, the string is unquoted somehow, then either:
 **			- no matches with filenames. the unquoted version of the token is
@@ -35,7 +48,7 @@
 **			2, KO, fatal error
 */
 
-int	pathname_expansion_root(t_list **tokens, int is_filename)
+int		pathname_expansion_root(t_list **tokens, int is_filename)
 {
 	int res;
 
@@ -62,7 +75,7 @@ int	pathname_expansion_root(t_list **tokens, int is_filename)
 **			0, no
 */
 
-int	pathname_is_expandable(char *str)
+int		pathname_is_expandable(char *str)
 {
 	int quoted;
 	int	escaped;
@@ -116,11 +129,11 @@ int	pathname_is_expandable(char *str)
 **			2, fatal error.
 */
 
-int	pathname_expansion(t_list ***token, int is_filename)
+int		pathname_expansion(t_list ***token, int is_filename)
 {
 	t_list		*path_parts;
 	t_path_exp	tool;
-	int res;
+	int			res;
 
 	if (!(path_parts = split_path_root(((t_token*)((**token)->content))->str)))
 		return (2);
@@ -131,13 +144,11 @@ int	pathname_expansion(t_list ***token, int is_filename)
 		ft_lstclear(&(tool.matched_paths), del_token);
 		return (res);
 	}
-	//debug_path_parts(tool.path_parts);
 	ft_lstclear(&(tool.path_parts), delete_path_part_link);
 	if (!tool.matched_paths)
 		quote_removal((t_token*)(**token)->content);
 	else
 	{
-		//debug_tokens_list(**token);
 		word_expand_replace(token, tool.matched_paths);
 		ft_lstclear(&(tool.path_parts), delete_path_part_link);
 	}

@@ -6,10 +6,9 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 18:14:36 by charmstr          #+#    #+#             */
-/*   Updated: 2020/09/24 20:51:29 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/26 19:31:47 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -76,7 +75,7 @@ int	match_path_part(t_strings strs, t_list *wild_cards, int i, int j)
 	while (strs.str[i] && strs.ref[j] && (strs.str[i] == strs.ref[j]))
 	{
 		if (strs.str[i] == '*' && match_path_check_valid_star(wild_cards, i))
-			break;
+			break ;
 		i++;
 		j++;
 	}

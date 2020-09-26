@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:25:06 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 10:27:38 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:12:40 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,16 +197,12 @@ int		word_expand_stage1(t_list **tokens, t_control *control)
 	int res;
 	int is_filename;
 
-	//printf("word_exp_stage1: BEFORE: token list is:\n");
-	//debug_tokens_list(*tokens);
 	is_filename = ((t_token *)((*tokens)->content))->is_filename;
 	if ((res = parameter_expansion_root(*tokens, control, is_filename)))
 		return (res);
 	if (is_filename && ft_strlen(((t_token*)(*tokens)->content)->str) == 0)
 		return (1);
 	res = pathname_expansion_root(tokens, is_filename);
-	//printf("word_exp_stage1: AFTER: token list is:\n");
-	//debug_tokens_list(*tokens);
 	return (res);
 }
 

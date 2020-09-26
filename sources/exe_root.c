@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:52:22 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:52:23 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:36:58 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@
 */
 
 /*
-// update me later!!!
-** note:	this function will be the starting point for interpreting the ast.
-**
-** for now it will just parcour the ast and look for simple commands.
-** and handles ||, &&, ;
+** note: this function will be the starting point for interpreting the ast.
+** it will be called recursively
 */
 
 const t_exe *g_exec = (const t_exe	[]){{AND_IF, exe_and}, {OR_IF, exe_or},
@@ -35,7 +32,6 @@ void	exe_root(t_btree *ast, t_control *control)
 	int i;
 	int current_id;
 
-//	printf("\033[36mENTERING THE EXE_ROOT FUNC\033[0m\n");
 	if (!ast || control->quit)
 		return ;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:56:29 by mli               #+#    #+#             */
-/*   Updated: 2020/09/24 20:43:49 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/26 18:56:26 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ typedef struct	s_history
 
 typedef struct	s_lexer_end
 {
-	unsigned int other:1;       // Pour '|', '||', '&&'    => PS2 simple
-	unsigned int quote:1;       // Pour '\'' , '\"'        => PS2
-	unsigned int backslash:1;   // Pour '\\'               => PS2 + Del '\'
-	unsigned int brace:1;       // Pour '(''               => PS2
-	unsigned int add_semi:1;    // Pour '(''               => PS2 + Append ';'
-	unsigned int unexpected;    // Pour ')', '>>', '>' ... => Génère une erreur
+	unsigned int other:1;
+	unsigned int quote:1;
+	unsigned int backslash:1;
+	unsigned int brace:1;
+	unsigned int add_semi:1;
+	unsigned int unexpected;
 }				t_lexer_end;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
-/*   Updated: 2020/09/24 20:45:29 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/26 18:55:51 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void			init_path_expansion_struct(t_list *path_parts, \
 			t_path_exp *tool, int is_filename);
 
 t_list			*split_path_root(char *path_to_split);
-void 			collapse_fwd_slashes(char *str, int esc_next, int i, int k);
+void			collapse_fwd_slashes(char *str, int esc_next, int i, int k);
 int				split_path(char *path_to_cut, t_list **path_parts, int i);
 int				find_path_end(char *str, int i, char *quoted);
 void			path_set_quoted(char c, char *quoted);
@@ -106,17 +106,17 @@ t_path_part		*init_path_part_link(char *str, char quoted);
 void			delete_path_part_link(void *content);
 
 int				path_part_unquoting(t_path_part *new, char *str);
-void			path_part_unquoting_assist(char c, char *quoted, char *str, int *index);
+void			path_part_unquoting_assist(char c, char *quoted, \
+		char *str, int *index);
 void			path_part_unquoting_escape_char(char *str, int *i, char quoted);
 int				add_index_valid_kleen_star_to_lst(t_path_part *new, int index);
 
-
 int				pathname_matching_root(t_path_exp *tool, t_list *path_parts);
-int 			pathname_matching_relative(t_path_exp *tool, \
+int				pathname_matching_relative(t_path_exp *tool, \
 			t_list *path_parts);
-int 			pathname_matching(t_path_exp *tool, t_list *path_parts, \
+int				pathname_matching(t_path_exp *tool, t_list *path_parts, \
 			char *path_start, char *open_me);
-int 			pathname_matching_assist(t_path_exp *tool, t_list *path_parts,\
+int				pathname_matching_assist(t_path_exp *tool, t_list *path_parts,\
 			char *path_start, char *open_me);
 char			*path_join(char *str, char *str2);
 int				pathname_matching_closedir_return(DIR *dir_p, int ret);

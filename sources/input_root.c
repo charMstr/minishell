@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:45:40 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 14:22:23 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/26 20:09:25 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ t_list	*input_root_assist_and_prompt(t_control *control)
 	}
 	if (control->lexer_end.unexpected)
 		input_synthax_error(control, control->lexer_end.unexpected);
-//	debug_tokens_list(tokens_lst);
-	//ft_lstclear(&tokens_lst, del_token);
 	return (tokens_lst);
 }
 
@@ -131,7 +129,6 @@ t_list	*input_reading_and_lexing(t_control *control)
 		return (NULL);
 	if (!history_root(control, control->history))
 		return (NULL);
-	//printf("\n\033[38;5;27mENTERING LEXER WITH: [\033[0m%s\033[38;5;27m]\033[0m\n\n", control->history->head->content);
 	token_lst = lexer_root((char *)(control->history->head->content), control);
 	return (token_lst);
 }

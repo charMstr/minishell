@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:33:05 by mli               #+#    #+#             */
-/*   Updated: 2020/09/25 15:52:23 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:20:42 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ int				list_to_cmd_root(t_token *token_node)
 	if (!(cmd = init_t_simple_cmd()))
 		return (0);
 	redirections = list_to_cmd_skim_redirections(&tokens_list);
-	/* OK
-	printf("for the command words:\n");
-	debug_tokens_list(tokens_list);
-	printf("for the redirections:\n");
-	debug_tokens_list(redirections);
-	*/
 	if (!list_to_cmd_fill_argv_array(cmd, tokens_list))
 	{
 		ft_lstclear(&redirections, del_token);
@@ -61,7 +55,6 @@ int				list_to_cmd_root(t_token *token_node)
 	ft_lstclear(&tokens_list, del_token);
 	token_node->str = (char *)cmd;
 	token_node->id = CMD;
-	//debug_simple_cmd(cmd);
 	return (1);
 }
 

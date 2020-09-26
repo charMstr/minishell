@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:05:01 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:06:08 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 20:25:45 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int			parser_be_subshell(t_btree **new)
 
 int			parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 {
-//	printf("ENTER WITH : [%d]\t'%s'\n",
-//		token_id((*tklst)->content), ((t_token *)(*tklst)->content)->str);
 	if (parser_is_cmd_start(tklst_id(*tklst)))
 		return (parser_cmd(tklst, new));
 	if (parser_do_subtree(token_id((*tklst)->content)))
@@ -115,8 +113,6 @@ int			parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 		if (parser_be_subshell(new) == -1)
 			return (-1);
 		ft_free((void **)&((*dlst)->next));
-//	printf("\nNEW CONTAINS\n");
-//		btree_debug(*new, parser_disp);
 	}
 	else
 	{
@@ -125,8 +121,6 @@ int			parser_next_child(t_dlist **dlst, t_list **tklst, t_btree **new)
 	}
 	if (*tklst)
 		*tklst = (*tklst)->next;
-//	if ((*new)->item)
-//		printf("New is : [%d]\t'%s'\n", token_id((*new)->item), ((t_token *)(*new)->item)->str);
 	return (1);
 }
 
@@ -182,7 +176,6 @@ t_btree		*parser_create_ast(t_dlist *dlst, t_list **tklst)
 		return (NULL);
 	while (*tklst && token_id((*tklst)->content) != RBRACE)
 	{
-//		printf("%d\n", token_id(tklst->content));
 		if ((state = parser_next_child(&dlst, tklst, &new)) == 1)
 			ast_add((t_btree **)&dlst->content, new);
 		else if (state == -1)
@@ -258,24 +251,19 @@ t_btree		*parser_root(t_list *tklst, t_control *control)
 	ast = NULL;
 	if (!(tkcpy = tklst))
 		return (NULL);
-//	debug_tokens_list(tklst);
 	if ((dlst = ft_memalloc(sizeof(*dlst))) &&
 		(ast = parser_create_ast(dlst, &tkcpy)))
 	{
-//		btree_debug(ast, parser_disp);
 		ft_lstremove_if(&tklst, NULL, tkcmp_braces, del_token);
 		ft_lstclear(&tklst, NULL);
 		ft_dlstclear(&dlst, NULL);
 		parser_pipe_priority(&ast);
-//		btree_debug(ast, parser_disp);
 	}
 	else
 	{
-		printf("AST FAILED\n");
 		control->quit = 1;
 		ft_lstclear(&tklst, del_token);
 		ft_dlstclearback_addr(&dlst, (void (*)(void **))&del_ast);
 	}
-//	parser_LIST_to_CMD_root(ast, control);
 	return (ast);
 }

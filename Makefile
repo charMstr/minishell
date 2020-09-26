@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/09/26 17:59:06 by mli              ###   ########.fr        #
+#    Updated: 2020/09/26 20:23:42 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,8 +69,6 @@ H_FILES =	minishell\
 			structures\
 			historic\
 			exe\
-			debug_terminfo\
-			debug_minishell\
 
 #H_FILES_BONUS = #somefile\
 				#someotherFile\
@@ -90,6 +88,7 @@ INCLUDES := $(INCLUDES) ./libft/libft.h
 ###############################################################################
 SRC_FILES =	main\
 			minishell_utils\
+			minishell_utils2\
 			lexer_root\
 			lexer_find_token\
 			lexer_quoted\
@@ -98,6 +97,7 @@ SRC_FILES =	main\
 			lexer_end\
 			lexer_end2\
 			builtin_env\
+			builtin_env2\
 			builtin_unset\
 			builtin_echo\
 			builtin_export\
@@ -148,11 +148,7 @@ SRC_FILES =	main\
 			quote_removal\
 			list_to_cmd_root\
 			list_to_cmd_assist\
-			signal_handler\
-			debug_functions\
-			debug_terminfo\
-			btree_debug\
-			debug_exe\
+			signal_handler
 
 			#ft_printf\
 

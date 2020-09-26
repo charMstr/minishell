@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:39:15 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 14:05:38 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/26 19:17:10 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_term	*terminfo_init_database(void)
 
 	res = setupterm(NULL, STDOUT_FILENO, NULL);
 	if (res == ERR)
-		return (NULL); //note: ERR is defined to 1 in the library. {mli norm 🤔}
+		return (NULL);
 	if (!(term = terminfo_init_struct()))
 		return (NULL);
 	if (!terminfo_load_win_size(term))
@@ -107,19 +107,6 @@ int		terminfo_load_win_size(t_term *term)
 	term->size_window.y = ws.ws_row;
 	term->size_window.x = ws.ws_col;
 	return (1);
-	/*
-	int res;
-
-	res = tigetnum("cols");
-	if (res == -1 || res == -2)
-		return (0);
-	term->size_window.x = res;
-	res = tigetnum("lines");
-	if (res == -1 || res == -2)
-		return (0);
-	term->size_window.y = res;
-	return (1);
-	*/
 }
 
 /*

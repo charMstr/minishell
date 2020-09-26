@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:52:33 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 13:14:26 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/26 20:29:20 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,12 @@
 # include <dirent.h>
 # include "../libft/libft.h"
 
-//for the terminfo database. usings the "termcaps" control sequences.
 # include <curses.h>
 # include <term.h>
 
-//for the termios struct. enables raw mode. manipulates the "line discipline"
 # include <termios.h>
 
 # include "structures.h"
-
-//remove me when done.
-# include "debug_terminfo.h"
-# include "debug_minishell.h"
 
 # include "lexing.h"
 # include "builtin.h"
@@ -58,7 +52,6 @@
 
 extern int	errno;
 
-//minishell_utils
 void		ft_pipe(int (*fildes)[2]);
 void		ft_fork(pid_t *pid);
 void		ft_fork_pipe(t_pipe *pipe);

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:35:35 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:35:36 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:37:45 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@
 **			NULL if a malloc failed.
 */
 
-//The <backslash> and <newline> shall be removed before splitting the input into tokens.
+/*
+** The <backslash> and <newline> shall be removed before splitting
+** the input into tokens.
+*/
 
 t_list	*lexer_root(char *input, t_control *control)
 {
@@ -48,13 +51,10 @@ t_list	*lexer_root(char *input, t_control *control)
 			return (NULL);
 		}
 		ft_lstadd_back(&tokens_head, tokens_elem);
-		//debug_token_struct(new_token);
 	}
 	ft_bzero(&control->lexer_end, sizeof(lexer_end));
 	if (!lexer_end(tokens_head, control))
 		ft_lstclear(&tokens_head, del_token);
-	//debug_lexer_flags(control);
-	//debug_tokens_list(tokens_head);
 	return (tokens_head);
 }
 

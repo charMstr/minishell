@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:30:43 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 10:37:06 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:13:41 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,6 @@ t_int_pair	terminfo_predict_previous_line_cursor_end(t_control *control)
 /*
 ** note:	this function preditcs the length of the next line on the display.
 */
-
-//not used unused for now...  //OK 100%
 
 int			terminfo_predict_next_line_len(t_control *control)
 {

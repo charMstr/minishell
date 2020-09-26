@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_path_root.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/26 19:09:53 by mli               #+#    #+#             */
+/*   Updated: 2020/09/26 20:13:18 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
 ** this file is in charge of splitting a path string into pieces,
 ** using a non escaped '/' as a separator.
-**
 */
 
 /*
@@ -25,15 +36,13 @@
 
 t_list	*split_path_root(char *path_to_dup_and_split)
 {
-	t_list *path_parts;
-	char *dup_path;
+	t_list	*path_parts;
+	char	*dup_path;
 
 	path_parts = NULL;
 	if (!(dup_path = ft_strdup(path_to_dup_and_split)))
 		return (NULL);
-	//printf("str is: %s\n", dup_path);
 	collapse_fwd_slashes(dup_path, 0, -1, 0);
-	//printf("str2 is: %s\n", dup_path);
 	if (!split_path(dup_path, &path_parts, 0))
 	{
 		free(dup_path);
@@ -41,8 +50,6 @@ t_list	*split_path_root(char *path_to_dup_and_split)
 		return (NULL);
 	}
 	free(dup_path);
-	//del me
-	//debug_path_parts(path_parts);
 	return (path_parts);
 }
 
@@ -57,7 +64,7 @@ t_list	*split_path_root(char *path_to_dup_and_split)
 **			i and k, set to 0.
 */
 
-void collapse_fwd_slashes(char *str, int esc_next, int i, int k)
+void	collapse_fwd_slashes(char *str, int esc_next, int i, int k)
 {
 	while (str[++i])
 	{
@@ -74,7 +81,7 @@ void collapse_fwd_slashes(char *str, int esc_next, int i, int k)
 				if (str[k] != '/' && str[k] != '"' && str[k] != '\'')
 				{
 					i = k - 1;
-					break;
+					break ;
 				}
 				if (str[k] == '/')
 					ft_strcdel(str, k--);
@@ -92,7 +99,7 @@ void collapse_fwd_slashes(char *str, int esc_next, int i, int k)
 **			0 KO
 */
 
-int	split_path(char *str, t_list **paths, int start)
+int		split_path(char *str, t_list **paths, int start)
 {
 	int		end;
 	char	*path_part;
@@ -106,9 +113,6 @@ int	split_path(char *str, t_list **paths, int start)
 		end = find_path_end(str, start, &quoted);
 		if (!(path_part = ft_substr(str, start, end - start)))
 			return (0);
-		//printf("\nend char: [%c]\n", str[end]);
-	//	printf("full_path was:	[%s]\n", str);
-		//printf("path_part = [%s]\n", path_part);
 		if (!add_path_part(path_part, paths, start_quoted_at_next_path_part))
 			return (0);
 		if (end == (int)ft_strlen(str))
@@ -134,7 +138,7 @@ int	split_path(char *str, t_list **paths, int start)
 ** RETURN:	int, index of the last chart part of the current path part.
 */
 
-int	find_path_end(char *str, int i, char *quoted)
+int		find_path_end(char *str, int i, char *quoted)
 {
 	int esc_next;
 
@@ -163,12 +167,12 @@ int	find_path_end(char *str, int i, char *quoted)
 **			*quoted can either be a single or double quote, or zero.
 */
 
-void path_set_quoted(char c, char *quoted)
+void	path_set_quoted(char c, char *quoted)
 {
 	if (!*quoted)
 	{
 		*quoted = c;
-		return;
+		return ;
 	}
 	if (c == quoted[0])
 		quoted[0] = 0;

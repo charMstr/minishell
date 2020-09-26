@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:46:26 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:46:27 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 20:09:01 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	field_splitting_root(t_list **token, char *var, t_expansion *exp)
 	if (!(str2 = ft_substr(str1, exp->start, ft_strlen(str1) + exp->start)))
 		return (0);
 	str1[exp->start] = '\0';
-//	printf("before param expansion: (str1) = [%s]\n", str1);
-//	printf("after param expansion: (str2)  = [%s]\n", str2);
 	if (!field_splitting_root_assist(token, exp, var, str2))
 	{
 		free(str2);
@@ -84,7 +82,6 @@ int	field_splitting_root_assist(t_list **token, t_expansion *exp, char *var,\
 		return (0);
 	((t_token *)(*token)->content)->protect_e = exp->start + \
 				ft_strlen(array[0]);
-	//debug_array(array);
 	if (!field_splitting(token, exp, array, str2))
 	{
 		ft_array_free(array, ft_array_len(array));

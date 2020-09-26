@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:49:09 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:49:10 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:32:53 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int			history_root(t_control *control, t_history *history)
 		return (0);
 	if (history_decide_discard_new_link(control))
 		return (0);
-//	debug_history_list(control->history)
 	return (1);
 }
 

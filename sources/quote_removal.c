@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:18:24 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:18:26 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:34:11 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ void	quote_removal(t_token *token)
 {
 	t_no_unquote no;
 
-	//debug_unquote(token);
 	if (token->unquote_protected == 1)
 	{
 		no.start = token->protect_s;
@@ -149,5 +148,4 @@ void	quote_removal(t_token *token)
 		no.end = -1;
 	}
 	quote_removal_unquoted_part(token->str, 0, &no);
-	//printf("str after quote removal: [%s]\n", str);
 }

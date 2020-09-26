@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pathname_matching_root.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/26 19:08:12 by mli               #+#    #+#             */
+/*   Updated: 2020/09/26 20:11:53 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -28,7 +40,7 @@
 **			2, fatal error
 */
 
-int	pathname_matching_root(t_path_exp *tool, t_list *path_parts)
+int		pathname_matching_root(t_path_exp *tool, t_list *path_parts)
 {
 	char *first_path_part;
 
@@ -53,12 +65,12 @@ int	pathname_matching_root(t_path_exp *tool, t_list *path_parts)
 **			2, fatal error
 */
 
-int pathname_matching_relative(t_path_exp *tool, t_list *path_parts)
+int		pathname_matching_relative(t_path_exp *tool, t_list *path_parts)
 {
-	DIR		*dir_p;
-	struct	dirent *entry;
-	int		res;
-	char	*path_start;
+	DIR				*dir_p;
+	struct dirent	*entry;
+	int				res;
+	char			*path_start;
 
 	if (!(dir_p = opendir("./")))
 		return (0);
@@ -99,8 +111,8 @@ int pathname_matching_relative(t_path_exp *tool, t_list *path_parts)
 **			2, fatal error.
 */
 
-int pathname_matching(t_path_exp *tool, t_list *path_parts, char *path_start, \
-		char *open_me)
+int		pathname_matching(t_path_exp *tool, t_list *path_parts,\
+		char *path_start, char *open_me)
 {
 	int		res;
 	char	*path_fuller;
@@ -126,13 +138,13 @@ int pathname_matching(t_path_exp *tool, t_list *path_parts, char *path_start, \
 ** note:	this function assist the recurcive function.
 */
 
-int pathname_matching_assist(t_path_exp *tool, t_list *path_parts, \
+int		pathname_matching_assist(t_path_exp *tool, t_list *path_parts, \
 		char *path_start, char *open_me)
 {
-	DIR		*dir_p;
-	struct	dirent *entry;
-	int		res;
-	char	*path_fuller;
+	DIR				*dir_p;
+	struct dirent	*entry;
+	int				res;
+	char			*path_fuller;
 
 	if (!(dir_p = opendir(open_me)))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:51:13 by mli               #+#    #+#             */
-/*   Updated: 2020/09/25 16:18:35 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 20:08:44 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,19 @@ int	exe_simple_cmd_root(t_token *token, t_control *control)
 	res = exe_prepare_simple_cmd(token, control);
 	if (res == 1)
 		return (1);
-	//check the exit status is working the same way as the last Return here.
 	else if (res == 2)
 		return (0);
-	//need to make sure the control->quit is raised inside this function..
 	if (!exe_perform_arrow((t_simple_cmd *)token->str, control))
 	{
 		exe_cancel_arrows(control);
 		return (0);
 	}
-	//HERE function that does all the redirections.
-	//need to operate the redirections list just before executing the simple
-	//command. note: the stdin and stdout, should be saved then restored.
 	if (!((t_simple_cmd *)token->str)->argv[0])
 		;
 	else if ((builtin = exe_is_builtin(((t_simple_cmd *)token->str)->argv[0])))
-	{
-//		printf("\033[35mthis is a builtin\033[0m\n");
-		//check the returned value here;
 		exe_call_builtin(((t_simple_cmd *)token->str), builtin, control);
-	}
 	else
 		exe_binary((t_simple_cmd *)token->str, control);
-	//try execute the non builtin commands here.
-	//always make sure we set the exit status.
-	//always restore the stdion and stdout, to original value.
 	exe_cancel_arrows(control);
 	return (!!control->exit_status);
 }
@@ -85,8 +73,6 @@ int	exe_prepare_simple_cmd(t_token *token, t_control *control)
 {
 	int res;
 
-//	printf("\033[34mBEFORE WORD EXPAND:\033[0m\n");
-//	debug_tokens_list((t_list *)token->str);
 	res = word_expand_root(((t_list **)&token->str), control);
 	if (res)
 	{
@@ -95,15 +81,12 @@ int	exe_prepare_simple_cmd(t_token *token, t_control *control)
 			control->quit = 1;
 		return (res);
 	}
-//	printf("\033[34mAFTER WORD EXPAND:\033[0m\n");
-//	debug_tokens_list((t_list *)token->str);
 	if (!list_to_cmd_root(token))
 	{
 		control->exit_status = 1;
 		control->quit = 1;
 		return (2);
 	}
-//	debug_simple_cmd(((t_simple_cmd *)token->str));
 	return (0);
 }
 
@@ -144,7 +127,7 @@ int	exe_call_builtin(t_simple_cmd *cmd, int id, t_control *control)
 **			0 other.
 */
 
-int	exe_is_builtin(char *argv0) //OK
+int	exe_is_builtin(char *argv0)
 {
 	if (!argv0)
 		return (0);

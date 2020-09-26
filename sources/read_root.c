@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:11:29 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:11:57 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 19:20:06 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,6 @@ int		read_need_to_stop(t_control *control, char c, int res)
 	else if (res == -1)
 	{
 		control->quit = 1;
-		//maybe display message for a read failure
-		//maybe set control->exit_status...
 	}
 	else if (c == 4 && !control->term->line_len)
 	{
@@ -162,9 +160,9 @@ int		read_get_esc_seq_id(t_term *term, int c)
 	str = NULL;
 	if (!ft_strappend(&str, c))
 		return (-1);
-	while ((res_read = read(STDIN_FILENO, &c, 1)) && (i = -1))
+	while ((res_read = read(STDIN_FILENO, &c, 1)))
 	{
-		if (res_read == -1 || !ft_strappend(&str, c))
+		if (res_read == (i = -1) || !ft_strappend(&str, c))
 		{
 			free(str);
 			return (-1);
