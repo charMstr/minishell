@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:08:04 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 14:15:47 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/26 17:35:47 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		control_init_struct(t_control *control)
 		!(control->env = env_build_linked_list(environ)))
 		return (0);
 	if (!control_load_start_prompts(&control->env, \
-				"⚡️ \033[38;5;118mmli_&_charmstr ⚡️ \033[0m", \
+				"\033[93m⚡\033[5;92m mli_&_charmstr \033[0;93m⚡\033[m ", \
 				"🍝 > "))
 		return (0);
 	if (!env_shlvl_update(&control->env, control))

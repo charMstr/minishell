@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/09/26 13:12:37 by charmstr         ###   ########.fr        #
+#    Updated: 2020/09/26 17:59:06 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ NAME = minishell
 IFLAGS = -I $(INCLUDE_PATH_PROJECT)
 LDFLAGS = -lft -lncurses
 
-LIBFT = libft/libft.a 
+LIBFT = libft/libft.a
 DEPS = $(INCLUDES)
 #DEPS_BONUS = $(INCLUDES_BONUS)
 ###############################################################################
@@ -54,7 +54,7 @@ endif
 OBJ_PATH = ./objects/
 SRC_PATH = ./sources/
 INCLUDE_PATH_PROJECT = ./includes/
-LIB_PATH = -L ./libft/ 
+LIB_PATH = -L ./libft/
 ###############################################################################
 ###############################################################################
 
@@ -155,8 +155,8 @@ SRC_FILES =	main\
 			debug_exe\
 
 			#ft_printf\
-			
-#BONUS_FILES = 
+
+#BONUS_FILES =
 
 SRC = $(patsubst %, $(SRC_PATH)%.c, $(SRC_FILES))
 OBJ = $(patsubst %, $(OBJ_PATH)%.o, $(basename $(notdir $(SRC))))
@@ -168,12 +168,12 @@ OBJ = $(patsubst %, $(OBJ_PATH)%.o, $(basename $(notdir $(SRC))))
 
 ###############################################################################
 ############################### COLOR CODE ####################################
-REMOVE_FG = \033[38;5;196m 
+REMOVE_FG = \033[38;5;196m
 CREAT_FG = \033[38;5;46m
 BLACK_FG = \033[38;5;0m
 BLACK_BG = \033[48;5;0m
 CLEAR_COLOR = \033[m
-NAME_BG = \033[48;5;39m 
+NAME_BG = \033[48;5;39m
 OBJECTS_BG = \033[48;5;11m
 ###############################################################################
 ###############################################################################
@@ -189,11 +189,11 @@ silent:
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
-	@echo "\t\t$(CREAT_FG)created the $(OBJECTS_BG)$(BLACK_FG)$@ $(BLACK_BG)$(CREAT_FG) repository for $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) $(CLEAR_COLOR)"
+	@echo "\t\t$(CREAT_FG)created the $(OBJECTS_BG)$(BLACK_FG) $@ $(BLACK_BG)$(CREAT_FG) repository for $(NAME_BG)$(BLACK_FG) $(NAME) $(BLACK_BG)$(CREAT_FG)$(CLEAR_COLOR)"
 
-$(NAME): $(INCLUDES) $(LIBFT) $(OBJ) 
+$(NAME): $(INCLUDES) $(LIBFT) $(OBJ)
 	@$(CC) $(CFLAGS) $(LIB_PATH) $(OBJ) -o $@ $(LDFLAGS)
-	@echo "\t\t$(CREAT_FG)Binary $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(CREAT_FG) has been created$(CLEAR_COLOR)"
+	@echo "\t\t$(CREAT_FG)Binary $(NAME_BG)$(BLACK_FG) $(NAME) $(BLACK_BG)$(CREAT_FG) has been created$(CLEAR_COLOR)"
 	@echo "\t\t$(CREAT_FG)We used the flags: $(CFLAGS)$(CLEAR_COLOR)\n"
 
 $(OBJ): $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(DEPS) | $(OBJ_PATH)
@@ -204,15 +204,15 @@ bonus:
 $(LIBFT): break_implicit_r
 	@make -C ./libft
 
-break_implicit_r: 
+break_implicit_r:
 
 clean:
-	@echo "\t\t$(REMOVE_FG)deleting $(OBJECTS_BG)$(BLACK_FG)$(OBJ_PATH) $(BLACK_BG)$(REMOVE_FG) containing all the .o files for $(NAME_BG)$(BLACK_FG)$(NAME) $(CLEAR_COLOR)"
+	@echo "\t\t$(REMOVE_FG)deleting $(OBJECTS_BG)$(BLACK_FG) $(OBJ_PATH) $(BLACK_BG)$(REMOVE_FG) containing all the .o files for $(NAME_BG)$(BLACK_FG) $(NAME) $(CLEAR_COLOR)"
 	@rm -rf $(OBJ_PATH)
 	@make fclean -C ./libft
 
 fclean: clean
-	@echo "\t\t$(REMOVE_FG)deleting $(NAME_BG)$(BLACK_FG)$(NAME) $(BLACK_BG)$(REMOVE_FG)...$(CLEAR_COLOR)" 
+	@echo "\t\t$(REMOVE_FG)deleting $(NAME_BG)$(BLACK_FG) $(NAME) $(BLACK_BG)$(REMOVE_FG)...$(CLEAR_COLOR)"
 	@rm -rf $(NAME)
 
 re: fclean all
