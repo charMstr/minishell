@@ -6,12 +6,14 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:45:11 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:52:03 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 20:46:36 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+# include "minishell.h"
 
 /*
 ** this will be the structure that contains a job, or "pipe_sequence" according
@@ -63,5 +65,13 @@ int				token_id(t_token *token);
 int				tklst_id(t_list *tklst);
 int				btree_id(t_btree *node);
 void			parser_disp(t_token *node, t_btree *parent);
+
+/*
+** Functions in parser_root2.c
+*/
+
+int				parser_do_subtree(int tkid);
+int				tkcmp_braces(t_token *token);
+void			parser_pipe_priority(t_btree **ast);
 
 #endif

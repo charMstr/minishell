@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:30:40 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:30:41 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 20:56:34 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,32 @@ int	param_exp_no_fsplit(t_list *token, char *var, t_expansion *exp)
 		return (0);
 	exp->start += ft_strlen(var);
 	return (1);
+}
+
+/*
+** note:	this function will return the string matching the input env
+**			variable. if the env is not set, we still Return an empty string.
+**
+** input:	-str is the variable (starts at the index that was after the '$'
+**				sign).
+**			-len: the number of characters the variable contains. (not
+**				necessarily len(str)).
+**
+** RETURN:	char *
+**			NULL if failure
+*/
+
+char	*param_exp_get_env(t_control *control, char *str, int len)
+{
+	char *value;
+	char **addr_value;
+
+	if (!ft_strncmp(str, "?", len))
+		return (ft_itoa(control->exit_status));
+	addr_value = env_get_addr(str, len, control->env);
+	if (!addr_value)
+		value = ft_strdup("");
+	else
+		value = ft_strdup(*addr_value);
+	return (value);
 }

@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/09/26 20:23:42 by mli              ###   ########.fr        #
+#    Updated: 2020/09/26 20:49:33 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,6 +126,8 @@ SRC_FILES =	main\
 			historic_search\
 			control_structure\
 			parser_root\
+			parser_root2\
+			parser_root3\
 			parser_cmd\
 			parser_utils\
 			exe_root\
