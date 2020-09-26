@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:52:33 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 20:29:20 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 21:04:34 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@
 # define B_EXIT 7
 
 # define SIGCAUGHT 128
-
-extern int	errno;
 
 void		ft_pipe(int (*fildes)[2]);
 void		ft_fork(pid_t *pid);

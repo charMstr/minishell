@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:30:40 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 20:56:34 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/26 21:06:03 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 **			2, KO, fatal error.
 */
 
-int	parameter_expansion2(t_list **token, char **var, t_expansion *exp)
+int		parameter_expansion2(t_list **token, char **var, t_expansion *exp)
 {
 	int field_split;
 
@@ -68,7 +68,7 @@ int	parameter_expansion2(t_list **token, char **var, t_expansion *exp)
 **			2, fatal error
 */
 
-int	need_to_field_split1(char **str, t_expansion *exp)
+int		need_to_field_split1(char **str, t_expansion *exp)
 {
 	char *tmp;
 
@@ -101,7 +101,7 @@ int	need_to_field_split1(char **str, t_expansion *exp)
 **			2, fatal error
 */
 
-int	need_to_field_split2(char **str, t_expansion *exp)
+int		need_to_field_split2(char **str, t_expansion *exp)
 {
 	char *tmp;
 
@@ -127,7 +127,7 @@ int	need_to_field_split2(char **str, t_expansion *exp)
 **			0 KO
 */
 
-int	param_exp_no_fsplit(t_list *token, char *var, t_expansion *exp)
+int		param_exp_no_fsplit(t_list *token, char *var, t_expansion *exp)
 {
 	char **ptr_str;
 
