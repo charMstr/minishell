@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:42:58 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 09:43:00 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/27 15:13:34 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		export_builtin(t_list **head, char **argv, t_control *control);
 int		export_builtin2(t_list **head, char **argv, t_control *control);
 int		export_builtin_new_env(char *str, char *str2, t_list **head);
 char	*export_builtin_check_label(char *str, t_control *control);
+void	export_builtin_no_arg(t_list **head, t_control *control);
 
 int		echo_builtin(char **argv, t_control *control);
 
