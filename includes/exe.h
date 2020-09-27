@@ -89,7 +89,11 @@ int				field_splitting(t_list **token, t_expansion *exp, \
 			char **array, char *str2);
 int				field_splitting_assist(t_list **tok, char *str);
 
-int				pathname_expansion_root(t_list **tokens, int is_filename);
+int				is_tild_expandable(char *str);
+int				tild_expansion_root(t_list *env, char **str);
+
+int				pathname_expansion_root(t_list *env, t_list **tokens, \
+			int is_filename);
 int				pathname_is_expandable(char *str);
 int				pathname_expansion(t_list ***token, int is_filename);
 void			init_path_expansion_struct(t_list *path_parts, \
