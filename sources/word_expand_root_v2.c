@@ -131,7 +131,7 @@ int		word_expand_and_replace(t_list ***tokens, t_control *control)
 	{
 		if (res == 1)
 			ft_ambiguous_redirect(((t_token *)(**tokens)->content)->str, 2);
-		del_token(expanded_word);
+		ft_lstclear(&expanded_word, del_token);
 		return (res);
 	}
 	word_expand_replace(tokens, expanded_word);
