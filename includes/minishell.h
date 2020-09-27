@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:52:33 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 13:14:26 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/27 14:52:35 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@
 # include "terminfo.h"
 # include "historic.h"
 # include "exe.h"
+
+# ifdef __APPLE__
+#  define OS "APPLE"
+#  define IS_APPLE 1
+# elif __linux__
+#  define OS "LINUX"
+#  define IS_APPLE 0
+# endif
 
 # define BUFFER_SIZE 32
 

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:11:29 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:11:57 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/27 14:53:03 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		read_need_to_stop(t_control *control, char c, int res)
 	}
 	else if (c == 3)
 	{
-		control->exit_status = 1;
+		control->exit_status = (IS_APPLE ? 1 : 130);
 		control->ctrl_c = 1;
 	}
 	else
