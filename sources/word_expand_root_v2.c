@@ -204,7 +204,7 @@ int		word_expand_stage1(t_list **tokens, t_control *control)
 		return (res);
 	if (is_filename && ft_strlen(((t_token*)(*tokens)->content)->str) == 0)
 		return (1);
-	res = pathname_expansion_root(tokens, is_filename);
+	res = pathname_expansion_root(control->env, tokens, is_filename);
 	//printf("word_exp_stage1: AFTER: token list is:\n");
 	//debug_tokens_list(*tokens);
 	return (res);

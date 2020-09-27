@@ -139,6 +139,7 @@ SRC_FILES =	main\
 			parameter_expansion2\
 			field_splitting_root\
 			pathname_expansion_root\
+			tild_expansion_root\
 			split_path_root\
 			split_path2\
 			split_path3\
