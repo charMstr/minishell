@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/09/26 17:59:06 by mli              ###   ########.fr        #
+#    Updated: 2020/09/28 10:34:24 by charmstr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,6 +135,7 @@ SRC_FILES =	main\
 			exe_perform_arrow\
 			exe_binary\
 			word_expand_root_v2\
+			word_expand_assist\
 			parameter_expansion_root\
 			parameter_expansion2\
 			field_splitting_root\

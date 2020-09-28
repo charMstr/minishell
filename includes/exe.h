@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
-/*   Updated: 2020/09/24 20:45:29 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/28 10:34:37 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int				word_expand_and_replace(t_list ***tokens, t_control *control);
 int				word_expand_stage1(t_list **tokens, t_control *control);
 void			word_expand_replace(t_list ***tokens, t_list *expanded);
 t_list			*dup_token(const t_token *token);
+
+void			skim_empty_tokens(t_list **tokens);
 
 int				parameter_expansion_root(t_list *token, t_control *control, \
 			int filename);
