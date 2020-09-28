@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:07:47 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 10:07:48 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 09:43:35 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	unset_in_env_list(t_list **env_head, char *str)
 
 int		is_identifier_valid(char *identifier, char *command)
 {
-	if (ft_stristr(identifier, "@~%^*+=\\/?,.") == 0)
+	if (!identifier[0] || ft_stristr(identifier, "@~%^*+=\\/?,.") == 0)
 	{
 		ft_perror(command, identifier, "not a valid identifier");
 		return (1);
