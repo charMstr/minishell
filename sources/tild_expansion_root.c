@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tild_expansion_root.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/28 10:50:15 by mli               #+#    #+#             */
+/*   Updated: 2020/09/28 10:51:25 by mli              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -47,7 +59,7 @@ int	tild_expansion_root(t_list *env, char **str)
 **			1 OK
 */
 
-int tild_expand_try(char **str, char *home_env, int *i)
+int	tild_expand_try(char **str, char *home_env, int *i)
 {
 	int res;
 

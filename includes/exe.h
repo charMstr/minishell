@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
-/*   Updated: 2020/09/28 10:42:41 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 10:50:56 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int				field_splitting_assist(t_list **tok, char *str);
 
 int				tild_expansion_root(t_list *env, char **str);
 int				index_assignement_sign(char *str);
-int 			tild_expand_try(char **str, char *home_env, int *i);
+int				tild_expand_try(char **str, char *home_env, int *i);
 int				is_tild_expandable(char *str, int i);
 
 int				tild_expand_try_after_column(char **str, char *home_env, \

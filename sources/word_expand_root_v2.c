@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:25:06 by mli               #+#    #+#             */
-/*   Updated: 2020/09/28 10:44:20 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 10:52:36 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 ** originating from the node of type LIST in the AST.
 **
 ** Each char* will be sent to a subfunction separatedly for multiple expansion
-** stages.  ** It can produce more than one word (at the stage of field splitting, or at
+** stages.
+** It can produce more than one word (at the stage of field splitting, or at
 ** the stage of pathname substitution using the kleen star operator).
 ** Therefor the subfunction will Return a linked list.
 ** Either the answer is valid and the linked list is inserted in place of the
@@ -129,7 +130,7 @@ int		word_expand_and_replace(t_list ***tokens, t_control *control)
 {
 	t_list	*expanded_word;
 	int		res;
-	t_list 	*del_me;
+	t_list	*del_me;
 
 	if (!(expanded_word = dup_token((**tokens)->content)))
 		return (2);

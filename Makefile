@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/09/28 10:42:15 by mli              ###   ########.fr        #
+#    Updated: 2020/09/28 10:54:24 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,8 +154,6 @@ SRC_FILES =	main\
 			list_to_cmd_root\
 			list_to_cmd_assist\
 			signal_handler
-
-			#ft_printf\
 
 #BONUS_FILES =
 
