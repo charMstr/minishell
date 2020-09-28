@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:25:06 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 19:12:40 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 10:44:20 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 ** originating from the node of type LIST in the AST.
 **
 ** Each char* will be sent to a subfunction separatedly for multiple expansion
-** stages.
-** It can produce more than one word (at the stage of field splitting, or at
+** stages.  ** It can produce more than one word (at the stage of field splitting, or at
 ** the stage of pathname substitution using the kleen star operator).
 ** Therefor the subfunction will Return a linked list.
 ** Either the answer is valid and the linked list is inserted in place of the
@@ -94,9 +93,13 @@ int		word_expand_root(t_list **tokens, t_control *control)
 			tokens = &(*tokens)->next;
 			((t_token*)(*tokens)->content)->is_filename = 1;
 		}
-		if ((res = word_expand_and_replace(&tokens, control)))
+		res = word_expand_and_replace(&tokens, control);
+		if (res == 1 || res == 2)
 			return (res);
-		tokens = &(*tokens)->next;
+		if (res == 3)
+			;
+		else
+			tokens = &(*tokens)->next;
 	}
 	return (0);
 }
@@ -118,12 +121,15 @@ int		word_expand_root(t_list **tokens, t_control *control)
 ** returN:	0, OK
 **			1, ambiguous redirect message is displayed here.
 **			2, fatal error.
+**			3, token got suppressed as it expands to a nul string. therefor
+**				then calling loop should not go to next.
 */
 
 int		word_expand_and_replace(t_list ***tokens, t_control *control)
 {
 	t_list	*expanded_word;
 	int		res;
+	t_list 	*del_me;
 
 	if (!(expanded_word = dup_token((**tokens)->content)))
 		return (2);
@@ -131,7 +137,15 @@ int		word_expand_and_replace(t_list ***tokens, t_control *control)
 	{
 		if (res == 1)
 			ft_ambiguous_redirect(((t_token *)(**tokens)->content)->str, 2);
-		del_token(expanded_word);
+		if (res < 3)
+			ft_lstclear(&expanded_word, del_token);
+		if (res == 3)
+		{
+			del_me = **tokens;
+			**tokens = (**tokens)->next;
+			del_token(del_me->content);
+			ft_free((void **)&del_me);
+		}
 		return (res);
 	}
 	word_expand_replace(tokens, expanded_word);
@@ -187,9 +201,15 @@ t_list	*dup_token(const t_token *token)
 ** note:	if the parameter expansion resulted in an empty filename, ambiguous
 **			redirect.
 **
+** note:	to respect the behavior in which a $var that expands to a null
+**			string should be suppressed of the token list (and of the argv
+**			list), we skim the token list after the parameter expansion.
+**
 ** returN:	0, OK
 **			1, ambiguous redirect message is displayed here.
 **			2, fatal error.
+**			3, the parameter expansion gave an empty list of tokens after
+**				skimmming the tokens containing an empty string.
 */
 
 int		word_expand_stage1(t_list **tokens, t_control *control)
@@ -197,9 +217,15 @@ int		word_expand_stage1(t_list **tokens, t_control *control)
 	int res;
 	int is_filename;
 
+	if (!tild_expansion_root(control->env, \
+				&((t_token*)(*tokens)->content)->str))
+		return (2);
 	is_filename = ((t_token *)((*tokens)->content))->is_filename;
 	if ((res = parameter_expansion_root(*tokens, control, is_filename)))
 		return (res);
+	skim_empty_tokens(tokens);
+	if (!*tokens)
+		return (3);
 	if (is_filename && ft_strlen(((t_token*)(*tokens)->content)->str) == 0)
 		return (1);
 	res = pathname_expansion_root(tokens, is_filename);

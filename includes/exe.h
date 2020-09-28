@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:54:24 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 18:55:51 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 10:42:41 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int				word_expand_stage1(t_list **tokens, t_control *control);
 void			word_expand_replace(t_list ***tokens, t_list *expanded);
 t_list			*dup_token(const t_token *token);
 
+void			skim_empty_tokens(t_list **tokens);
+
 int				parameter_expansion_root(t_list *token, t_control *control, \
 			int filename);
 int				parameter_exp(t_list *token, t_control *ctrl, \
@@ -89,7 +91,18 @@ int				field_splitting(t_list **token, t_expansion *exp, \
 			char **array, char *str2);
 int				field_splitting_assist(t_list **tok, char *str);
 
-int				pathname_expansion_root(t_list **tokens, int is_filename);
+int				tild_expansion_root(t_list *env, char **str);
+int				index_assignement_sign(char *str);
+int 			tild_expand_try(char **str, char *home_env, int *i);
+int				is_tild_expandable(char *str, int i);
+
+int				tild_expand_try_after_column(char **str, char *home_env, \
+			int *i);
+int				expand_tild_in_assignement(char **str, char *home_env, int i, \
+			int start);
+
+int				pathname_expansion_root(t_list **tokens, \
+			int is_filename);
 int				pathname_is_expandable(char *str);
 int				pathname_expansion(t_list ***token, int is_filename);
 void			init_path_expansion_struct(t_list *path_parts, \

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:05:01 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 20:42:51 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 10:46:00 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		parser_btree_reverse_pipe(t_btree **ast)
 		lchild = lchild->left;
 	if ((id = btree_id(lchild)) == -1)
 		return ;
-	if (id == LIST)
+	if (id == LIST || id == SUBSHELL)
 		return ;
 	(*ast)->left = lchild->right;
 	lchild->right = *ast;
