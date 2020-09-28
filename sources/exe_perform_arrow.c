@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 11:51:46 by mli               #+#    #+#             */
-/*   Updated: 2020/09/25 16:06:41 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 14:08:58 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	exe_perform_arrow(t_simple_cmd *cmd, t_control *control)
 
 	while (arrows && (arrow = arrows->content))
 	{
-		if ((arrow->id == GREAT && !exe_perform_redirections(arrow, control)) ||
+		if ((arrow->id != LESS && !exe_perform_redirections(arrow, control)) ||
 			(arrow->id == LESS && !exe_perform_indirections(arrow, control)))
 		{
 			control->exit_status = 1;

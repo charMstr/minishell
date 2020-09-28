@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/20 22:22:22 by mli               #+#    #+#             */
-/*   Updated: 2020/07/11 17:52:50 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/28 14:23:31 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int		exit_builtin(char **argv, t_control *control)
 {
-	int is_negative;
+	int has_sign;
 
 	control->quit = 1;
 	if (control->parent_pid == getpid())
 		ft_putendl_fd("exit", 2);
 	if (!argv || !argv[1])
 		return (1);
-	is_negative = (argv[1][0] == '-' ? 1 : 0);
-	if (!ft_isonly_ft(argv[1] + is_negative, ft_isdigit, 1))
+	has_sign = (argv[1][0] == '-' || argv[1][0] == '+' ? 1 : 0);
+	if (!ft_isonly_ft(argv[1] + has_sign, ft_isdigit, 1))
 	{
 		ft_perror("exit", argv[1], "numeric argument required");
 		control->exit_status = 255;
