@@ -18,8 +18,7 @@
 ** originating from the node of type LIST in the AST.
 **
 ** Each char* will be sent to a subfunction separatedly for multiple expansion
-** stages.
-** It can produce more than one word (at the stage of field splitting, or at
+** stages.  ** It can produce more than one word (at the stage of field splitting, or at
 ** the stage of pathname substitution using the kleen star operator).
 ** Therefor the subfunction will Return a linked list.
 ** Either the answer is valid and the linked list is inserted in place of the
@@ -199,12 +198,15 @@ int		word_expand_stage1(t_list **tokens, t_control *control)
 
 	//printf("word_exp_stage1: BEFORE: token list is:\n");
 	//debug_tokens_list(*tokens);
+	if (!tild_expansion_root(control->env, \
+				&((t_token*)(*tokens)->content)->str))
+		return (2);
 	is_filename = ((t_token *)((*tokens)->content))->is_filename;
 	if ((res = parameter_expansion_root(*tokens, control, is_filename)))
 		return (res);
 	if (is_filename && ft_strlen(((t_token*)(*tokens)->content)->str) == 0)
 		return (1);
-	res = pathname_expansion_root(control->env, tokens, is_filename);
+	res = pathname_expansion_root(tokens, is_filename);
 	//printf("word_exp_stage1: AFTER: token list is:\n");
 	//debug_tokens_list(*tokens);
 	return (res);

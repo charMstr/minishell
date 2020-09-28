@@ -89,10 +89,17 @@ int				field_splitting(t_list **token, t_expansion *exp, \
 			char **array, char *str2);
 int				field_splitting_assist(t_list **tok, char *str);
 
-int				is_tild_expandable(char *str);
 int				tild_expansion_root(t_list *env, char **str);
+int				index_assignement_sign(char *str);
+int 			tild_expand_try(char **str, char *home_env, int *i);
+int				is_tild_expandable(char *str, int i);
 
-int				pathname_expansion_root(t_list *env, t_list **tokens, \
+int				tild_expand_try_after_column(char **str, char *home_env, \
+			int *i);
+int				expand_tild_in_assignement(char **str, char *home_env, int i, \
+			int start);
+
+int				pathname_expansion_root(t_list **tokens, \
 			int is_filename);
 int				pathname_is_expandable(char *str);
 int				pathname_expansion(t_list ***token, int is_filename);

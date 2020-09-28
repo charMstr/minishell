@@ -35,14 +35,12 @@
 **			2, KO, fatal error
 */
 
-int	pathname_expansion_root(t_list *env, t_list **tokens, int is_filename)
+int	pathname_expansion_root(t_list **tokens, int is_filename)
 {
 	int res;
 
 	while (*tokens)
 	{
-		if (!tild_expansion_root(env, &((t_token*)(*tokens)->content)->str))
-			return (2);
 		if (!pathname_is_expandable(((t_token*)(*tokens)->content)->str))
 			quote_removal((t_token*)(*tokens)->content);
 		else
