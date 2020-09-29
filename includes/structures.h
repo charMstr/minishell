@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 09:56:29 by mli               #+#    #+#             */
-/*   Updated: 2020/09/24 20:43:49 by charmstr         ###   ########.fr       */
+/*   Updated: 2020/09/29 09:51:53 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,9 @@ typedef struct	s_arrow
 */
 typedef struct	s_env
 {
-	char *label;
-	char *value;
+	char	*label;
+	char	*value;
+	int		tmpdeclare;
 }				t_env;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:03:44 by mli               #+#    #+#             */
-/*   Updated: 2020/09/27 15:20:31 by mli              ###   ########.fr       */
+/*   Updated: 2020/09/29 10:01:55 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,21 +142,4 @@ int		export_builtin_new_env(char *str, char *str2, t_list **head)
 	}
 	ft_lstadd_back(head, new_link);
 	return (1);
-}
-
-void	export_builtin_no_arg(t_list **head, t_control *control)
-{
-	const t_list	*env = *head;
-	const char		*str = "declare -x ";
-
-	control->exit_status = 0;
-	while (env)
-	{
-		ft_putstr_fd((char *)str, 1);
-		ft_putstr_fd(((t_env *)env->content)->label, 1);
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(((t_env *)env->content)->value, 1);
-		ft_putendl_fd("\"", 1);
-		env = env->next;
-	}
 }
