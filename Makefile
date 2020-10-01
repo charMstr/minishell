@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2020/09/29 11:31:42 by mli              ###   ########.fr        #
+#    Updated: 2020/10/01 10:06:27 by mli              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -199,7 +199,7 @@ $(NAME): $(INCLUDES) $(LIBFT) $(OBJ)
 $(OBJ): $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(DEPS) | $(OBJ_PATH)
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-bonus:
+bonus: $(NAME)
 
 $(LIBFT): break_implicit_r
 	@make -C ./libft
