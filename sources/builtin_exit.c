@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/20 22:22:22 by mli               #+#    #+#             */
-/*   Updated: 2020/09/28 14:23:31 by mli              ###   ########.fr       */
+/*   Updated: 2020/10/01 14:04:30 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		exit_builtin(char **argv, t_control *control)
 	if (!ft_isonly_ft(argv[1] + has_sign, ft_isdigit, 1))
 	{
 		ft_perror("exit", argv[1], "numeric argument required");
-		control->exit_status = 255;
+		control->exit_status = (IS_APPLE ? 255 : 2);
 	}
 	else if (ft_array_len(argv) >= 3)
 	{
