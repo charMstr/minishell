@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 10:08:14 by mli               #+#    #+#             */
-/*   Updated: 2020/09/26 20:23:31 by mli              ###   ########.fr       */
+/*   Updated: 2020/10/01 11:36:33 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,7 @@ t_env	*env_init_struct(void)
 {
 	t_env *new;
 
-	if (!(new = (t_env *)malloc(sizeof(t_env))))
+	if (!(new = (t_env *)ft_memalloc(sizeof(t_env))))
 		return (NULL);
-	new->label = NULL;
-	new->value = NULL;
 	return (new);
 }
