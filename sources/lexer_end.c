@@ -6,7 +6,7 @@
 /*   By: mli <mli@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/13 21:24:05 by mli               #+#    #+#             */
-/*   Updated: 2020/08/21 11:44:09 by mli              ###   ########.fr       */
+/*   Updated: 2020/10/01 14:16:03 by mli              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ int		lexer_end(t_list *token_head, t_control *control)
 	else
 		return (1);
 	if (control->lexer_end.unexpected != 0)
-		control->exit_status = 258;
+		control->exit_status = (IS_APPLE ? 258 : 2);
 	return (0);
 }
